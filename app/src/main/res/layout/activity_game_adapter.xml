@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:context=".GameAdapter">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/gambar"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:layout_toRightOf="@+id/gambar"
+                android:id="@+id/title"
+                android:layout_weight="2"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:padding="@dimen/margin_padding"
+                android:text="@string/dummy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:visibility="gone"
+                android:layout_below="@+id/title"
+                android:layout_toRightOf="@+id/gambar"
+                android:id="@+id/url"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:padding="@dimen/margin_padding"
+                android:text="@string/dummy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+</LinearLayout>

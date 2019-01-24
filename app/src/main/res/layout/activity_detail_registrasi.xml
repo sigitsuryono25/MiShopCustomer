@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".DetailRegistrasi">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView
+            android:layout_below="@+id/toolbar"
+            android:textAllCaps="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:padding="@dimen/margin_padding"
+            android:gravity="center"
+            android:text="@string/ringkasan_registrasi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/back"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/margin_padding"
+            android:layout_marginLeft="@dimen/margin_padding"
+            android:src="@drawable/ic_arrow_back"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/finish"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_padding"
+            android:layout_marginRight="@dimen/margin_padding"
+            android:src="@drawable/ic_check"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
