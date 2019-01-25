@@ -1,45 +1,61 @@
 package com.lauwba.surelabs.mishopcustomer
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AppCompatActivity
 
 class DashboardActivity : AppCompatActivity() {
-    val gambar = arrayOf(
-        R.drawable.fruit_crush_teaser,
-        R.drawable.racing_monster_trucks_teaser,
-        R.drawable.running_jack_teaser,
-        R.drawable.smarty_bubbles
-    )
-    val url = arrayOf(
-        "http://play.famobi.com/fruita-crush",
-        "http://play.famobi.com/racing-monster-trucks",
-        "http://play.famobi.com/running-jack",
-        "http://play.famobi.com/smarty-bubbles"
-    )
 
-    var title = arrayOf(
-        "Fruita Crush",
-        "Racing Monster Trucks",
-        "Running Jack",
-        "Smartly Bubbles"
-    )
+    lateinit var fm: FragmentManager
+    lateinit var ft: FragmentTransaction
+    lateinit var bottomNavigationView: BottomNavigationView
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var adapter: GameAdapter
-    lateinit var lm: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        recyclerView = findViewById(R.id.listGame)
-        recyclerView.setHasFixedSize(true)
-//        lm = LinearLayoutManager(this@DashboardActivity)
-        recyclerView.layoutManager = lm
+        bottomNavigationView = findViewById(R.id.navigation)
 
-        adapter = GameAdapter(title, gambar, url, this@DashboardActivity)
-        recyclerView.adapter = adapter
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.beranda -> {
+                    fm = supportFragmentManager
+                    ft = fm.beginTransaction()
+                    ft.replace(R.id.container, HomeFragment()).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.inbox -> {
+                    fm = supportFragmentManager
+                    ft = fm.beginTransaction()
+                    ft.replace(R.id.container, InboxFragment()).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bantuan -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.notifikasi -> {
+                    fm = supportFragmentManager
+                    ft = fm.beginTransaction()
+                    ft.replace(R.id.container, NotifikasiFragment()).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.akun -> {
+                    fm = supportFragmentManager
+                    ft = fm.beginTransaction()
+                    ft.replace(R.id.container, ProfileFragment()).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
+
+        fm = supportFragmentManager
+        ft = fm.beginTransaction()
+        ft.replace(R.id.container, HomeFragment()).commit()
     }
+
+
 }

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".NotifikasiFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/mishop"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#009B4C"
+                    android:layout_alignTop="@id/Numberordermishop"
+                    android:layout_alignBottom="@id/Confirmmishop"
+                    android:layout_height="0dp"/>
+
+            <LinearLayout
+                    android:layout_toRightOf="@id/mishop"
+                    android:id="@+id/Numberordermishop"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="OR-00093"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:textStyle="bold"
+                        android:text="MI-SHOP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingLeft="@dimen/margin_padding"
+                    android:paddingRight="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmishop"
+                    android:layout_toRightOf="@id/Numberordermishop"
+                    android:layout_alignBaseline="@id/Confirmmishop"
+                    android:layout_alignTop="@id/Numberordermishop"
+                    android:layout_alignBottom="@id/Confirmmishop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Confirmmishop"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:background="@drawable/button_style"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_check"
+                        android:layout_marginBottom="@dimen/margin_padding"
+                        android:text="Ambil"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+
+                <Button
+                        android:background="@drawable/button_style_red"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_close_black_24dp"
+                        android:text="Tolak"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/mijek"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#FFC400"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/Numberordermijek"
+                    android:layout_alignBottom="@id/Confirmmijek"/>
+
+            <LinearLayout
+                    android:layout_toRightOf="@id/mijek"
+                    android:id="@+id/Numberordermijek"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="OR-00093"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:textStyle="bold"
+                        android:text="MI-JEK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingLeft="@dimen/margin_padding"
+                    android:paddingRight="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmijek"
+                    android:layout_toRightOf="@id/Numberordermijek"
+                    android:layout_alignBaseline="@id/Confirmmijek"
+                    android:layout_alignTop="@id/Numberordermijek"
+                    android:layout_alignBottom="@id/Confirmmijek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Confirmmijek"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:background="@drawable/button_style"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_check"
+                        android:layout_marginBottom="@dimen/margin_padding"
+                        android:text="Ambil"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+
+                <Button
+                        android:background="@drawable/button_style_red"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_close_black_24dp"
+                        android:text="Tolak"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/micar"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#2962FF"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/Numberordermicar"
+                    android:layout_alignBottom="@id/Confirmmicar"/>
+
+            <LinearLayout
+                    android:layout_toRightOf="@id/micar"
+                    android:id="@+id/Numberordermicar"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="OR-00093"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:textStyle="bold"
+                        android:text="MI-CAR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingLeft="@dimen/margin_padding"
+                    android:paddingRight="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmicar"
+                    android:layout_toRightOf="@id/Numberordermicar"
+                    android:layout_alignBaseline="@id/Confirmmicar"
+                    android:layout_alignTop="@id/Numberordermicar"
+                    android:layout_alignBottom="@id/Confirmmicar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Confirmmicar"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:background="@drawable/button_style"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_check"
+                        android:layout_marginBottom="@dimen/margin_padding"
+                        android:text="Ambil"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+
+                <Button
+                        android:background="@drawable/button_style_red"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_close_black_24dp"
+                        android:text="Tolak"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/mixpress"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#6200EA"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/Numberordermixpress"
+                    android:layout_alignBottom="@id/Confirmmixpress"/>
+
+            <LinearLayout
+                    android:layout_toRightOf="@id/mixpress"
+                    android:id="@+id/Numberordermixpress"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="OR-00093"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:textStyle="bold"
+                        android:text="MI-Xpress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingLeft="@dimen/margin_padding"
+                    android:paddingRight="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmixpress"
+                    android:layout_toRightOf="@id/Numberordermixpress"
+                    android:layout_alignBaseline="@id/Confirmmixpress"
+                    android:layout_alignTop="@id/Numberordermixpress"
+                    android:layout_alignBottom="@id/Confirmmixpress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Confirmmixpress"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:background="@drawable/button_style"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_check"
+                        android:layout_marginBottom="@dimen/margin_padding"
+                        android:text="Ambil"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+
+                <Button
+                        android:background="@drawable/button_style_red"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_close_black_24dp"
+                        android:text="Tolak"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/miservice"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#FF3D00"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@id/Numberordermiservice"
+                    android:layout_alignBottom="@id/Confirmmiservice"/>
+
+            <LinearLayout
+                    android:layout_toRightOf="@id/miservice"
+                    android:id="@+id/Numberordermiservice"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="OR-00093"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:textStyle="bold"
+                        android:text="MI-Service"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:paddingLeft="@dimen/margin_padding"
+                    android:paddingRight="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmiservice"
+                    android:layout_toRightOf="@id/Numberordermiservice"
+                    android:layout_alignBaseline="@id/Confirmmiservice"
+                    android:layout_alignTop="@id/Numberordermiservice"
+                    android:layout_alignBottom="@id/Confirmmiservice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/Confirmmiservice"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <Button
+                        android:background="@drawable/button_style"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_check"
+                        android:layout_marginBottom="@dimen/margin_padding"
+                        android:text="Ambil"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+
+                <Button
+                        android:background="@drawable/button_style_red"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_close_black_24dp"
+                        android:text="Tolak"
+                        android:textColor="#FFF"
+                        android:layout_width="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

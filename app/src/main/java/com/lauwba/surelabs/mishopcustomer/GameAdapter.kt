@@ -49,6 +49,7 @@ class GameAdapter(nama: Array<String>, img: Array<Int>, url: Array<String>, cont
             .load(img.get(p1))
             .into(p0.gambar)
         p0.title.setText(nama.get(p1))
+        p0.url.setText(url.get(p1))
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

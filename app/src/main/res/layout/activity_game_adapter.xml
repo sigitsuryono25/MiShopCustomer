@@ -3,19 +3,22 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:background="#F0F0F0"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/margin_padding"
         tools:context=".GameAdapter">
 
     <RelativeLayout
+            android:background="#FFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/gambar"
                 android:src="@mipmap/ic_launcher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
 
         <TextView
                 android:layout_toRightOf="@+id/gambar"

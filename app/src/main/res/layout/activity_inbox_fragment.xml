@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".NotifikasiFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:layout_margin="@dimen/margin_padding"
+                android:background="@drawable/gradient_background_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/mishop"
+                    android:layout_marginRight="@dimen/margin_padding"
+                    android:layout_width="5dp"
+                    android:background="#009B4C"
+                    android:layout_alignTop="@id/message"
+                    android:layout_alignBottom="@id/message"
+                    android:layout_height="0dp"/>
+
+
+            <LinearLayout
+                    android:id="@+id/message"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_toLeftOf="@id/Confirmmishop"
+                    android:layout_toRightOf="@id/Numberordermishop"
+                    android:layout_alignBaseline="@id/Confirmmishop"
+                    android:layout_alignTop="@id/Numberordermishop"
+                    android:layout_alignBottom="@id/Confirmmishop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:padding="@dimen/margin_padding"
+                        android:text="Lorem ipsum dolor sit amet, "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
