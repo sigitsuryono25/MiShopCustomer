@@ -12,13 +12,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".NotifikasiFragment">
-        </activity>
-        <activity android:name=".InboxFragment">
-        </activity>
-        <activity android:name=".ProfileFragment">
-        </activity>
-        <activity android:name=".HomeFragment">
+        <activity android:name=".DashboardActivity">
         </activity>
         <activity android:name=".WebViewActivity">
         </activity>
@@ -26,7 +20,7 @@
         </activity>
         <activity android:name=".DetailRegistrasi">
         </activity>
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

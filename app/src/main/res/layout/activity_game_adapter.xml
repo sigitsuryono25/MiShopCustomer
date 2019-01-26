@@ -10,6 +10,7 @@
         tools:context=".GameAdapter">
 
     <RelativeLayout
+            android:id="@+id/container"
             android:background="#FFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

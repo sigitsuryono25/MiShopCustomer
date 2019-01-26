@@ -42,13 +42,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:text="@string/shop"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
                     <ImageView
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_shop"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -68,13 +63,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:text="@string/services"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
                     <ImageView
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_service"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -94,13 +84,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:text="@string/car"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
                     <ImageView
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_car"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -120,13 +105,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:text="@string/bike"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
                     <ImageView
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_bike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -146,13 +126,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <TextView
-                            android:text="@string/express"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
                     <ImageView
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_express"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>
