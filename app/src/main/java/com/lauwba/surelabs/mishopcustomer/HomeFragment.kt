@@ -1,15 +1,21 @@
 package com.lauwba.surelabs.mishopcustomer
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.lauwba.surelabs.mishopcustomer.adapter.RssFeedModel
 import com.synnapps.carouselview.CarouselView
+import org.jsoup.Jsoup
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
+import java.io.IOException
+import java.io.InputStream
 
 class HomeFragment : Fragment() {
 
@@ -44,7 +50,7 @@ class HomeFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: GameAdapter
     lateinit var lm: RecyclerView.LayoutManager
-    lateinit var news : CarouselView
+    lateinit var news: CarouselView
     lateinit var c2c: CarouselView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,5 +89,81 @@ class HomeFragment : Fragment() {
 
         news.pageCount = sampleImages.size
         c2c.pageCount = sampleImages.size
+    }
+
+    fun parseFeed(inputStream: InputStream): MutableList<RssFeedModel> {
+        var items: MutableList<RssFeedModel> = mutableListOf()
+        var isItem: Boolean = false
+        var title: String = ""
+        var link: String = ""
+        var date: String = ""
+        var desc: String = ""
+        var src: String = ""
+        try {
+            var xmlPullParser = Xml.newPullParser()
+            xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            xmlPullParser.setInput(inputStream, null)
+            xmlPullParser.nextTag()
+            while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
+                var eventType: Int = xmlPullParser.eventType
+                var name: String = xmlPullParser.name
+
+                if (name.equals(null, true)) {
+                    continue
+                }
+
+                if (eventType == XmlPullParser.END_TAG) {
+                    if (name.equals("item", true)) {
+                        isItem = false
+                    }
+                    continue
+                }
+
+                if (eventType == XmlPullParser.START_TAG) {
+                    if (name.equals("item", true)) {
+                        isItem = true
+                        continue
+                    }
+                }
+
+                var result = ""
+                if (xmlPullParser.next() === XmlPullParser.TEXT) {
+                    result = xmlPullParser.text
+                    xmlPullParser.nextTag()
+                }
+
+                if (name.equals("item", true)) {
+                    title = result
+                } else if (name.equals("link", true)) {
+                    link = result
+                } else if (name.equals("enclosure", true)) {
+                    date = result
+                } else if (name.equals("description", true)) {
+                    desc = result
+                    try {
+                        var document = Jsoup.parse(desc)
+                        src = document.select("img").first().attr("src")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                if (title != null && link != null && date != null && desc != null) {
+                    if (isItem) {
+                        var item = RssFeedModel(title, link, date, src)
+                        items.add(item)
+                    } else {
+
+                    }
+                }
+            }
+        } catch (e: XmlPullParserException) {
+
+        } catch (i: IOException) {
+
+        } finally {
+            inputStream.close()
+        }
+        return items
     }
 }
