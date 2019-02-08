@@ -3,14 +3,18 @@ package com.lauwba.surelabs.mishopcustomer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpress
 import com.lauwba.surelabs.mishopcustomer.adapter.RssFeedModel
-import com.synnapps.carouselview.CarouselView
+import kotlinx.android.synthetic.main.activity_home_fragment.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -47,11 +51,7 @@ class HomeFragment : Fragment() {
         "Smartly Bubbles"
     )
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var adapter: GameAdapter
-    lateinit var lm: RecyclerView.LayoutManager
-    lateinit var news: CarouselView
-    lateinit var c2c: CarouselView
+    var adapter: GameAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_home_fragment, container, false)
@@ -60,35 +60,45 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.listGame)
-        recyclerView.setHasFixedSize(true)
-        lm = LinearLayoutManager(activity)
-        recyclerView.layoutManager = lm
+        listGame.setHasFixedSize(true)
+        listGame.layoutManager = LinearLayoutManager(activity)
 
-        adapter = GameAdapter(title, gambar, url, this!!.activity!!)
-        recyclerView.adapter = adapter
-
-        news = view.findViewById(R.id.newsView)
-        c2c = view.findViewById(R.id.c2cView)
+        adapter = GameAdapter(title, gambar, url, activity)
+        listGame.adapter = adapter
 
 
+        c2cView.setImageListener { position, imageView ->
 
-
-        c2c.setImageListener { position, imageView ->
-
-            Glide.with(this!!.activity!!)
-                .load(sampleImages[position])
-                .into(imageView)
+            activity?.let {
+                Glide.with(it)
+                    .load(sampleImages[position])
+                    .into(imageView)
+            }
         }
-        news.setImageListener { position, imageView ->
+        newsView.setImageListener { position, imageView ->
 
-            Glide.with(this!!.activity!!)
-                .load(sampleImages[position])
-                .into(imageView)
+            activity?.let {
+                Glide.with(it)
+                    .load(sampleImages[position])
+                    .into(imageView)
+            }
         }
 
-        news.pageCount = sampleImages.size
-        c2c.pageCount = sampleImages.size
+        newsView.pageCount = sampleImages.size
+        c2cView.pageCount = sampleImages.size
+
+
+        miCar.onClick {
+            activity?.startActivity<MiCarActivity>()
+        }
+
+        miBike.onClick {
+            activity?.startActivity<MiBikeActivity>()
+        }
+
+        miXpress.onClick {
+            activity?.startActivity<MiXpress>()
+        }
     }
 
     fun parseFeed(inputStream: InputStream): MutableList<RssFeedModel> {

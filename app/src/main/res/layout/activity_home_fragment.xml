@@ -77,6 +77,7 @@
                         android:layout_height="match_parent"/>
 
                 <LinearLayout
+                        android:id="@+id/miCar"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="@dimen/margin_padding"
@@ -98,6 +99,7 @@
                         android:layout_height="match_parent"/>
 
                 <LinearLayout
+                        android:id="@+id/miBike"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="@dimen/margin_padding"
@@ -119,6 +121,7 @@
                         android:layout_height="match_parent"/>
 
                 <LinearLayout
+                        android:id="@+id/miXpress"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="@dimen/margin_padding"

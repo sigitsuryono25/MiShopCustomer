@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:background="#B9F5FA"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        tools:context=".MainActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -48,6 +48,7 @@
                     android:layout_height="wrap_content"/>
 
             <Button
+                    android:id="@+id/register"
                     android:layout_weight="1"
                     android:text="Daftar"
                     android:textColor="#FFF"

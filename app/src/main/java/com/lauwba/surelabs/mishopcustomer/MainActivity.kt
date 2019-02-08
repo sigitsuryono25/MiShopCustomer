@@ -1,58 +1,39 @@
 package com.lauwba.surelabs.mishopcustomer
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.TextInputLayout
-import android.text.TextWatcher
-import android.widget.EditText
-import android.text.Editable
-import android.widget.Toast
-
+import android.support.v7.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.lauwba.surelabs.mishopcustomer.login.LoginActivity
+import com.lauwba.surelabs.mishopcustomer.registrasi.RegistrasiActivity
+import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.clearTop
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var next : FloatingActionButton
-    lateinit var nama : EditText
-    lateinit var email: EditText
-    lateinit var password : EditText
-    lateinit var confirmPass : EditText
-    lateinit var nomorTelepon : EditText
-    lateinit var alamat : EditText
+    private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
-        next = findViewById(R.id.next)
-        nama = findViewById(R.id.nama)
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
-        confirmPass = findViewById(R.id.confirm)
-        nomorTelepon = findViewById(R.id.nomorTelepon)
-        alamat = findViewById(R.id.alamat)
+        mAuth = FirebaseAuth.getInstance()
 
-        confirmPass.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        Glide.with(applicationContext)
+            .load("https://i.gifer.com/Tvth.gif")
+            .into(anim)
 
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if(s!!.equals(password.text.toString())){
-                    Toast.makeText(this@MainActivity, "Password Tidak cocok", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        })
-
-        next.setOnClickListener{
-            var i = Intent(this@MainActivity, DetailRegistrasi::class.java)
-            startActivity(i)
+        login.onClick {
+            startActivity(intentFor<LoginActivity>().newTask().clearTop())
         }
+
+        register.onClick {
+            startActivity(intentFor<RegistrasiActivity>().newTask().clearTop())
+
+        }
+
     }
 }

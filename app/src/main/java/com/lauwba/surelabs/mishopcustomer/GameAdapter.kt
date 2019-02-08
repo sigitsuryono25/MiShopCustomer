@@ -3,7 +3,6 @@ package com.lauwba.surelabs.mishopcustomer
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,13 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 
-class GameAdapter(nama: Array<String>, img: Array<Int>, url: Array<String>, context: Context) :
+class GameAdapter(nama: Array<String>, img: Array<Int>, url: Array<String>, context: Context?) :
     RecyclerView.Adapter<GameAdapter.ViewHolder>() {
 
-    var context: Context
+    var context: Context?
     var nama: Array<String>
     var img: Array<Int>
     var url: Array<String>
@@ -39,16 +40,15 @@ class GameAdapter(nama: Array<String>, img: Array<Int>, url: Array<String>, cont
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.container.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                var i = Intent(context, WebViewActivity::class.java)
-                i.putExtra(Config.URL, url.get(p1))
-                context.startActivity(i)
-            }
-        })
-        Glide.with(context)
-            .load(img.get(p1))
-            .into(p0.gambar)
+
+        p0.container.onClick {
+            context?.startActivity<WebViewActivity>(Config.URL to url.get(p1))
+        }
+        context?.let {
+            Glide.with(it)
+                .load(img.get(p1))
+                .into(p0.gambar)
+        }
         p0.title.setText(nama.get(p1))
         p0.url.setText(url.get(p1))
     }
@@ -60,10 +60,10 @@ class GameAdapter(nama: Array<String>, img: Array<Int>, url: Array<String>, cont
         var container: RelativeLayout
 
         init {
-            gambar = itemView!!.findViewById(R.id.gambar)
-            title = itemView!!.findViewById(R.id.title)
-            url = itemView!!.findViewById(R.id.url)
-            container = itemView!!.findViewById(R.id.container)
+            gambar = itemView.findViewById(R.id.gambar)
+            title = itemView.findViewById(R.id.title)
+            url = itemView.findViewById(R.id.url)
+            container = itemView.findViewById(R.id.container)
         }
     }
 

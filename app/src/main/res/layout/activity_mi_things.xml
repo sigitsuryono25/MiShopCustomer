@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".MiCarJekXpress.MiCarActivity">
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/home"
+            android:elevation="5dp"
+            app:cardCornerRadius="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@android:color/white">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="10dp"
+                          android:orientation="horizontal">
+
+
+                <ImageView android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/ic_pin1"/>
+
+                <TextView
+                        android:id="@+id/asal"
+                        android:layout_width="match_parent"
+                        android:hint="Dari mana ?"
+                        android:lines="2"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:layout_marginLeft="40dp"
+                  android:background="@android:color/darker_gray"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="10dp"
+                          android:orientation="horizontal">
+
+
+                <ImageView android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/ic_pin2"/>
+
+                <TextView
+                        android:id="@+id/tujuan"
+                        android:lines="2"
+                        android:layout_width="match_parent"
+                        android:hint="Mau Kemana ?"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <fragment
+            android:id="@+id/mapView"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_below="@+id/home"
+            android:layout_above="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <LinearLayout
+            android:visibility="gone"
+            android:background="@android:color/white"
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/booking"
+            android:padding="@dimen/margin_padding"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_padding">
+
+            <ImageView android:id="@+id/harga"
+                       android:layout_width="@dimen/icon"
+                       android:layout_centerVertical="true"
+                       android:src="@drawable/price"
+                       android:layout_height="@dimen/icon"/>
+
+            <TextView android:id="@+id/hargaTrip"
+                      android:layout_marginLeft="@dimen/margin_padding"
+                      android:textSize="12sp"
+                      android:layout_toRightOf="@+id/harga"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
+        <View android:layout_toRightOf="@id/icon"
+              android:layout_centerVertical="true"
+              android:layout_width="wrap_content"
+              android:background="#c0c0c0"
+              android:layout_height="1dp"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_padding">
+
+            <ImageView android:id="@+id/jarak"
+                       android:layout_width="@dimen/icon"
+                       android:layout_centerVertical="true"
+                       android:src="@drawable/time"
+                       android:layout_height="@dimen/icon"/>
+            <TextView android:id="@+id/jarakTrip"
+                      android:layout_marginLeft="@dimen/margin_padding"
+                      android:textSize="12sp"
+                      android:layout_toRightOf="@+id/jarak"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+            android:background="@color/com_facebook_button_send_background_color_pressed"
+            android:text="Booking"
+            android:textColor="@android:color/white"
+            android:id="@+id/booking"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".registrasi.RegistrasiActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -61,20 +62,6 @@
                 android:layout_height="wrap_content">
 
             <EditText
-                    android:id="@+id/confirm"
-                    android:hint="@string/konfirmasi_password"
-                    android:inputType="textPassword"
-                    android:textAllCaps="true"
-                    android:maxLines="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <EditText
                     android:id="@+id/nomorTelepon"
                     android:hint="@string/nomor_telepon"
                     android:inputType="text"
@@ -98,13 +85,11 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/next"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_arrow_forward"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="@dimen/margin_padding"
-            android:layout_marginBottom="@dimen/margin_padding"
-            android:layout_width="wrap_content"
+    <Button
+            android:id="@+id/daftar"
+            android:layout_width="match_parent"
+            android:text="@string/daftar"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_style"
             android:layout_height="wrap_content"/>
-</RelativeLayout>
+</LinearLayout>
