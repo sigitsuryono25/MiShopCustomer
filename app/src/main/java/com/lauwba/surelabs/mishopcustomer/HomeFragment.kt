@@ -1,8 +1,10 @@
 package com.lauwba.surelabs.mishopcustomer
 
 import android.os.Bundle
+import android.os.StrictMode
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +13,20 @@ import com.bumptech.glide.Glide
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpress
-import com.lauwba.surelabs.mishopcustomer.adapter.RssFeedModel
+import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
+import com.lauwba.surelabs.mishopcustomer.webview.adapter.GameAdapter
+import com.lauwba.surelabs.mishopcustomer.webview.adapter.RssFeedAdapter
+import com.lauwba.surelabs.mishopcustomer.webview.model.GameModel
+import com.lauwba.surelabs.mishopcustomer.webview.model.RssFeedModel
 import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.toast
 import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserException
-import java.io.IOException
 import java.io.InputStream
+import java.net.URL
+
 
 class HomeFragment : Fragment() {
 
@@ -50,8 +57,14 @@ class HomeFragment : Fragment() {
         "Running Jack",
         "Smartly Bubbles"
     )
-
+    var image: MutableList<String>? = null
+    var titleNews: MutableList<String>? = null
+    var linkNews: MutableList<String>? = null
+    val xml = "http://rss.detik.com/index.php/inet"
     var adapter: GameAdapter? = null
+    var rssList: ArrayList<RssFeedModel>? = null
+    var gameList: MutableList<GameModel>? = null
+    var rssAdapter: RssFeedAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_home_fragment, container, false)
@@ -60,12 +73,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listGame.setHasFixedSize(true)
-        listGame.layoutManager = LinearLayoutManager(activity)
-
-        adapter = GameAdapter(title, gambar, url, activity)
-        listGame.adapter = adapter
-
+        image = mutableListOf()
+        titleNews = mutableListOf()
+        linkNews = mutableListOf()
+        gameList = mutableListOf()
 
         c2cView.setImageListener { position, imageView ->
 
@@ -75,18 +86,13 @@ class HomeFragment : Fragment() {
                     .into(imageView)
             }
         }
-        newsView.setImageListener { position, imageView ->
 
-            activity?.let {
-                Glide.with(it)
-                    .load(sampleImages[position])
-                    .into(imageView)
-            }
-        }
-
-        newsView.pageCount = sampleImages.size
         c2cView.pageCount = sampleImages.size
 
+
+        miShop.onClick {
+            activity?.startActivity<ShopActivity>()
+        }
 
         miCar.onClick {
             activity?.startActivity<MiCarActivity>()
@@ -99,81 +105,123 @@ class HomeFragment : Fragment() {
         miXpress.onClick {
             activity?.startActivity<MiXpress>()
         }
+
+        reload.onClick {
+            initNews()
+        }
+
+        try {
+            initNews()
+            initGames()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    fun parseFeed(inputStream: InputStream): MutableList<RssFeedModel> {
-        var items: MutableList<RssFeedModel> = mutableListOf()
-        var isItem: Boolean = false
-        var title: String = ""
-        var link: String = ""
-        var date: String = ""
-        var desc: String = ""
-        var src: String = ""
+
+    private fun initGames() {
+        for (i in 0 until gambar.size) {
+            val item = GameModel(url[i], gambar[i], title[i])
+            gameList?.add(item)
+        }
+        listGame.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        adapter = activity?.let { GameAdapter(gameList!!, it) }
+        listGame.adapter = adapter
+    }
+
+    private fun initNews() {
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        val url = URL(xml)
+        val inputStream = url.openConnection().getInputStream()
+        rssList = parseFeed(inputStream)
+        if (rssList?.size ?: 0 > 0) {
+            loading.visibility = View.GONE
+            rssAdapter = activity?.let { RssFeedAdapter(rssList!!, it) }
+            rcNews.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            rcNews.adapter = rssAdapter
+        }
+
+    }
+
+    fun parseFeed(inputStream: InputStream): ArrayList<RssFeedModel> {
+        var title: String? = null
+        var link: String? = null
+        var date: String? = null
+        var desc: String? = null
+        var src: String? = null
+        var isItem = false
+        val items = ArrayList<RssFeedModel>()
+
         try {
-            var xmlPullParser = Xml.newPullParser()
+            val xmlPullParser = Xml.newPullParser()
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
             xmlPullParser.setInput(inputStream, null)
+
             xmlPullParser.nextTag()
             while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
-                var eventType: Int = xmlPullParser.eventType
-                var name: String = xmlPullParser.name
+                val eventType = xmlPullParser.eventType
 
-                if (name.equals(null, true)) {
-                    continue
-                }
+                val name = xmlPullParser.name ?: continue
 
                 if (eventType == XmlPullParser.END_TAG) {
-                    if (name.equals("item", true)) {
+                    if (name.equals("item", ignoreCase = true)) {
                         isItem = false
                     }
                     continue
                 }
 
                 if (eventType == XmlPullParser.START_TAG) {
-                    if (name.equals("item", true)) {
+                    if (name.equals("item", ignoreCase = true)) {
                         isItem = true
                         continue
                     }
                 }
 
+                Log.d("MainActivity", "Parsing name ==> $name")
                 var result = ""
-                if (xmlPullParser.next() === XmlPullParser.TEXT) {
+                if (xmlPullParser.next() == XmlPullParser.TEXT) {
                     result = xmlPullParser.text
                     xmlPullParser.nextTag()
                 }
 
-                if (name.equals("item", true)) {
+                if (name.equals("title", ignoreCase = true)) {
                     title = result
-                } else if (name.equals("link", true)) {
+                } else if (name.equals("link", ignoreCase = true)) {
                     link = result
-                } else if (name.equals("enclosure", true)) {
+                } else if (name.equals("enclosure", ignoreCase = true)) {
                     date = result
-                } else if (name.equals("description", true)) {
+                } else if (name.equals("description", ignoreCase = true)) {
                     desc = result
                     try {
-                        var document = Jsoup.parse(desc)
+                        val document = Jsoup.parse(desc)
                         src = document.select("img").first().attr("src")
+                        Log.d("link", link)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
+
                 }
 
-                if (title != null && link != null && date != null && desc != null) {
+                if (title != null && link != null && date != null) {
                     if (isItem) {
-                        var item = RssFeedModel(title, link, date, src)
+                        val item = RssFeedModel(title, link, src ?: "")
                         items.add(item)
                     } else {
-
+//                        mFeedTitle = title
+//                        mFeedLink = link
+//                        mFeedDescription = date
                     }
+
+                    title = null
+                    link = null
+                    date = null
+                    isItem = false
                 }
             }
-        } catch (e: XmlPullParserException) {
-
-        } catch (i: IOException) {
-
+            return items
         } finally {
             inputStream.close()
         }
-        return items
     }
 }

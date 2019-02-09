@@ -133,12 +133,13 @@
     </LinearLayout>
 
     <Button
-            android:background="@color/com_facebook_button_send_background_color_pressed"
+            android:background="@android:color/darker_gray"
             android:text="Booking"
             android:textColor="@android:color/white"
             android:id="@+id/booking"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
+            android:enabled="false"
             android:layout_height="wrap_content"/>
 
 </RelativeLayout>

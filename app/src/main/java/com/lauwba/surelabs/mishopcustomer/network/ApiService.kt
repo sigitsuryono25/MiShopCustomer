@@ -1,6 +1,6 @@
 package com.lauwba.ojollauwba.network
 
-import com.lauwba.surelabs.mishopcustomer.Model.ResponseRoute
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.ResponseRoute
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

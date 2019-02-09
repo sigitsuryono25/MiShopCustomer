@@ -13,15 +13,17 @@
     <string name="bike">Bike</string>
     <string name="express">Express</string>
     <string name="layanan">Layanan</string>
-    <string name="news">News</string>
+    <string name="news">Berita</string>
     <string name="games">Games</string>
     <string name="c2c">C2C</string>
     <string name="beranda">Beranda</string>
     <string name="inbox">Inbox</string>
     <string name="bantuan">Bantuan</string>
-    <string name="notifikasi">Notifikasi Penawaran</string>
+    <string name="notifikasi">Notifikasi</string>
     <string name="akun">Akun</string>
     <string name="dummy_text">Dummy Text</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. </string>
     <string name="login_with_facebook">Login with Facebook</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -30,12 +32,17 @@
     <string name="title_activity_login">Login</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Masuk</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="batakan_pesanan">Batakan Pesanan</string>
+    <string name="title_activity_tracking_driver">Posisi Driver</string>
+    <string name="ambil_penawaran">Ambil</string>
+    <string name="dummy_price">Rp. 60.000</string>
+    <string name="link_dummy">https://cdn.idntimes.com/content-images/community/2018/04/w2blgd6kao1481008955-88d73c4dbd5a60ffc2c5e3ad34c47e07_600x400.jpg</string>
 </resources>

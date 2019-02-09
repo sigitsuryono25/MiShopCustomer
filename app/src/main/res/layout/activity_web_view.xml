@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:id="@+id/webView"
         android:layout_height="match_parent"
-        tools:context=".WebViewActivity"/>
+        tools:context=".webview.WebViewActivity">
+
+
+    <WebView
+            android:id="@+id/webView"
+            android:layout_below="@id/url"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    <EditText android:layout_width="match_parent"
+              android:enabled="false"
+              android:layout_alignParentTop="true"
+              android:id="@+id/url"
+              android:singleLine="true"
+              android:maxLines="1"
+              android:padding="@dimen/margin_padding"
+              android:background="@android:color/white"
+              android:layout_height="wrap_content"/>
+
+    <include layout="@layout/loading"
+             android:layout_below="@id/url"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+</RelativeLayout>

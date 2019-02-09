@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.lauwba.ojollauwba.utils.ChangeFormat
 import com.lauwba.ojollauwba.utils.DirectionMapsV2
 import com.lauwba.ojollauwba.utils.GPSTracker
-import com.lauwba.surelabs.mishopcustomer.Model.Distance
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.R
 import com.nandohusni.baggit.network.NetworkModule
 import io.reactivex.android.schedulers.AndroidSchedulers

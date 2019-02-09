@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+    <ImageView
+            android:id="@+id/fruitImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+    <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/margin_padding"
+            android:background="@android:color/black"
+            android:alpha=".5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:padding="@dimen/margin_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/margin_padding"
+            android:id="@+id/labelTextView"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

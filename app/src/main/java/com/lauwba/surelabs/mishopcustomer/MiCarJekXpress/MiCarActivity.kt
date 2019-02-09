@@ -19,7 +19,7 @@ import com.lauwba.ojollauwba.utils.DirectionMapsV2
 import com.lauwba.ojollauwba.utils.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
-import com.lauwba.surelabs.mishopcustomer.Model.Distance
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.nandohusni.baggit.network.NetworkModule
@@ -27,6 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -76,7 +77,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         booking.latAwal = latAwal
         booking.lonAwal = lonAwal
-        booking.latTujuan= latTujuan
+        booking.latTujuan = latTujuan
         booking.lonTujuan = lonTujuan
         booking.jarak = jarakTrip.text.toString()
         booking.tanggal = time.time.toString()
@@ -177,16 +178,21 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
 
         var hargaAwal = 0.0
-        if (valueBulat < 5) {
+//        if (valueBulat < 5) {
             hargaAwal = valueBulat * 2000
-        } else {
-            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
-        }
+//        } else {
+//            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
+//        }
 
         var resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
         jarakTrip.text = text
         hargaTrip.text = "Rp. " + resultHarga
+
+        if (hargaTrip.text.length > 0) {
+            booking.backgroundColor = resources.getColor(R.color.com_facebook_button_background_color_pressed)
+            booking.isEnabled = true
+        }
     }
 
     private fun showBound() {

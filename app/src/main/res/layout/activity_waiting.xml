@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,4 +7,33 @@
         android:layout_height="match_parent"
         tools:context=".MiCarJekXpress.waiting.WaitingActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+            android:id="@+id/pulsator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:pulse_count="4"
+            app:pulse_duration="7000"
+            app:pulse_repeat="0"
+            app:pulse_color="@color/colorPrimary"
+            app:pulse_startFromScratch="false"
+            app:pulse_interpolator="Linear">
+    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
+    <ImageView
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+
+    <Button
+            android:id="@+id/cancelBooking"
+            android:layout_marginBottom="@dimen/margin_padding"
+            android:layout_alignParentBottom="true"
+            android:text="@string/batakan_pesanan"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>
