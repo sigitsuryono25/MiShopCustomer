@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".NotifikasiFragment">
+        tools:context=".notification.NotifikasiFragment">
 
     <LinearLayout
             android:orientation="vertical"
@@ -30,11 +30,8 @@
             <LinearLayout
                     android:id="@+id/message"
                     android:padding="@dimen/margin_padding"
-                    android:layout_toLeftOf="@id/Confirmmishop"
                     android:layout_toRightOf="@id/Numberordermishop"
-                    android:layout_alignBaseline="@id/Confirmmishop"
                     android:layout_alignTop="@id/Numberordermishop"
-                    android:layout_alignBottom="@id/Confirmmishop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

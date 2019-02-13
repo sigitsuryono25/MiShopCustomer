@@ -5,7 +5,9 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import com.lauwba.surelabs.mishopcustomer.notification.NotifikasiFragment
 import com.lauwba.surelabs.mishopcustomer.profile.ProfileFragment
+import kotlinx.android.synthetic.main.bottom_nav.*
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -18,9 +20,9 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        bottomNavigationView = findViewById(R.id.navigation)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+
+        navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.beranda -> {
                     fm = supportFragmentManager
@@ -52,10 +54,22 @@ class DashboardActivity : AppCompatActivity() {
             }
             false
         }
-
-        fm = supportFragmentManager
-        ft = fm.beginTransaction()
-        ft.replace(R.id.container, HomeFragment()).commit()
+        try {
+            val notif = intent.getIntExtra("notif", 0)
+            if (notif == 1024) {
+                navigation.selectedItemId = R.id.notifikasi
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.container,
+                    NotifikasiFragment()
+                ).commit()
+            } else {
+                fm = supportFragmentManager
+                ft = fm.beginTransaction()
+                ft.replace(R.id.container, HomeFragment()).commit()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 

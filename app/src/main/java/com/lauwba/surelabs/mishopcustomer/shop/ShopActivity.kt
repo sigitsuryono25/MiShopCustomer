@@ -37,10 +37,10 @@ class ShopActivity : AppCompatActivity() {
         val deskripsi = arrayOf(resources.getString(R.string.lorem), resources.getString(R.string.lorem))
 
         mList = mutableListOf()
-        for(i in 0 until namaPosting.size){
-            item = ItemPost(namaPosting[i], datePosting[i], hargaPost[i], fotouser[i], deskripsi[i], imagePost[i], idshop[i], lokasi[i])
-            mList?.add(item!!)
-        }
+//        for(i in 0 until namaPosting.size){
+//            item = ItemPost(namaPosting[i], datePosting[i], hargaPost[i], fotouser[i], deskripsi[i], imagePost[i], idshop[i], lokasi[i])
+//            mList?.add(item!!)
+//        }
 
         adapter = TimeLineAdapter(mList, this)
         timeline.layoutManager = LinearLayoutManager(this)

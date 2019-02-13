@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpress
@@ -21,7 +22,6 @@ import com.lauwba.surelabs.mishopcustomer.webview.model.RssFeedModel
 import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.toast
 import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -113,6 +113,15 @@ class HomeFragment : Fragment() {
         try {
             initNews()
             initGames()
+            FirebaseMessaging.getInstance().subscribeToTopic("mishop")
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d("MISHOP", "successful subcsribe")
+                    }
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                }
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -7,4 +7,9 @@
     <color name="gray">#EEEEEE</color>
     <color name="green">#049C00</color>
     <color name="red">#D50000</color>
+    <color name="mijek">#FFC400</color>
+    <color name="mishop">#009B4C</color>
+    <color name="micar">#2962FF</color>
+    <color name="miexpress">#6200EA</color>
+    <color name="miservice">#FF3D00</color>
 </resources>

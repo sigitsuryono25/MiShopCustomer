@@ -43,6 +43,9 @@
     <string name="batakan_pesanan">Batakan Pesanan</string>
     <string name="title_activity_tracking_driver">Posisi Driver</string>
     <string name="ambil_penawaran">Ambil</string>
+    <string name="tolak_penawaran">Tolak</string>
     <string name="dummy_price">Rp. 60.000</string>
     <string name="link_dummy">https://cdn.idntimes.com/content-images/community/2018/04/w2blgd6kao1481008955-88d73c4dbd5a60ffc2c5e3ad34c47e07_600x400.jpg</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+
 </resources>
