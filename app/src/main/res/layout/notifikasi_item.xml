@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:id="@+id/container"
               android:orientation="horizontal">
     <RelativeLayout
-            android:padding="@dimen/margin_padding"
             android:layout_margin="@dimen/margin_padding"
             android:background="@drawable/gradient_background_trans"
             android:layout_width="match_parent"
@@ -14,7 +14,7 @@
                 android:id="@+id/type"
                 android:layout_marginEnd="@dimen/margin_padding"
                 android:layout_width="5dp"
-                android:background="#009B4C"
+                android:background="@android:color/transparent"
                 android:layout_alignTop="@id/Numberordermishop"
                 android:layout_alignBottom="@id/buttonContainer"
                 android:layout_height="0dp"/>
@@ -55,10 +55,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/tanggalExpired"
+                android:paddingRight="@dimen/margin_padding"
+                android:layout_toEndOf="@id/type"
+                android:layout_below="@id/deskripsiContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/expiredOn"
+                    android:textSize="12sp"
+                    android:text="Lorem ipsum dolor sit amet, "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
         <RelativeLayout
                 android:id="@+id/buttonContainer"
                 android:layout_marginTop="@dimen/margin_padding"
-                android:layout_below="@id/deskripsiContent"
+                android:layout_below="@id/tanggalExpired"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <LinearLayout

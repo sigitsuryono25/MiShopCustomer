@@ -50,9 +50,13 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun setToAdapter(list: MutableList<NotifikasiItem>?) {
-        val adapter = list?.let { NotifikasiAdapter(it, activity, 0) }
-        notifikasi.layoutManager = LinearLayoutManager(activity)
-        notifikasi.adapter = adapter
-        loading.visibility = View.GONE
+        try {
+            val adapter = list?.let { NotifikasiAdapter(it, activity, 0) }
+            notifikasi.layoutManager = LinearLayoutManager(activity)
+            notifikasi.adapter = adapter
+            loading.visibility = View.GONE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

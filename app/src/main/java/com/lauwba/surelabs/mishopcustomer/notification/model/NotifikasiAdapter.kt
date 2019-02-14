@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import kotlinx.android.synthetic.main.notifikasi_item.view.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.toast
 
 class NotifikasiAdapter(
     private val mValues: MutableList<NotifikasiItem>, private val c: Context?, private val type: Int?
@@ -28,15 +32,22 @@ class NotifikasiAdapter(
         holder.orderNumber.text = item.idShop
         holder.typeJassa.text = item.type
         holder.deskripsi.text = item.deskripsi
+        holder.expired.text = HourToMillis.millisToDate(item.lamaPenawaran ?: 0)
+        holder.content.onClick {
+            //            c?.startActivity<>()
+            c?.toast(holder.orderNumber.text)
+        }
     }
 
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val type: View = mView.type
+        val content: LinearLayout = mView.container
         val orderNumber: TextView = mView.orderNumber
         val typeJassa: TextView = mView.typeJasa
         val deskripsi: TextView = mView.deskripsi
+        val expired: TextView = mView.expiredOn
 
     }
 }
