@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
@@ -30,20 +28,18 @@ class TimeLineAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues?.get(position)
         holder.namaPosting.text = item?.namaPosting
-        holder.datePosting.text = item?.datePosting
-        holder.hargaPost.text = item?.hargaPost
+        holder.datePosting.text = item?.tanggalPost
+        holder.hargaPost.text = item?.harga
         holder.deskripsi.text = item?.deskripsi
-        holder.idShop.text = item?.idShop
+        holder.idShop.text = item?.idOrder
         holder.lokasi.text = item?.lokasi
 
-        var requestOptions = RequestOptions()
-        requestOptions = requestOptions.transforms(CenterCrop(), RoundedCorners(50))
         Glide.with(c)
             .load(item?.fotouser)
-            .apply(requestOptions)
+            .apply(RequestOptions.circleCropTransform())
             .into(holder.fotouser)
         Glide.with(c)
-            .load(item?.imagePost)
+            .load(item?.foto)
             .into(holder.imagePost)
     }
 

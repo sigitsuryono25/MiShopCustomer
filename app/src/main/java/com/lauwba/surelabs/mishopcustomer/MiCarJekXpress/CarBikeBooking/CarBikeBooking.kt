@@ -15,7 +15,7 @@ class CarBikeBooking : Serializable {
     var harga: String? = null
     var jarak: String? = null
     var status: Int? = null
-    var driver: String? = null
+    var type: Int? = 0
 
     init {
 

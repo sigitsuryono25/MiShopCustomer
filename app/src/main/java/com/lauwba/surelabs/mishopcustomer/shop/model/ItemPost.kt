@@ -2,14 +2,15 @@ package com.lauwba.surelabs.mishopcustomer.shop.model
 
 class ItemPost {
     var namaPosting: String? = null
-    var datePosting: String? = null
-    var hargaPost: String? = null
+    var tanggalPost: String? = null
+    var harga: String? = null
     var fotouser: String? = null
     var deskripsi: String? = null
-    var imagePost: String? = null
-    var idShop: String? = null
+    var foto: String? = null
+    var idOrder: String? = null
     var lokasi: String? = null
-    var lamaPenawaran: String? = null
+    var lamaPenawaran: Long? = null
+    var uid: String? = null
 
     init {
 

@@ -9,16 +9,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.shop.detail.DetailMiShopActivity
 import kotlinx.android.synthetic.main.notifikasi_item.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 
 class NotifikasiAdapter(
-    private val mValues: MutableList<NotifikasiItem>, private val c: Context?, private val type: Int?
+    private val mValues: MutableList<NotifikasiItem>, private val c: Context?
 ) : RecyclerView.Adapter<NotifikasiAdapter.ViewHolder>() {
 
     var color = intArrayOf(R.color.mishop, R.color.miservice, R.color.micar, R.color.mijek, R.color.miexpress)
+    var jenis = arrayListOf("Mi-Shop", "Mi-Service", "Mi-Car", "Mi-Bike", "Mi-Express")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,14 +29,12 @@ class NotifikasiAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.type.background = c?.resources?.getDrawable(color[type ?: 0])
-        holder.orderNumber.text = item.idShop
-        holder.typeJassa.text = item.type
-        holder.deskripsi.text = item.deskripsi
-        holder.expired.text = HourToMillis.millisToDate(item.lamaPenawaran ?: 0)
+        holder.type.background = c?.resources?.getDrawable(color[item.type ?: 0])
+        holder.orderNumber.text = item.idOrder
+        holder.typeJassa.text = jenis[item.type ?: 0]
         holder.content.onClick {
-            //            c?.startActivity<>()
-            c?.toast(holder.orderNumber.text)
+            //            c?.toast(holder.orderNumber.text)
+            c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text)
         }
     }
 
@@ -46,8 +45,6 @@ class NotifikasiAdapter(
         val content: LinearLayout = mView.container
         val orderNumber: TextView = mView.orderNumber
         val typeJassa: TextView = mView.typeJasa
-        val deskripsi: TextView = mView.deskripsi
-        val expired: TextView = mView.expiredOn
 
     }
 }

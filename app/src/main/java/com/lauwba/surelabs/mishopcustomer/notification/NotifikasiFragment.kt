@@ -31,7 +31,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getData() {
-        val key = Config.database.getReference()
+        val key = Config.database.reference
         key.child(Config.tb_shop).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -41,17 +41,42 @@ class NotifikasiFragment : Fragment() {
 //                list = GetAllData.collectidShop(p0.value as Map<*, *>)
                 list?.let { list?.removeAll(it) }
                 for (data in p0.children) {
-                    val notifikasiItem = data.getValue(NotifikasiItem::class.java)
-                    notifikasiItem?.let { list?.add(it) }
-                    setToAdapter(list)
+                    if (data.hasChildren()) {
+                        val notifikasiItem = data.getValue(NotifikasiItem::class.java)
+                        notifikasiItem?.let { list?.add(it) }
+                        setToAdapter(list)
+                    } else {
+                        loading.visibility = View.GONE
+                    }
                 }
             }
         })
+
+        key.child(Config.tb_booking).addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (data in p0.children) {
+                    if (data.hasChildren()) {
+                        val notifikasiItem = data.getValue(NotifikasiItem::class.java)
+                        notifikasiItem?.let { list?.add(it) }
+                        setToAdapter(list)
+                    } else {
+                        loading.visibility = View.GONE
+                    }
+                }
+            }
+
+        })
+
+
     }
 
     private fun setToAdapter(list: MutableList<NotifikasiItem>?) {
         try {
-            val adapter = list?.let { NotifikasiAdapter(it, activity, 0) }
+            val adapter = list?.let { NotifikasiAdapter(it, activity) }
             notifikasi.layoutManager = LinearLayoutManager(activity)
             notifikasi.adapter = adapter
             loading.visibility = View.GONE

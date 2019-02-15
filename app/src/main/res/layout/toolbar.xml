@@ -13,10 +13,14 @@
             android:layout_alignParentLeft="true"
             android:layout_height="40dp"/>
 
-    <!--<View-->
-            <!--android:layout_below="@+id/icon"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="#000"/>-->
+    <TextView
+            android:id="@+id/titleToolbar"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:layout_toEndOf="@+id/icon"
+            android:layout_marginStart="@dimen/margin_padding"
+            android:layout_marginEnd="@dimen/margin_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </RelativeLayout>

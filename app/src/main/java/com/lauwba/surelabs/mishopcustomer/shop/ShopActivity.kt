@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.activity_shop.*
 class ShopActivity : AppCompatActivity() {
 
     val namaPosting = arrayOf("Sigit Suryono", "Rafi Aqil Al Dzikri")
-    val datePosting = arrayOf("25 Februari 2019", "03 Juni 2003")
-    val hargaPost = arrayOf("Rp. 22.500", "Rp. 12.500")
+    val tanggalPost = arrayOf("25 Februari 2019", "03 Juni 2003")
+    val harga = arrayOf("Rp. 22.500", "Rp. 12.500")
     val lokasi = arrayOf("Ayam Panggang 3 Berku", "Seblak Muantep")
     val fotouser = arrayOf(
         "https://pbs.twimg.com/profile_images/1071222936021790721/kJAz840E_400x400.jpg",
@@ -34,13 +34,21 @@ class ShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
 
-        val deskripsi = arrayOf(resources.getString(R.string.lorem), resources.getString(R.string.lorem))
-
         mList = mutableListOf()
-//        for(i in 0 until namaPosting.size){
-//            item = ItemPost(namaPosting[i], datePosting[i], hargaPost[i], fotouser[i], deskripsi[i], imagePost[i], idshop[i], lokasi[i])
-//            mList?.add(item!!)
-//        }
+        val deskripsi = arrayOf(resources.getString(R.string.lorem), resources.getString(R.string.lorem))
+        for (i in 0 until namaPosting.size) {
+            item = ItemPost()
+            item?.namaPosting = namaPosting[i]
+            item?.tanggalPost = tanggalPost[i]
+            item?.harga = harga[i]
+            item?.lokasi = lokasi[i]
+            item?.fotouser = fotouser[i]
+            item?.foto = imagePost[i]
+            item?.idOrder = idshop[i]
+            item?.deskripsi = deskripsi[i]
+            mList?.add(item!!)
+        }
+//
 
         adapter = TimeLineAdapter(mList, this)
         timeline.layoutManager = LinearLayoutManager(this)
