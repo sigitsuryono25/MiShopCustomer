@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer.webview.adapter
+package com.lauwba.surelabs.mishopcustomer.dashboard.adapter
 
 import android.content.Context
 import android.support.v7.widget.CardView
@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.webview.WebViewActivity
 import com.lauwba.surelabs.mishopcustomer.config.Config
-import com.lauwba.surelabs.mishopcustomer.webview.model.RssFeedModel
+import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
+import com.lauwba.surelabs.mishopcustomer.webview.WebViewActivity
 import org.jetbrains.anko.startActivity
 
 class RssFeedAdapter(rssFeedModel: ArrayList<RssFeedModel>, context: Context) :
@@ -32,8 +32,8 @@ class RssFeedAdapter(rssFeedModel: ArrayList<RssFeedModel>, context: Context) :
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         var itemModel = rssFeedModel.get(p1)
-        p0.title.setText(itemModel.title)
-        p0.link.setText(itemModel.link)
+        p0.title.text = itemModel.title
+        p0.link.text = itemModel.link
         Glide.with(context)
             .load(itemModel.image)
             .into(p0.featurePhotos)

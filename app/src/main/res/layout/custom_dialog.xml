@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_padding"
+              android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/qty"
+                android:hint="Seberapa Banyak ?"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/alamat"
+                android:hint="Alamatnya udah bener kak ?"
+                android:inputType="text"
+                android:singleLine="false"
+                android:maxLines="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+            android:id="@+id/confirm"
+            android:background="@drawable/button_style"
+            android:textColor="@android:color/white"
+            android:text="Okay"
+            android:layout_margin="@dimen/margin_padding"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -7,9 +7,8 @@ class Customer {
     var telepon: String? = null
     var nama: String? = null
     var email: String? = null
-    var pass: String? = null
     var alamat: String? = null
     var gender: String? = null
-    var terdaftar: String? = null
+    var terdaftar: Long? = null
     var token: String? = null
 }

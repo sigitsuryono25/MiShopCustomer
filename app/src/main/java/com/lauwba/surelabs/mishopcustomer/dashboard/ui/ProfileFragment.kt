@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer.profile
+package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

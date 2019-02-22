@@ -8,8 +8,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.support.v4.app.NotificationCompat
-import com.lauwba.surelabs.mishopcustomer.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 
 class NotificationHandler(var c: Context?) {
 

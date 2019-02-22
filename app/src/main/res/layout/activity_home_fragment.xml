@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeFragment">
+        tools:context=".dashboard.ui.HomeFragment">
 
     <ScrollView
             android:layout_width="match_parent"
@@ -243,7 +243,6 @@
 
                     <TextView
                             android:padding="@dimen/margin_padding"
-                            android:textAllCaps="true"
                             android:text="@string/c2c"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>

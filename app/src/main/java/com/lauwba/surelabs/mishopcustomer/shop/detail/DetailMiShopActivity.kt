@@ -48,11 +48,11 @@ class DetailMiShopActivity : AppCompatActivity() {
         idShop.text = detail?.idOrder
         datePosting.text = detail?.tanggalPost
         lokasi.text = detail?.lokasi
-        hargaPost.text = detail?.harga
+        hargaPost.text = detail?.harga.toString()
         deskripsi.text = detail?.deskripsi
-        Glide.with(this@DetailMiShopActivity)
-            .load("https://firebasestorage.googleapis.com/v0/b/mishop.appspot.com/o/images%2F1550223267719%2F1550223267719.jpg?alt=media&token=5bf62418-e80c-428f-8983-f01fc1ef94cf")
-            .into(imagePost)
+//        Glide.with(this@DetailMiShopActivity)
+//            .load(detail?.foto)
+//            .into(imagePost)
 //        imagePost.setImageURI(Uri.parse(detail?.foto))
         Glide.with(this@DetailMiShopActivity)
             .load("https://scontent.fsoc1-1.fna.fbcdn.net/v/t1.0-9/41423540_2190550337889157_2425118249638166528_n.jpg?_nc_cat=108&_nc_ht=scontent.fsoc1-1.fna&oh=994bd71a806c32bda32a6d3844e11bb4&oe=5CF78E7D")

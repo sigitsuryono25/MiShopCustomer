@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.login.LoginActivity
 import com.lauwba.surelabs.mishopcustomer.registrasi.RegistrasiActivity
 import com.pixplicity.easyprefs.library.Prefs

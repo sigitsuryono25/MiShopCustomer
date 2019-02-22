@@ -18,8 +18,8 @@ import com.lauwba.ojollauwba.utils.ChangeFormat
 import com.lauwba.ojollauwba.utils.DirectionMapsV2
 import com.lauwba.ojollauwba.utils.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
-import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.nandohusni.baggit.network.NetworkModule
@@ -235,8 +235,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showGps() {
-        gps = this?.let { GPSTracker(it) }
-        if (gps?.canGetLocation() ?: true) {
+        gps = this.let { GPSTracker(it) }
+        if (gps?.canGetLocation() != false) {
             latAwal = gps?.latitude
             lonAwal = gps?.longitude
 
@@ -256,8 +256,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showNameLocations(lat: Double?, lon: Double?): CharSequence? {
-        var geocoder = Geocoder(this, Locale.getDefault())
-        var location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
 
         //get address location
         val nameLocations = location.get(0).getAddressLine(0)

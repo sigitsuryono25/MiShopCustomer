@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer.webview.adapter
+package com.lauwba.surelabs.mishopcustomer.dashboard.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -10,19 +10,15 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.webview.WebViewActivity
 import com.lauwba.surelabs.mishopcustomer.config.Config
-import com.lauwba.surelabs.mishopcustomer.webview.model.GameModel
+import com.lauwba.surelabs.mishopcustomer.dashboard.model.GameModel
+import com.lauwba.surelabs.mishopcustomer.webview.WebViewActivity
 import org.jetbrains.anko.startActivity
 
-class GameAdapter(gameModel: MutableList<GameModel>, context: Context) :
+class GameAdapter(private val gameModel: MutableList<GameModel>, private val context: Context) :
     RecyclerView.Adapter<GameAdapter.ViewHolder>() {
-
-    var gameModel = gameModel
-    var context = context
-
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        var v = LayoutInflater.from(p0.context).inflate(R.layout.activity_game_adapter, p0, false)
+        val v = LayoutInflater.from(p0.context).inflate(R.layout.activity_game_adapter, p0, false)
         return ViewHolder(v)
     }
 
@@ -31,15 +27,15 @@ class GameAdapter(gameModel: MutableList<GameModel>, context: Context) :
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        var itemModel = gameModel.get(p1)
-        p0.title.setText(itemModel.nama)
-        p0.link.setText(itemModel.url)
+        val itemModel = gameModel.get(p1)
+        p0.title.text = itemModel.name
+        p0.link.text = itemModel.links
         Glide.with(context)
-            .load(itemModel.gambar)
+            .load(itemModel.image)
             .into(p0.featurePhotos)
 
         p0.rss.setOnClickListener {
-            context.startActivity<WebViewActivity>(Config.URL to itemModel.url, "status" to 1)
+            context.startActivity<WebViewActivity>(Config.URL to itemModel.links, "status" to 1)
         }
     }
 

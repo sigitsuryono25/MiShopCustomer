@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer
+package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
 import android.os.Bundle
 import android.os.StrictMode
@@ -10,15 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpress
+import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.GameAdapter
+import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.RssFeedAdapter
+import com.lauwba.surelabs.mishopcustomer.dashboard.model.GameModel
+import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
 import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
-import com.lauwba.surelabs.mishopcustomer.webview.adapter.GameAdapter
-import com.lauwba.surelabs.mishopcustomer.webview.adapter.RssFeedAdapter
-import com.lauwba.surelabs.mishopcustomer.webview.model.GameModel
-import com.lauwba.surelabs.mishopcustomer.webview.model.RssFeedModel
 import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -30,19 +35,6 @@ import java.net.URL
 
 class HomeFragment : Fragment() {
 
-    val gambar = arrayOf(
-        R.drawable.fruit_crush_teaser,
-        R.drawable.racing_monster_trucks_teaser,
-        R.drawable.running_jack_teaser,
-        R.drawable.smarty_bubbles
-    )
-    val url = arrayOf(
-        "https://play.famobi.com/fruita-crush",
-        "https://play.famobi.com/racing-monster-trucks",
-        "https://play.famobi.com/running-jack",
-        "https://play.famobi.com/smarty-bubbles"
-    )
-
     var sampleImages = arrayOf(
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-2-trans-studio-mini-maguwo-001-tantri-setyorini.jpg",
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-1-the-world-landmarks-merapi-park-001-tantri-setyorini.jpg",
@@ -51,12 +43,6 @@ class HomeFragment : Fragment() {
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-5-kebun-teh-nglinggo-001-tantri-setyorini.jpg"
     )
 
-    var title = arrayOf(
-        "Fruita Crush",
-        "Racing Monster Trucks",
-        "Running Jack",
-        "Smartly Bubbles"
-    )
     var image: MutableList<String>? = null
     var titleNews: MutableList<String>? = null
     var linkNews: MutableList<String>? = null
@@ -129,13 +115,32 @@ class HomeFragment : Fragment() {
 
 
     private fun initGames() {
-        for (i in 0 until gambar.size) {
-            val item = GameModel(url[i], gambar[i], title[i])
-            gameList?.add(item)
-        }
+
+        val ref = Constant.database.reference
+        ref.child("games").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (issue in p0.children) {
+                    val data = issue.getValue(GameModel::class.java)
+                    data?.let { gameList?.add(it) }
+                }
+            }
+        })
+
         listGame.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        adapter = activity?.let { GameAdapter(gameList!!, it) }
+        adapter = gameList?.let { activity?.let { it1 -> GameAdapter(it, it1) } }
         listGame.adapter = adapter
+
+//        for (i in 0 until gambar.size) {
+//            val item = GameModel(url[i], gambar[i], title[i])
+//            gameList?.add(item)
+//        }
+//        listGame.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+//        adapter = activity?.let { GameAdapter(gameList!!, it) }
+//        listGame.adapter = adapter
     }
 
     private fun initNews() {
@@ -146,7 +151,12 @@ class HomeFragment : Fragment() {
         rssList = parseFeed(inputStream)
         if (rssList?.size ?: 0 > 0) {
             loading.visibility = View.GONE
-            rssAdapter = activity?.let { RssFeedAdapter(rssList!!, it) }
+            rssAdapter = activity?.let {
+                RssFeedAdapter(
+                    rssList!!,
+                    it
+                )
+            }
             rcNews.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             rcNews.adapter = rssAdapter
         }
@@ -214,7 +224,8 @@ class HomeFragment : Fragment() {
 
                 if (title != null && link != null && date != null) {
                     if (isItem) {
-                        val item = RssFeedModel(title, link, src ?: "")
+                        val item =
+                            RssFeedModel(title, link, src ?: "")
                         items.add(item)
                     } else {
 //                        mFeedTitle = title

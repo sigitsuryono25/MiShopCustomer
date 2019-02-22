@@ -3,31 +3,21 @@ package com.lauwba.surelabs.mishopcustomer.shop
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.Tarif
 import com.lauwba.surelabs.mishopcustomer.shop.adapter.TimeLineAdapter
+import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import kotlinx.android.synthetic.main.activity_shop.*
 
 class ShopActivity : AppCompatActivity() {
-
-    val namaPosting = arrayOf("Sigit Suryono", "Rafi Aqil Al Dzikri")
-    val tanggalPost = arrayOf("25 Februari 2019", "03 Juni 2003")
-    val harga = arrayOf("Rp. 22.500", "Rp. 12.500")
-    val lokasi = arrayOf("Ayam Panggang 3 Berku", "Seblak Muantep")
-    val fotouser = arrayOf(
-        "https://pbs.twimg.com/profile_images/1071222936021790721/kJAz840E_400x400.jpg",
-        "https://scontent.fsoc1-1.fna.fbcdn.net/v/t1.0-9/41423540_2190550337889157_2425118249638166528_n.jpg?_nc_cat=108&_nc_ht=scontent.fsoc1-1.fna&oh=994bd71a806c32bda32a6d3844e11bb4&oe=5CF78E7D"
-    )
-
-    val imagePost = arrayOf(
-        "http://kuliner.panduanwisata.id/files/2012/08/ayam-utuh.jpg",
-        "https://cdn.idntimes.com/content-images/community/2018/04/w2blgd6kao1481008955-88d73c4dbd5a60ffc2c5e3ad34c47e07_600x400.jpg"
-    )
-    val idshop = arrayOf("25", "03")
-
-    var item: ItemPost? = null
-    var mList: MutableList<ItemPost>? = null
-    var adapter: TimeLineAdapter? = null
+    private var mList: MutableList<ItemPost>? = null
+    private var mListMitra: MutableList<ItemMitra>? = null
+    private var tarif : Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,23 +25,83 @@ class ShopActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shop)
 
         mList = mutableListOf()
-        val deskripsi = arrayOf(resources.getString(R.string.lorem), resources.getString(R.string.lorem))
-        for (i in 0 until namaPosting.size) {
-            item = ItemPost()
-            item?.namaPosting = namaPosting[i]
-            item?.tanggalPost = tanggalPost[i]
-            item?.harga = harga[i]
-            item?.lokasi = lokasi[i]
-            item?.fotouser = fotouser[i]
-            item?.foto = imagePost[i]
-            item?.idOrder = idshop[i]
-            item?.deskripsi = deskripsi[i]
-            mList?.add(item!!)
-        }
-//
+        mListMitra = mutableListOf()
 
-        adapter = TimeLineAdapter(mList, this)
-        timeline.layoutManager = LinearLayoutManager(this)
-        timeline.adapter = adapter
+        getDataShop()
+        getTarif()
+    }
+
+    private fun getTarif() {
+        val ref = Constant.database.getReference(Constant.TB_TARIF)
+        ref.orderByChild("tipe").equalTo("add")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for(issue in p0.children){
+                        val data = issue.getValue(Tarif::class.java)
+                        tarif = data?.tarif?.toInt()
+                    }
+                }
+            })
+    }
+
+    private fun getDataShop() {
+        try {
+            val ref = Constant.database.reference
+            ref.child(Constant.TB_SHOP).orderByChild("tanggalPost").limitToFirst(10)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if (p0.hasChildren()) {
+                            for (issue in p0.children) {
+                                val data = issue.getValue(ItemPost::class.java)
+                                data?.let { mList?.add(it) }
+                                val uid = data?.uid
+
+                                ref.child(Constant.TB_MITRA).orderByChild("uid").equalTo(uid)
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onCancelled(p0: DatabaseError) {
+
+                                        }
+
+                                        override fun onDataChange(p0: DataSnapshot) {
+                                            for (issues in p0.children) {
+                                                val mitraData = issues.getValue(ItemMitra::class.java)
+                                                setItemToAdapter(mList, mitraData?.nama_mitra, mitraData?.foto, tarif)
+                                            }
+                                        }
+
+                                    })
+                            }
+                        } else {
+
+                        }
+                    }
+
+                })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun setItemToAdapter(
+        mList: MutableList<ItemPost>?,
+        nama_mitra: String?,
+        foto: String?,
+        tarif: Int?
+    ) {
+        val adapter = TimeLineAdapter(mList, this, nama_mitra, foto, tarif)
+        try {
+            timeline.layoutManager = LinearLayoutManager(this)
+            timeline.adapter = adapter
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

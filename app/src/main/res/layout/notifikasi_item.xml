@@ -57,7 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/deskripsiContent"
                 android:paddingRight="@dimen/margin_padding"
                 android:layout_toEndOf="@id/type"

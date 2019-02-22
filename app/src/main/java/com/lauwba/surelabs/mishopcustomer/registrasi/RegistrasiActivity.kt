@@ -65,10 +65,9 @@ class RegistrasiActivity : AppCompatActivity() {
         customer.email = email.text.toString()
         customer.alamat = alamat.text.toString()
         customer.nama = nama.text.toString()
-        customer.pass = password.text.toString()
         customer.telepon = nomorTelepon.text.toString()
         customer.token = ""
-        customer.terdaftar = time.time.toString()
+        customer.terdaftar = time.timeInMillis
         customer.uid = Config.authInstanceCurrentUser()
 
         myref.child(key ?: "").setValue(customer)

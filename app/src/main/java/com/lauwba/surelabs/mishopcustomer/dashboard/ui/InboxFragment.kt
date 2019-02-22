@@ -1,11 +1,11 @@
-package com.lauwba.surelabs.mishopcustomer
+package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.lauwba.surelabs.mishopcustomer.R
 
 class InboxFragment : Fragment() {
 
@@ -13,7 +13,4 @@ class InboxFragment : Fragment() {
         return inflater.inflate(R.layout.activity_inbox_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 }

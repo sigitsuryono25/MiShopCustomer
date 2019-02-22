@@ -31,6 +31,7 @@ class NotifikasiAdapter(
         val item = mValues[position]
         holder.type.background = c?.resources?.getDrawable(color[item.type ?: 0])
         holder.orderNumber.text = item.idOrder
+        holder.deskripsi.text = item.deskripsi
         holder.typeJassa.text = jenis[item.type ?: 0]
         holder.content.onClick {
             //            c?.toast(holder.orderNumber.text)
@@ -44,6 +45,7 @@ class NotifikasiAdapter(
         val type: View = mView.type
         val content: LinearLayout = mView.container
         val orderNumber: TextView = mView.orderNumber
+        val deskripsi: TextView = mView.deskripsi
         val typeJassa: TextView = mView.typeJasa
 
     }

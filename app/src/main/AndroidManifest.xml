@@ -6,8 +6,7 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission
-            android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -54,20 +53,20 @@
         </activity>
         <activity android:name=".MiCarJekXpress.MiBikeActivity"/>
         <activity android:name=".MiCarJekXpress.MiXpress"/>
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".dashboard.DashboardActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".webview.WebViewActivity">
         </activity>
         <activity android:name=".registrasi.RegistrasiActivity">
         </activity>
-        <activity android:name=".DetailRegistrasi">
-        </activity>
         <activity android:name=".splash.SplashScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
                 android:name=".MainActivity"
@@ -92,6 +91,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false"/>
     </application>
 
 </manifest>
