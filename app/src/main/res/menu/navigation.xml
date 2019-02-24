@@ -4,14 +4,14 @@
           android:title="@string/beranda"
           android:icon="@drawable/ic_home"
             />
+    <item android:id="@+id/orderan"
+          android:title="@string/proses"
+          android:icon="@drawable/ic_trending_up_black_24dp"
+    />
     <item android:id="@+id/inbox"
           android:title="@string/inbox"
           android:icon="@drawable/ic_inbox"
-            />
-    <item android:id="@+id/bantuan"
-          android:title="@string/bantuan"
-          android:icon="@drawable/ic_help"
-            />
+    />
     <item android:id="@+id/notifikasi"
           android:title="@string/notifikasi"
           android:icon="@drawable/ic_notifications"

@@ -33,9 +33,11 @@ class NotifikasiAdapter(
         holder.orderNumber.text = item.idOrder
         holder.deskripsi.text = item.deskripsi
         holder.typeJassa.text = jenis[item.type ?: 0]
-        holder.content.onClick {
-            //            c?.toast(holder.orderNumber.text)
-            c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text)
+        if (item.type == 0) {
+            holder.content.onClick {
+                //            c?.toast(holder.orderNumber.text)
+                c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text)
+            }
         }
     }
 

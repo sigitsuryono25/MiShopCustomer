@@ -14,12 +14,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.lauwba.ojollauwba.utils.ChangeFormat
-import com.lauwba.ojollauwba.utils.DirectionMapsV2
-import com.lauwba.ojollauwba.utils.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.R
-import com.nandohusni.baggit.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
+import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
+import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
+import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -121,6 +121,7 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
         val origin = "$latAwal, $lonAwal"
         val destination = "$latTujuan, $lonTujuan"
 
+
         dis?.add(
             NetworkModule.getService().actionRoute(
                 origin, destination,
@@ -204,8 +205,8 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showGps() {
-        gps = this?.let { GPSTracker(it) }
-        if (gps?.canGetLocation() ?: true) {
+        gps = this.let { GPSTracker(it) }
+        if (gps?.canGetLocation() != false) {
             latAwal = gps?.latitude
             lonAwal = gps?.longitude
 

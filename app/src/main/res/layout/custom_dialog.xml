@@ -29,14 +29,4 @@
         />
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-            android:id="@+id/confirm"
-            android:background="@drawable/button_style"
-            android:textColor="@android:color/white"
-            android:text="Okay"
-            android:layout_margin="@dimen/margin_padding"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
 </LinearLayout>

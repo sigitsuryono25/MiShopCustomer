@@ -14,7 +14,7 @@
             app:pulse_count="4"
             app:pulse_duration="7000"
             app:pulse_repeat="0"
-            app:pulse_color="@color/colorPrimary"
+            app:pulse_color="@color/gray"
             app:pulse_startFromScratch="false"
             app:pulse_interpolator="Linear">
     </pl.bclogic.pulsator4droid.library.PulsatorLayout>
@@ -28,9 +28,9 @@
 
     <Button
             android:id="@+id/cancelBooking"
-            android:layout_marginBottom="@dimen/margin_padding"
             android:layout_alignParentBottom="true"
             android:text="@string/batakan_pesanan"
+            android:layout_margin="@dimen/margin_padding"
             android:textColor="@android:color/white"
             android:background="@drawable/button_style"
             android:layout_width="match_parent"

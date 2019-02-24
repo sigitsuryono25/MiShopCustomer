@@ -24,7 +24,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var ref = Config.databaseInstance(Config.tb_customer)
+        val ref = Config.databaseInstance(Config.tb_customer)
         ref.orderByChild("uid").equalTo(Config.authInstanceCurrentUser())
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -34,7 +34,7 @@ class ProfileFragment : Fragment() {
                 override fun onDataChange(p0: DataSnapshot) {
                     if (p0.exists()) {
                         for (data in p0.children) {
-                            var profileData = data.getValue(Customer::class.java)
+                            val profileData = data.getValue(Customer::class.java)
                             setprofilData(profileData)
                         }
                     } else {

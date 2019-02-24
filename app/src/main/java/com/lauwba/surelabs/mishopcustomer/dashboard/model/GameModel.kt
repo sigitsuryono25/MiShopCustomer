@@ -1,9 +1,11 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard.model
 
-class GameModel {
+class GameModel(url: String, gambar: Int, nama: String) {
+    var url: String = url
 
-    var image: String? = null
-    var links: String? = null
-    var name: String? = null
+    var gambar: Int = gambar
+
+    var nama: String = nama
+
 
 }

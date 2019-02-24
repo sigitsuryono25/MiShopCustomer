@@ -1,4 +1,4 @@
-package com.lauwba.ojollauwba.utils
+package com.lauwba.surelabs.mishopcustomer.libs
 
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -10,12 +10,12 @@ object ChangeFormat {
         val df = DecimalFormat.getCurrencyInstance() as DecimalFormat
 
         val dfs = DecimalFormatSymbols()
-        dfs.setCurrencySymbol("")
-        dfs.setMonetaryDecimalSeparator(',')
-        dfs.setGroupingSeparator('.')
-        df.setDecimalFormatSymbols(dfs)
+        dfs.currencySymbol = ""
+        dfs.monetaryDecimalSeparator = ','
+        dfs.groupingSeparator = '.'
+        df.decimalFormatSymbols = dfs
 
-        df.setMaximumFractionDigits(0)
+        df.maximumFractionDigits = 0
         val rupiah = df.format(d(nominal))
 
         return rupiah

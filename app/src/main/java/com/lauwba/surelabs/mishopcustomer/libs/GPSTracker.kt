@@ -1,4 +1,4 @@
-package com.lauwba.ojollauwba.utils
+package com.lauwba.surelabs.mishopcustomer.libs
 
 import android.Manifest
 import android.app.AlertDialog

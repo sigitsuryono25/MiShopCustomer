@@ -14,17 +14,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.lauwba.ojollauwba.utils.ChangeFormat
-import com.lauwba.ojollauwba.utils.DirectionMapsV2
-import com.lauwba.ojollauwba.utils.GPSTracker
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
-import com.nandohusni.baggit.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
+import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
+import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
+import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -64,6 +70,48 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun insertFirebase() {
+        val myref = Config.databaseInstance(Config.tb_bike)
+        val key = myref.push().key
+
+        val booking = CarBikeBooking()
+        val time = Calendar.getInstance()
+
+        booking.latAwal = latAwal
+        booking.lonAwal = lonAwal
+        booking.latTujuan = latTujuan
+        booking.lonTujuan = lonTujuan
+        booking.jarak = jarakTrip.text.toString()
+        booking.tanggal = time.time.toString()
+        booking.harga = hargaTrip.text.toString()
+        booking.status = 1
+        booking.lokasiAwal = asal.text.toString()
+        booking.lokasiTujuan = tujuan.text.toString()
+        booking.uid = Config.authInstanceCurrentUser()
+
+        myref.child(key ?: "").setValue(booking)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val notificationBooking = NotificationBooking()
+                    val firebaseBooking = FirebaseBooking()
+
+                    firebaseBooking.title = "Orderan MiBike"
+                    firebaseBooking.deskripsi = asal.text.toString() + " - " + tujuan.text.toString()
+
+                    notificationBooking.token = "/topics/mibike"
+                    notificationBooking.booking = firebaseBooking
+
+                    NetworkModule.getServiceFcm()
+                        .actionSendBook(notificationBooking)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe()
+
+
+                    startActivity<WaitingActivity>("key" to key)
+                }
+            }
+
+
 
     }
 
@@ -152,16 +200,21 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
 
         var hargaAwal = 0.0
-        if (valueBulat < 5) {
-            hargaAwal = valueBulat * 2000
-        } else {
-            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
-        }
+//        if (valueBulat < 5) {
+        hargaAwal = valueBulat * 1750
+//        } else {
+//            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
+//        }
 
         var resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
         jarakTrip.text = text
         hargaTrip.text = "Rp. " + resultHarga
+
+        if (hargaTrip.text.length > 0) {
+            booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
+            booking.isEnabled = true
+        }
     }
 
     private fun showBound() {
@@ -204,8 +257,8 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showGps() {
-        gps = this?.let { GPSTracker(it) }
-        if (gps?.canGetLocation() ?: true) {
+        gps = GPSTracker(this)
+        if (gps?.canGetLocation() != false) {
             latAwal = gps?.latitude
             lonAwal = gps?.longitude
 

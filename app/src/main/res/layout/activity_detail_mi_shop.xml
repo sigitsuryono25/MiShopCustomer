@@ -38,6 +38,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             <TextView
+                    android:visibility="gone"
+                    android:layout_toEndOf="@id/fotouser"
+                    android:id="@+id/idOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            <TextView
                     android:text="25 Januari 2019"
                     android:textSize="10sp"
                     android:layout_toEndOf="@id/fotouser"
@@ -91,7 +97,6 @@
                     android:id="@+id/imagePost"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_width="326dp"
                     android:layout_height="183dp"/>
         </LinearLayout>
@@ -114,6 +119,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_height="wrap_content"/>
                 <TextView
+                        android:id="@+id/ambilPenawaran"
                         android:layout_gravity="center_vertical"
                         android:textColor="@android:color/white"
                         android:text="@string/ambil_penawaran"

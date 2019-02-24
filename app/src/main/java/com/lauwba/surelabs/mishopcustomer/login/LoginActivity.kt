@@ -60,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
+                    loading.visibility = View.GONE
                     if (!p0.hasChildren()) {
                         alert(
                             "Email Tidak Ditemukan.\nPastikan anda Terdaftar sebagai customer sebelum melakukan login",

@@ -28,14 +28,14 @@ class GameAdapter(private val gameModel: MutableList<GameModel>, private val con
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val itemModel = gameModel.get(p1)
-        p0.title.text = itemModel.name
-        p0.link.text = itemModel.links
+        p0.title.text = itemModel.nama
+        p0.link.text = itemModel.url
         Glide.with(context)
-            .load(itemModel.image)
+            .load(itemModel.gambar)
             .into(p0.featurePhotos)
 
         p0.rss.setOnClickListener {
-            context.startActivity<WebViewActivity>(Config.URL to itemModel.links, "status" to 1)
+            context.startActivity<WebViewActivity>(Config.URL to itemModel.url, "status" to 1)
         }
     }
 

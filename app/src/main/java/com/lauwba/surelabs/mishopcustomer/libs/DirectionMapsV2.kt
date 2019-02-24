@@ -1,14 +1,12 @@
-package com.lauwba.ojollauwba.utils
+package com.lauwba.surelabs.mishopcustomer.libs
+
 
 import android.content.Context
 import android.graphics.Color
-
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
-
-
-import java.util.ArrayList
+import java.util.*
 
 /*
 * ----------------------------------------------------------------------

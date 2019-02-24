@@ -13,16 +13,18 @@ import com.lauwba.surelabs.mishopcustomer.shop.adapter.TimeLineAdapter
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import kotlinx.android.synthetic.main.activity_shop.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class ShopActivity : AppCompatActivity() {
     private var mList: MutableList<ItemPost>? = null
     private var mListMitra: MutableList<ItemMitra>? = null
-    private var tarif : Int? = null
+    private var tarif: Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
+        setSupportActionBar(toolbar)
 
         mList = mutableListOf()
         mListMitra = mutableListOf()
@@ -40,7 +42,7 @@ class ShopActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    for(issue in p0.children){
+                    for (issue in p0.children) {
                         val data = issue.getValue(Tarif::class.java)
                         tarif = data?.tarif?.toInt()
                     }
@@ -73,7 +75,8 @@ class ShopActivity : AppCompatActivity() {
                                         override fun onDataChange(p0: DataSnapshot) {
                                             for (issues in p0.children) {
                                                 val mitraData = issues.getValue(ItemMitra::class.java)
-                                                setItemToAdapter(mList, mitraData?.nama_mitra, mitraData?.foto, tarif)
+                                                mitraData?.let { mListMitra?.add(it) }
+                                                setItemToAdapter(mList, mListMitra, tarif)
                                             }
                                         }
 
@@ -92,11 +95,10 @@ class ShopActivity : AppCompatActivity() {
 
     private fun setItemToAdapter(
         mList: MutableList<ItemPost>?,
-        nama_mitra: String?,
-        foto: String?,
+        mitraData: MutableList<ItemMitra>?,
         tarif: Int?
     ) {
-        val adapter = TimeLineAdapter(mList, this, nama_mitra, foto, tarif)
+        val adapter = TimeLineAdapter(mList, this, mitraData, tarif)
         try {
             timeline.layoutManager = LinearLayoutManager(this)
             timeline.adapter = adapter

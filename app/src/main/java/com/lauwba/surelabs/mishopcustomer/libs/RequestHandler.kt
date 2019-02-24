@@ -1,4 +1,4 @@
-package com.project.lauwba.androidjsondemo.libs
+package com.lauwba.surelabs.mishopcustomer.libs
 
 import android.support.constraint.Constraints.TAG
 import android.util.Log
@@ -42,7 +42,7 @@ class RequestHandler {
 
                 val br = BufferedReader(InputStreamReader(conn.inputStream))
                 sb = StringBuilder()
-                var line: String? = null;
+                var line: String? = null
                 while ({ line = br.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
                     sb.append(line).append("\n")
                 }
@@ -62,7 +62,7 @@ class RequestHandler {
             val con = url.openConnection() as HttpURLConnection
             val bufferedReader = BufferedReader(InputStreamReader(con.inputStream))
 
-            var line: String? = null;
+            var line: String? = null
             while ({ line = bufferedReader.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
                sb.append(line).append("\n")
             }
@@ -80,7 +80,7 @@ class RequestHandler {
             val con = url.openConnection() as HttpURLConnection
             val bufferedReader = BufferedReader(InputStreamReader(con.inputStream))
 
-            var line: String? = null;
+            var line: String? = null
             while ({ line = bufferedReader.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
                 sb.append(line).append("\n")
             }

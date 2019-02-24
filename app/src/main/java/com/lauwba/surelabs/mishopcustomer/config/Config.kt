@@ -26,6 +26,7 @@ object Config {
     val RES = "result"
 
     val tb_booking = "micarbooking"
+    val tb_bike = "mibikebooking"
     val tb_customer = "customer"
     val tb_shop = "shop"
     val REGISTRATION_COMPLETE = "registrasi complete"

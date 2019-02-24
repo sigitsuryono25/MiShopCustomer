@@ -2,19 +2,19 @@ package com.lauwba.surelabs.mishopcustomer.dashboard
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.dashboard.ui.HomeFragment
-import com.lauwba.surelabs.mishopcustomer.dashboard.ui.InboxFragment
-import com.lauwba.surelabs.mishopcustomer.dashboard.ui.NotifikasiFragment
-import com.lauwba.surelabs.mishopcustomer.dashboard.ui.ProfileFragment
+import com.lauwba.surelabs.mishopcustomer.dashboard.ui.*
 import kotlinx.android.synthetic.main.bottom_nav.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-
+        setSupportActionBar(toolbar)
 
 
         navigation.setOnNavigationItemSelectedListener {
@@ -28,6 +28,15 @@ class DashboardActivity : AppCompatActivity() {
                         ).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
+                R.id.orderan -> {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(
+                            R.id.container,
+                            ProsesFragment()
+                        ).commit()
+                    return@setOnNavigationItemSelectedListener true
+                }
                 R.id.inbox -> {
                     supportFragmentManager
                         .beginTransaction()
@@ -37,9 +46,9 @@ class DashboardActivity : AppCompatActivity() {
                         ).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.bantuan -> {
-                    return@setOnNavigationItemSelectedListener true
-                }
+//                R.id.bantuan -> {
+//                    return@setOnNavigationItemSelectedListener true
+//                }
                 R.id.notifikasi -> {
                     supportFragmentManager
                         .beginTransaction()
@@ -74,6 +83,22 @@ class DashboardActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflate = menuInflater
+        inflate.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.bantuan -> {
+//                startActivity<TentangActivity>()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

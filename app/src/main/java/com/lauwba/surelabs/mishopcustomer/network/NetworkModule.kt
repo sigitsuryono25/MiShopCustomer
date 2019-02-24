@@ -1,17 +1,16 @@
-package com.nandohusni.baggit.network
+package com.lauwba.surelabs.mishopcustomer.network
 
-import com.lauwba.ojollauwba.network.ApiService
-import com.lauwba.ojollauwba.utils.Constan
+import com.lauwba.surelabs.mishopcustomer.libs.Constan
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkModule {
 
 
-    fun getOkhttp():OkHttpClient {
+    fun getOkhttp(): OkHttpClient {
 
         //printing
         val log2 = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -21,7 +20,7 @@ object NetworkModule {
         return client
     }
 
-    fun getRetrofit():Retrofit {
+    fun getRetrofit(): Retrofit {
 
         var retrofit = Retrofit.Builder()
             .baseUrl(Constan.BaseUrlRoute)
@@ -33,7 +32,8 @@ object NetworkModule {
         return retrofit
 
     }
- fun getRetrofitFcm():Retrofit {
+
+    fun getRetrofitFcm(): Retrofit {
 
 
         var retrofit = Retrofit.Builder()
@@ -51,20 +51,19 @@ object NetworkModule {
     fun getService(): ApiService {
 
 
-        var service: ApiService = getRetrofit().create(ApiService::class.java!!)
+        var service: ApiService = getRetrofit().create(ApiService::class.java)
 
         return service
-
 
 
     }
+
     fun getServiceFcm(): ApiService {
 
 
-        var service: ApiService = getRetrofitFcm().create(ApiService::class.java!!)
+        var service: ApiService = getRetrofitFcm().create(ApiService::class.java)
 
         return service
-
 
 
     }
