@@ -20,7 +20,7 @@ class ProsesRecyclerAdapter(
     private val c: Context
 ) : RecyclerView.Adapter<ProsesRecyclerAdapter.ViewHolder>() {
 
-    val statusDel = arrayListOf("Diterima", "Dipesankan", "Sedang Dijalan", "Selesai")
+    val statusDel = arrayListOf("Diterima", "Dipesankan", "Sedang Dijalan", "Batal", "Selesai")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,12 +29,16 @@ class ProsesRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mValues?.get(position)
-        val desk = deskripsi?.get(position)
-        holder.tanggalTransaksi.text = item?.tanggalOrder?.let { HourToMillis.millisToDate(it) }
-        holder.nominal.text = "Rp. " + ChangeFormat.toRupiahFormat2(item?.price_shop.toString())
-        holder.status.text = item?.status_order_shop?.let { statusDel.get(it) }
-        holder.keterangan.text = desk?.deskripsi
+        try {
+            val item = mValues?.get(position)
+            val desk = deskripsi?.get(position)
+            holder.tanggalTransaksi.text = item?.tanggalOrder?.let { HourToMillis.millisToDate(it) }
+            holder.nominal.text = "Rp. " + ChangeFormat.toRupiahFormat2(item?.price_shop.toString())
+            holder.status.text = item?.status_order_shop?.let { statusDel[it] }
+            holder.keterangan.text = desk?.deskripsi
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun getItemCount(): Int = mValues?.size ?: 0

@@ -5,22 +5,34 @@
         android:id="@+id/toolbar"
         android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/icon"
-            android:padding="@dimen/margin_padding"
-            android:src="@drawable/logo_splash_mi"
-            android:layout_width="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_height="40dp"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/titleToolbar"
-            android:layout_centerVertical="true"
-            android:textColor="@android:color/black"
-            android:layout_toEndOf="@+id/icon"
-            android:layout_marginStart="@dimen/margin_padding"
-            android:layout_marginEnd="@dimen/margin_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/icon"
+                android:padding="@dimen/margin_padding"
+                android:src="@drawable/logo_splash_mi"
+                android:layout_width="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_height="40dp"/>
 
+        <TextView
+                android:id="@+id/titleToolbar"
+                android:layout_centerVertical="true"
+                android:textColor="@android:color/black"
+                android:layout_toEndOf="@+id/icon"
+                android:layout_marginStart="@dimen/margin_padding"
+                android:layout_marginEnd="@dimen/margin_padding"
+                android:layout_width="match_parent"
+                android:layout_toStartOf="@id/switchOn"
+                android:layout_height="wrap_content"/>
+
+        <Switch
+                android:id="@+id/switchOn"
+                android:visibility="gone"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+        />
+    </RelativeLayout>
 </android.support.v7.widget.Toolbar>

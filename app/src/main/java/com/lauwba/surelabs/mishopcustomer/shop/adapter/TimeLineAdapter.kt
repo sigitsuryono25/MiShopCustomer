@@ -62,7 +62,7 @@ class TimeLineAdapter(
             .apply(RequestOptions.circleCropTransform())
             .into(holder.fotouser)
         Glide.with(c)
-            .load(item?.fotoShop)
+            .load(item?.foto)
             .into(holder.imagePost)
 
         holder.ambilPenawaran.onClick {

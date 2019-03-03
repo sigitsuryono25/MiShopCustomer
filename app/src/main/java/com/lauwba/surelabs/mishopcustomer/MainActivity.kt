@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        if(Prefs.contains(Config.EMAIL)){
+        if (Prefs.contains(Config.EMAIL)) {
             startActivity(intentFor<DashboardActivity>().clearTop().newTask())
         }
 

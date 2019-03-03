@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.google.firebase.messaging.FirebaseMessaging
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.R
@@ -18,10 +17,12 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.GameAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.RssFeedAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.GameModel
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
+import com.lauwba.surelabs.mishopcustomer.myShop.MyShopActivity
 import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
 import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -130,45 +131,13 @@ class HomeFragment : Fragment() {
             initNews()
         }
 
+        myShop.onClick {
+            startActivity<MyShopActivity>()
+        }
+
         try {
             initNews()
             initGames()
-            FirebaseMessaging.getInstance().subscribeToTopic("mishop")
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Log.d("MISHOP", "successful subcsribe")
-                    }
-                }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
-            FirebaseMessaging.getInstance().subscribeToTopic("miservice")
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Log.d("MISERVICE", "successful subcsribe")
-                    }
-                }
-                .addOnFailureListener {
-                    it.printStackTrace()
-                }
-//            FirebaseMessaging.getInstance().subscribeToTopic("micar")
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        Log.d("MICAR", "successful subcsribe")
-//                    }
-//                }
-//                .addOnFailureListener {
-//                    it.printStackTrace()
-//                }
-//            FirebaseMessaging.getInstance().subscribeToTopic("mibike")
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        Log.d("MIBIKE", "successful subcsribe")
-//                    }
-//                }
-//                .addOnFailureListener {
-//                    it.printStackTrace()
-//                }
 
         } catch (e: Exception) {
             e.printStackTrace()

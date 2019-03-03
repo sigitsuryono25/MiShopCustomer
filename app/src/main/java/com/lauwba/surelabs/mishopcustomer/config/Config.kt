@@ -34,7 +34,7 @@ object Config {
     val auth = FirebaseAuth.getInstance()
     val messaging = FirebaseMessaging.getInstance()
 
-    fun databaseInstance(table: String) : DatabaseReference {
+    fun databaseInstance(table: String): DatabaseReference {
         return table.let { FirebaseDatabase.getInstance().getReference(it) }
     }
 

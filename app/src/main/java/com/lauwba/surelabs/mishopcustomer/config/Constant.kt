@@ -10,8 +10,9 @@ object Constant {
     const val GALERYREQ = 8888
     const val FILEREQ = 7777
     const val MEDIA_TYPE_IMAGE = 100
-    const val FOLDERANAME = "MiShop"
+    const val FOLDERANAME = "MiShop/MyShop"
     const val TB_SHOP = "shop"
+    const val TB_MYSHOP = "myshop"
     const val TB_SHOP_ORDER = "shoporder"
     const val TB_CAR = "micar"
     const val TB_BIKE = "mibike"
@@ -29,6 +30,7 @@ object Constant {
     const val PENAWARAN_MI_EXPRESS = "Penawaran Mi-Express"
     const val PENAWARAN_MI_BIKE = "Penawaran Mi-Bike"
     const val PENAWARAN_MI_CAR = "Penawaran Mi-Car"
+    const val SERVICE = "layanan"
 
     const val INTERNET = "INTERNET"
     const val READ_EXTERNAL_STORAGE = "READ_EXTERNAL_STORAGE"

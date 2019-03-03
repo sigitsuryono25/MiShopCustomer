@@ -112,7 +112,6 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
 
-
     }
 
     private fun showPlace(status: Int) {

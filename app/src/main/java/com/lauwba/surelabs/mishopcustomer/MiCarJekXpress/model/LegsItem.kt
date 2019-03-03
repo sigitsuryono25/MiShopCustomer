@@ -1,35 +1,35 @@
 package com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model
 
-import javax.annotation.Generated
 import com.google.gson.annotations.SerializedName
+import javax.annotation.Generated
 
 @Generated("com.robohorse.robopojogenerator")
 data class LegsItem(
 
     @field:SerializedName("duration")
-	val duration: Duration? = null,
+    val duration: Duration? = null,
 
     @field:SerializedName("start_location")
-	val startLocation: StartLocation? = null,
+    val startLocation: StartLocation? = null,
 
     @field:SerializedName("distance")
-	val distance: Distance? = null,
+    val distance: Distance? = null,
 
     @field:SerializedName("start_address")
-	val startAddress: String? = null,
+    val startAddress: String? = null,
 
     @field:SerializedName("end_location")
-	val endLocation: EndLocation? = null,
+    val endLocation: EndLocation? = null,
 
     @field:SerializedName("end_address")
-	val endAddress: String? = null,
+    val endAddress: String? = null,
 
     @field:SerializedName("via_waypoint")
-	val viaWaypoint: List<Any?>? = null,
+    val viaWaypoint: List<Any?>? = null,
 
     @field:SerializedName("steps")
-	val steps: List<StepsItem?>? = null,
+    val steps: List<StepsItem?>? = null,
 
     @field:SerializedName("traffic_speed_entry")
-	val trafficSpeedEntry: List<Any?>? = null
+    val trafficSpeedEntry: List<Any?>? = null
 )

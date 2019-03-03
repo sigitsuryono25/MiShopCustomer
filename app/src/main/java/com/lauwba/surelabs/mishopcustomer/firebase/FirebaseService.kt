@@ -3,7 +3,9 @@ package com.lauwba.surelabs.mishopcustomer.firebase
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.notification.NotificationHandler
+import com.pixplicity.easyprefs.library.Prefs
 import org.json.JSONObject
 
 class FirebaseService : FirebaseMessagingService() {
@@ -18,10 +20,13 @@ class FirebaseService : FirebaseMessagingService() {
             val data = p0?.data
             val obj = JSONObject(data)
             Log.i("DATA", p0?.data?.toString())
-//
-            val notif = NotificationHandler(this)
-            notif.sendNotification(obj.getString("title"), obj.getString("deskripsi"))
 
+            if (!Prefs.getBoolean(Constant.SERVICE, false)) {
+
+            } else {
+                val notif = NotificationHandler(this)
+                notif.sendNotification(obj.getString("title"), obj.getString("deskripsi"))
+            }
         }
 
         if (p0?.notification != null) {

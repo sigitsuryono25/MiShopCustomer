@@ -6,9 +6,13 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission
+            android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -21,6 +25,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".myShop.MyShopActivity">
+        </activity>
         <activity android:name=".shop.detail.DetailMiShopActivity">
         </activity>
         <activity android:name=".shop.ShopActivity">
@@ -54,7 +60,6 @@
         <activity android:name=".MiCarJekXpress.MiBikeActivity"/>
         <activity android:name=".MiCarJekXpress.MiXpress"/>
         <activity android:name=".dashboard.DashboardActivity">
-
         </activity>
         <activity android:name=".webview.WebViewActivity">
         </activity>
@@ -72,7 +77,6 @@
                 android:name=".MainActivity"
                 android:noHistory="true"
                 android:theme="@style/MainLoginTheme">
-
         </activity>
 
         <service

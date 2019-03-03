@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/myshopdashoard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:padding="@dimen/margin_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView android:layout_width="match_parent"
+                       android:id="@+id/imagePreview"
+                       android:layout_marginEnd="@dimen/margin_padding"
+                       android:layout_toStartOf="@id/pick"
+                       android:layout_height="250dp"/>
+
+            <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:id="@+id/pick"
+                    android:orientation="vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                <ImageView
+                        android:id="@+id/kamera"
+                        android:src="@drawable/ic_camera"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Kamera"/>
+                <ImageView
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:id="@+id/gallery"
+                        android:src="@drawable/ic_gallery"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Galeri"/>
+                <ImageView
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:id="@+id/berkas"
+                        android:src="@drawable/ic_folder"
+                        android:layout_width="@dimen/icon"
+                        android:layout_height="@dimen/icon"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Berkas"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_padding"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/judul"
+                    android:hint="Judul"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_padding"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/deskripsiBarang"
+                    android:hint="Deskripsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_padding"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/harga"
+                    android:hint="Harga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_padding"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/lokasi"
+                    android:hint="Lokasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</ScrollView>

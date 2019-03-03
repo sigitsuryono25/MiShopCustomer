@@ -11,8 +11,10 @@ import javax.net.ssl.HttpsURLConnection
 
 class RequestHandler {
 
-    fun sendPostRequest(requestURL: String,
-                        postDataParams: HashMap<String, String>): String {
+    fun sendPostRequest(
+        requestURL: String,
+        postDataParams: HashMap<String, String>
+    ): String {
         val url: URL
 
         var sb = StringBuilder()
@@ -30,7 +32,8 @@ class RequestHandler {
             val os = conn.outputStream
 
             val writer = BufferedWriter(
-                    OutputStreamWriter(os, "UTF-8"))
+                OutputStreamWriter(os, "UTF-8")
+            )
             writer.write(getPostDataString(postDataParams))
 
             writer.flush()
@@ -43,7 +46,9 @@ class RequestHandler {
                 val br = BufferedReader(InputStreamReader(conn.inputStream))
                 sb = StringBuilder()
                 var line: String? = null
-                while ({ line = br.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
+                while ({
+                        line = br.readLine(); line
+                    }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
                     sb.append(line).append("\n")
                 }
             }
@@ -63,8 +68,10 @@ class RequestHandler {
             val bufferedReader = BufferedReader(InputStreamReader(con.inputStream))
 
             var line: String? = null
-            while ({ line = bufferedReader.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
-               sb.append(line).append("\n")
+            while ({
+                    line = bufferedReader.readLine(); line
+                }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
+                sb.append(line).append("\n")
             }
             Log.i(TAG, "sendGetRequest: $requestURL")
         } catch (e: Exception) {
@@ -81,7 +88,9 @@ class RequestHandler {
             val bufferedReader = BufferedReader(InputStreamReader(con.inputStream))
 
             var line: String? = null
-            while ({ line = bufferedReader.readLine(); line }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
+            while ({
+                    line = bufferedReader.readLine(); line
+                }() != null) { // <--- The IDE asks me to replace this line for while(true), what the...?
                 sb.append(line).append("\n")
             }
         } catch (e: Exception) {

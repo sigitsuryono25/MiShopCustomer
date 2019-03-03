@@ -30,13 +30,13 @@
                 android:layout_below="@+id/ikon"
                 android:layout_gravity="center">
 
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="@dimen/padding_margin"-->
-            <!--android:text="@string/slogan"-->
-            <!--android:textColor="#000" />-->
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_padding"
+                    android:text="@string/slogan"
+                    android:textColor="#000"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -25,11 +25,11 @@
 
 
         <!--<TextView-->
-                <!--android:text="Welcome to MI-SHOP"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textColor="#000"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
+        <!--android:text="Welcome to MI-SHOP"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="#000"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
         <LinearLayout
                 android:layout_marginBottom="@dimen/margin_padding"
@@ -58,13 +58,13 @@
         </LinearLayout>
 
         <!--<Button-->
-                <!--android:drawableLeft="@mipmap/ic_fb"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:textColor="#FFF"-->
-                <!--android:padding="@dimen/margin_padding"-->
-                <!--android:background="#365899"-->
-                <!--android:text="@string/login_with_facebook"-->
-                <!--android:layout_height="wrap_content"/>-->
+        <!--android:drawableLeft="@mipmap/ic_fb"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:textColor="#FFF"-->
+        <!--android:padding="@dimen/margin_padding"-->
+        <!--android:background="#365899"-->
+        <!--android:text="@string/login_with_facebook"-->
+        <!--android:layout_height="wrap_content"/>-->
     </LinearLayout>
 
 </RelativeLayout>

@@ -20,7 +20,6 @@ import java.util.*
 class DirectionMapsV2(private val context: Context) {
 
 
-
     companion object {
         private var polyz: List<LatLng>? = null
 

@@ -6,6 +6,8 @@
               android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <RelativeLayout
+            android:id="@+id/content"
+            android:visibility="gone"
             android:padding="@dimen/margin_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -97,8 +99,8 @@
                     android:id="@+id/imagePost"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
-                    android:layout_width="326dp"
-                    android:layout_height="183dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"/>
         </LinearLayout>
 
         <RelativeLayout

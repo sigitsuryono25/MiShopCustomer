@@ -91,7 +91,7 @@
                     android:layout_marginTop="@dimen/margin_padding"
                     android:id="@+id/imagePost"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="250dp"/>
         </LinearLayout>
 
         <RelativeLayout

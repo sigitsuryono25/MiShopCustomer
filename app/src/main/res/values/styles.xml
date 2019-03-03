@@ -10,7 +10,7 @@
     </style>
 
 
-    <style name="MainLoginTheme" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="MainLoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/aqua</item>
         <item name="colorPrimaryDark">@color/aqua</item>
         <item name="colorAccent">@color/colorAccent</item>

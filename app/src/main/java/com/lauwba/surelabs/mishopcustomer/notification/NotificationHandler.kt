@@ -35,7 +35,7 @@ class NotificationHandler(var c: Context?) {
                     .setContentTitle(title)
                     .setContentText(messageBody)
                     .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
+                    .setSound(null, 0)
                     .setContentIntent(pendingIntent)
             }
         }
@@ -57,6 +57,7 @@ class NotificationHandler(var c: Context?) {
                 "Channel human readable title",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
+            channel.setSound(null, null)
             notificationManager.createNotificationChannel(channel)
         }
 

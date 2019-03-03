@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -159,12 +160,14 @@ class DetailMiShopActivity : AppCompatActivity() {
             hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(detail?.harga.toString())
             deskripsi.text = detail?.deskripsi
             Glide.with(this@DetailMiShopActivity)
-                .load(detail?.fotoShop)
+                .load(detail?.foto)
                 .into(imagePost)
             Glide.with(this@DetailMiShopActivity)
                 .load(foto)
                 .apply(RequestOptions.circleCropTransform())
                 .into(fotouser)
+
+            content.visibility = View.VISIBLE
         } catch (e: Exception) {
             e.printStackTrace()
         }
