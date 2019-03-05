@@ -21,6 +21,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
@@ -42,6 +43,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     var lonTujuan: Double? = null
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
+    var harga : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,19 +72,21 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun insertFirebase() {
-        val myref = Config.databaseInstance(Config.tb_bike)
+        val myref = Config.databaseInstance(Constant.TB_BIKE_ORDER)
         val key = myref.push().key
 
         val booking = CarBikeBooking()
         val time = Calendar.getInstance()
+        val idOrder = time.timeInMillis
 
         booking.latAwal = latAwal
         booking.lonAwal = lonAwal
         booking.latTujuan = latTujuan
         booking.lonTujuan = lonTujuan
         booking.jarak = jarakTrip.text.toString()
-        booking.tanggal = time.time.toString()
-        booking.harga = hargaTrip.text.toString()
+        booking.tanggal = idOrder
+        booking.idOrder = idOrder.toString()
+        booking.harga = harga
         booking.status = 1
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
@@ -151,7 +155,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 latTujuan = place.latLng.latitude
                 lonTujuan = place.latLng.longitude
 
-                var name = place.address
+                val name = place.address
                 tujuan.text = name
 
                 showMarker(latTujuan, lonTujuan, place.name.toString())
@@ -201,11 +205,12 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         var hargaAwal = 0.0
 //        if (valueBulat < 5) {
         hargaAwal = valueBulat * 1750
+        harga = hargaAwal.toInt()
 //        } else {
 //            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
 //        }
 
-        var resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
+        val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
         jarakTrip.text = text
         hargaTrip.text = "Rp. " + resultHarga

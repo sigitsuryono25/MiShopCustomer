@@ -21,6 +21,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
@@ -42,6 +43,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     var lonTujuan: Double? = null
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
+    var harga : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,32 +72,35 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun insertFirebase() {
-        val myref = Config.databaseInstance(Config.tb_booking)
-        val key = myref.push().key
+        val myref = Config.databaseInstance(Constant.TB_CAR_ORDER)
 
         val booking = CarBikeBooking()
         val time = Calendar.getInstance()
+        val idOrder = time.timeInMillis
 
         booking.latAwal = latAwal
         booking.lonAwal = lonAwal
         booking.latTujuan = latTujuan
         booking.lonTujuan = lonTujuan
         booking.jarak = jarakTrip.text.toString()
-        booking.tanggal = time.time.toString()
-        booking.harga = hargaTrip.text.toString()
+        booking.tanggal = idOrder
+        booking.idOrder= idOrder.toString()
+        booking.harga = harga
         booking.status = 1
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
         booking.uid = Config.authInstanceCurrentUser()
 
-        myref.child(key ?: "").setValue(booking).addOnCompleteListener {
+        myref.child(idOrder.toString()).setValue(booking).addOnCompleteListener {
 
             if (it.isSuccessful) {
                 val notificationBooking = NotificationBooking()
                 val firebaseBooking = FirebaseBooking()
 
-                firebaseBooking.title = "Orderan MiBike"
+                firebaseBooking.title = "Orderan Mi-Car"
                 firebaseBooking.deskripsi = asal.text.toString() + " - " + tujuan.text.toString()
+                firebaseBooking.book = booking
+                firebaseBooking.type = 1
 
                 notificationBooking.token = "/topics/micar"
                 notificationBooking.booking = firebaseBooking
@@ -107,7 +112,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                     .subscribe()
 
 
-                startActivity<WaitingActivity>("key" to key)
+                startActivity<WaitingActivity>("key" to idOrder.toString())
             }
         }
     }
@@ -199,6 +204,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         var hargaAwal = 0.0
 //        if (valueBulat < 5) {
         hargaAwal = valueBulat * 4200
+        harga = hargaAwal.toInt()
 //        } else {
 //            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
 //        }
@@ -217,7 +223,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun showBound() {
         if (latAwal != 0.0 && lonAwal != 0.0 && latTujuan != 0.0 && lonTujuan != 0.0)
             bottom.visibility = View.VISIBLE
-        mMap?.setPadding(200, 0, 200, 0)
+        mMap?.setPadding(200, 200, 200, 200)
         val bound = LatLngBounds.builder()
         bound.include(LatLng(latAwal ?: 0.0, lonAwal ?: 0.0))
         bound.include(LatLng(latTujuan ?: 0.0, lonTujuan ?: 0.0))

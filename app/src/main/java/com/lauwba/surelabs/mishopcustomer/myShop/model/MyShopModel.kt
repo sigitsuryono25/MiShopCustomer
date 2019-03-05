@@ -9,4 +9,5 @@ class MyShopModel {
     var tanggalPost: Long? = null
     var deskripsi: String? = null
     var nomorTelepon: String? = null
+    var uid : String? = null
 }

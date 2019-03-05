@@ -8,6 +8,7 @@ class ItemPost {
     var tanggalPost: String? = null
     var lokasi: String? = null
     var uid: String? = null
+    var image : String? = null
 
     init {
 

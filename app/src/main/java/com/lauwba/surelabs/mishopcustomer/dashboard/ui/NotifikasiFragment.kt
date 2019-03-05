@@ -10,7 +10,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiAdapter
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiItem
@@ -32,7 +31,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getData() {
-        val shop = Config.database.reference
+        val shop = Constant.database.reference
         try {
             shop.child(Constant.TB_SHOP).addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -58,7 +57,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getServiceData(list: MutableList<NotifikasiItem>?) {
-        val service = Config.database.reference
+        val service = Constant.database.reference
         service.child(Constant.TB_SERVICE).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -79,7 +78,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getExpressData(list: MutableList<NotifikasiItem>?) {
-        val express = Config.database.reference
+        val express = Constant.database.reference
         express.child(Constant.TB_EXPRESS).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -100,7 +99,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getBikeData(list: MutableList<NotifikasiItem>?) {
-        val bike = Config.database.reference
+        val bike = Constant.database.reference
         bike.child(Constant.TB_BIKE).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -121,7 +120,7 @@ class NotifikasiFragment : Fragment() {
     }
 
     private fun getCarData(list: MutableList<NotifikasiItem>?) {
-        val car = Config.database.reference
+        val car = Constant.database.reference
         car.child(Constant.TB_CAR).addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

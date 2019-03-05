@@ -25,6 +25,7 @@ import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.myShop.MyShopActivity
 import com.lauwba.surelabs.mishopcustomer.myShop.model.MyShopModel
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.my_shop_activity.*
 import kotlinx.android.synthetic.main.my_shop_dashoard_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -40,7 +41,7 @@ class MyShopDashoard : Fragment() {
     private var fileUri: Uri? = null
     private var realPath: String? = null
     private var mStorageRef: StorageReference? = null
-    private var pd : ProgressDialog? = null
+    private var pd: ProgressDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +82,11 @@ class MyShopDashoard : Fragment() {
         gallery.onClick {
             showPicker(Constant.GALERYREQ, "image/*")
         }
+
+        lokasi.onClick {
+            val intent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(activity)
+            startActivityForResult(intent, 2)
+        }
     }
 
     private fun showPicker(i: Int, s: String) {
@@ -113,8 +119,7 @@ class MyShopDashoard : Fragment() {
                 val place = PlaceAutocomplete.getPlace(activity, data)
                 val name = place.name
                 val address = place.address
-                lokasi.setText("$name\n$address")
-                harga.isFocusable = false
+                lokasi.text = "$name\n$address"
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -192,7 +197,7 @@ class MyShopDashoard : Fragment() {
         mStorageRef = Constant.storage.reference
         var urlDownload = ""
         val file = Uri.fromFile(File(realPath))
-        val riversRef = mStorageRef?.child("images/$idShop/$idShop.jpg")
+        val riversRef = mStorageRef?.child("images/myShop/$idShop/$idShop.jpg")
 
         riversRef?.putFile(file)
             ?.addOnProgressListener {
@@ -225,13 +230,14 @@ class MyShopDashoard : Fragment() {
         myshop.harga = harga.text.toString().toInt()
         myshop.judul = judul.text.toString()
         myshop.lokasi = lokasi.text.toString()
-        myshop.tanggalPost = time
+        myshop.tanggalPost = time.toString()
         myshop.deskripsi = deskripsiBarang.text.toString()
+        myshop.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         myref.child(timestamp).setValue(myshop).addOnCompleteListener {
             if (it.isSuccessful) {
                 pd?.dismiss()
                 alert("Berhasil Diposting", "") {
-                    yesButton {  }
+                    yesButton { }
                 }.show()
             }
         }

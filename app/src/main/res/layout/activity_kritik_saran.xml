@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".kritik.KritikSaranActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                   android:padding="@dimen/margin_padding"
+                                                   android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/nama"
+                android:hint="Nama Customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                   android:padding="@dimen/margin_padding"
+                                                   android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/isi"
+                android:hint="Kritik/Saran"
+                android:layout_width="match_parent"
+                android:inputType="text"
+                android:singleLine="false"
+                android:layout_height="wrap_content"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+            android:id="@+id/send"
+            android:background="@drawable/button_style"
+            android:text="Kirim"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

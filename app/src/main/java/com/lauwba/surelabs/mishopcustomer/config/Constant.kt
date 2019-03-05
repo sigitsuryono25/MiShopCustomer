@@ -13,11 +13,9 @@ object Constant {
     const val FOLDERANAME = "MiShop/MyShop"
     const val TB_SHOP = "shop"
     const val TB_MYSHOP = "myshop"
-    const val TB_SHOP_ORDER = "shoporder"
     const val TB_CAR = "micar"
     const val TB_BIKE = "mibike"
     const val TB_EXPRESS = "miexpress"
-    const val TB_SERVICE_ORDER = "serviceorder"
     const val TB_TARIF = "tarif"
     const val TB_MITRA = "mitra"
     const val TB_INBOX = "inbox"
@@ -26,6 +24,10 @@ object Constant {
     const val TB_SERVICE = "service"
     const val TB_CUSTOMER = "customer"
 
+    const val TB_BIKE_ORDER = "mibikebooking"
+    const val TB_CAR_ORDER = "micarbooking"
+    const val TB_SHOP_ORDER = "shoporder"
+    const val TB_SERVICE_ORDER = "serviceorder"
 
     const val PENAWARAN_MI_EXPRESS = "Penawaran Mi-Express"
     const val PENAWARAN_MI_BIKE = "Penawaran Mi-Bike"

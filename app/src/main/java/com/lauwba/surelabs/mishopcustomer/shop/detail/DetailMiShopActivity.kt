@@ -12,7 +12,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
-import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
@@ -39,7 +38,7 @@ class DetailMiShopActivity : AppCompatActivity() {
         try {
             titleToolbar.text = getString(R.string.detail_shop)
             val i = intent.getStringExtra("idOrder")
-            val key = Config.database.getReference(Constant.TB_SHOP)
+            val key = Constant.database.getReference(Constant.TB_SHOP)
             val ref = Constant.database.reference
             key.orderByChild("idOrder").equalTo(i)
                 .addListenerForSingleValueEvent(object : ValueEventListener {

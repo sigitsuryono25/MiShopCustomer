@@ -2,19 +2,25 @@ package com.lauwba.surelabs.mishopcustomer.dashboard
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.internal.BottomNavigationItemView
+import android.support.design.internal.BottomNavigationMenuView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.google.firebase.messaging.FirebaseMessaging
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.dashboard.ui.*
+import com.lauwba.surelabs.mishopcustomer.kritik.KritikSaranActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.bottom_nav.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class DashboardActivity : AppCompatActivity() {
@@ -29,6 +35,7 @@ class DashboardActivity : AppCompatActivity() {
 
         switchOn.visibility = View.VISIBLE
         switchOnCheck()
+        setBadges()
 
         if (!Prefs.getBoolean(Constant.SERVICE, false)) {
             switchOn.isChecked = false
@@ -67,13 +74,10 @@ class DashboardActivity : AppCompatActivity() {
                         ).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
-//                R.id.bantuan -> {
-//                    return@setOnNavigationItemSelectedListener true
-//                }
                 R.id.notifikasi -> {
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.container, NotifikasiFragment()).commit()
+                        .replace(R.id.container, NewNotificationFragment()).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.akun -> {
@@ -104,6 +108,16 @@ class DashboardActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun setBadges() {
+        val bottomNavigationMenuView = navigation.getChildAt(0) as BottomNavigationMenuView
+        val v = bottomNavigationMenuView.getChildAt(2)
+        val itemView = v as BottomNavigationItemView
+
+        val badge = LayoutInflater.from(this)
+            .inflate(R.layout.badges, itemView, true)
+        val count = badge.findViewById<TextView>(R.id.notifications)
     }
 
     private fun switchOnCheck() {
@@ -207,6 +221,9 @@ class DashboardActivity : AppCompatActivity() {
             R.id.bantuan -> {
 //                startActivity<TentangActivity>()
                 return true
+            }
+            R.id.kritik -> {
+                startActivity<KritikSaranActivity>()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -14,15 +14,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
+import com.lauwba.surelabs.mishopcustomer.firebase.FirebaseMessagingModel
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
+import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import com.lauwba.surelabs.mishopcustomer.shop.model.ShopOrderModel
 import com.pixplicity.easyprefs.library.Prefs
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_item.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
@@ -61,17 +66,21 @@ class TimeLineAdapter(
             .load(data?.foto)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.fotouser)
+
         Glide.with(c)
             .load(item?.foto)
             .into(holder.imagePost)
 
         holder.ambilPenawaran.onClick {
             //            orderShop(item)
-            showQtyAndAddress(item)
+            showQtyAndAddress(item, data)
         }
     }
 
-    private fun showQtyAndAddress(item: ItemPost?) {
+    private fun showQtyAndAddress(
+        item: ItemPost?,
+        data: ItemMitra?
+    ) {
         val dialog = AlertDialog.Builder(c)
         val inflater = c.layoutInflater
         val view = inflater.inflate(R.layout.custom_dialog, null)
@@ -84,7 +93,7 @@ class TimeLineAdapter(
 
         dialog.setPositiveButton("Order", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
-                orderShop(item, qty.text.toString().toInt(), alamat.text.toString())
+                orderShop(item, qty.text.toString().toInt(), alamat.text.toString(), data)
             }
 
         })
@@ -96,7 +105,8 @@ class TimeLineAdapter(
     private fun orderShop(
         item: ItemPost?,
         qty: Int,
-        alamat: String
+        alamat: String,
+        data: ItemMitra?
     ) {
         val shopOrderModel = ShopOrderModel()
         val time = HourToMillis.millis()
@@ -114,11 +124,29 @@ class TimeLineAdapter(
         shopOrderModel.uidCustomer = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.tanggalOrder = time
 
+        val notif = FirebaseMessagingModel()
+        val model = FirebaseBooking()
+
+        model.title = "Mi Shop Order"
+        model.deskripsi = "Orderan Mi Shop ke $alamat"
+        model.book = shopOrderModel
+        model.type = 0
+
+        notif.token = data?.regid
+        notif.data = model
+
 
         val ref = Constant.database.getReference(Constant.TB_SHOP_ORDER)
         ref.child(time.toString()).setValue(shopOrderModel)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+
+                    NetworkModule.getServiceFcm()
+                        .actionSendBook(notif)
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(Schedulers.io())
+                        .subscribe()
+
                     c.alert {
                         message = "Orderan Berhasil Dimasukan. Silahkan Lihat Halam Proses untuk melihat Pesanan Anda"
                         title = "Berhasil"

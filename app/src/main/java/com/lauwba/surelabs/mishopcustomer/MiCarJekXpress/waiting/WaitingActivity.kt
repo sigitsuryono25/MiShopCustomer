@@ -8,6 +8,7 @@ import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.tracking.TrackingDriver
 import kotlinx.android.synthetic.main.activity_waiting.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -22,7 +23,7 @@ class WaitingActivity : AppCompatActivity() {
 
         val key = intent.getStringExtra("key")
 //        val topic = intent.getStringExtra("topic")
-        val ref = Config.databaseInstance(Config.tb_booking)
+        val ref = Config.databaseInstance(Constant.TB_CAR_ORDER)
         pulsator.start()
 
 

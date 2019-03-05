@@ -25,6 +25,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".profile.ProfileEditActivity">
+        </activity>
+        <activity android:name=".kritik.KritikSaranActivity">
+        </activity>
         <activity android:name=".myShop.MyShopActivity">
         </activity>
         <activity android:name=".shop.detail.DetailMiShopActivity">

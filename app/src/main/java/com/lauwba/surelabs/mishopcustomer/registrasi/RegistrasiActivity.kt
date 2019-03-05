@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lauwba.surelabs.mishopcustomer.MainActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.clearTop
@@ -54,7 +55,7 @@ class RegistrasiActivity : AppCompatActivity() {
     }
 
     private fun insertIntoServer() {
-        val myref = Config.databaseInstance(Config.tb_customer)
+        val myref = Constant.database.getReference(Constant.TB_CUSTOMER)
         val key = myref.push().key
         val time = Calendar.getInstance()
 
