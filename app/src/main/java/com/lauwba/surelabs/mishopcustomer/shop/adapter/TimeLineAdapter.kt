@@ -61,6 +61,8 @@ class TimeLineAdapter(
         holder.deskripsi.text = item?.deskripsi
         holder.idShop.text = item?.idOrder
         holder.lokasi.text = item?.lokasi
+        holder.wa.visibility = View.GONE
+        holder.ambilPenawaran.visibility = View.VISIBLE
 
         Glide.with(c)
             .load(data?.foto)
@@ -178,5 +180,6 @@ class TimeLineAdapter(
         val imagePost: ImageView = mView.imagePost
         val fotouser: ImageView = mView.fotouser
         val container: CardView = mView.container
+        val wa: TextView = mView.wa
     }
 }

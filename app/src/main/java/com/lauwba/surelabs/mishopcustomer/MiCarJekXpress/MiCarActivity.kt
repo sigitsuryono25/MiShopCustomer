@@ -11,9 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBooking
@@ -31,7 +29,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -87,6 +84,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.idOrder= idOrder.toString()
         booking.harga = harga
         booking.status = 1
+        booking.type = 1
+        booking.driver = ""
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
         booking.uid = Config.authInstanceCurrentUser()
@@ -112,7 +111,11 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                     .subscribe()
 
 
-                startActivity<WaitingActivity>("key" to idOrder.toString())
+//                startActivity<WaitingActivity>("key" to idOrder.toString(), "from" to Constant.TB_CAR_ORDER)
+                val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
+                i.putExtra("key", idOrder.toString())
+                i.putExtra("from", Constant.TB_CAR_ORDER)
+                startActivity(i)
             }
         }
     }
@@ -136,8 +139,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (tujuan.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latTujuan, lonTujuan, place.name.toString())
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(latTujuan, lonTujuan, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
+                    showMarker(latAwal, lonAwal, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2))
                     showBound()
                     route()
                 }
@@ -148,7 +151,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (asal.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(latAwal, lonAwal, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
                 }
 
                 latTujuan = place.latLng.latitude
@@ -157,7 +160,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 var name = place.address
                 tujuan.text = name
 
-                showMarker(latTujuan, lonTujuan, place.name.toString())
+                showMarker(latTujuan, lonTujuan, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2))
                 showBound()
                 route()
             }
@@ -269,14 +272,14 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
             asal.text = name
 
-            showMarker(latAwal, lonAwal, "My Location")
+            showMarker(latAwal, lonAwal, "My Location", BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
 
         }
     }
 
-    private fun showMarker(lat: Double?, lon: Double?, title: String?) {
+    private fun showMarker(lat: Double?, lon: Double?, title: String?, icon : BitmapDescriptor?) {
         val posisi = LatLng(lat ?: 0.0, lon ?: 0.0)
-        mMap?.addMarker(MarkerOptions().position(posisi).title(title))
+        mMap?.addMarker(MarkerOptions().position(posisi).title(title).icon(icon))
         mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(posisi, 15f))
     }
 

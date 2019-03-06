@@ -31,7 +31,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -43,7 +42,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     var lonTujuan: Double? = null
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
-    var harga : Int? = null
+    var harga: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,11 +87,13 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.idOrder = idOrder.toString()
         booking.harga = harga
         booking.status = 1
+        booking.type = 2
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
+        booking.driver = ""
         booking.uid = Config.authInstanceCurrentUser()
 
-        myref.child(key ?: "").setValue(booking)
+        myref.child(idOrder.toString()).setValue(booking)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val notificationBooking = NotificationBooking()
@@ -100,6 +101,8 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     firebaseBooking.title = "Orderan MiBike"
                     firebaseBooking.deskripsi = asal.text.toString() + " - " + tujuan.text.toString()
+                    firebaseBooking.book = booking
+                    firebaseBooking.type = 2
 
                     notificationBooking.token = "/topics/mibike"
                     notificationBooking.booking = firebaseBooking
@@ -111,7 +114,11 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                         .subscribe()
 
 
-                    startActivity<WaitingActivity>("key" to key)
+//                    startActivity<WaitingActivity>("key" to key, "from" to Constant.TB_BIKE_ORDER)
+                    val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
+                    i.putExtra("key", idOrder.toString())
+                    i.putExtra("from", Constant.TB_BIKE_ORDER)
+                    startActivity(i)
                 }
             }
 

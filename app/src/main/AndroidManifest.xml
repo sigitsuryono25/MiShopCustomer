@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
@@ -25,6 +26,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".chat.ChatActivity">
+        </activity>
         <activity android:name=".profile.ProfileEditActivity">
         </activity>
         <activity android:name=".kritik.KritikSaranActivity">
@@ -61,7 +64,8 @@
         </activity>
         <activity android:name=".MiCarJekXpress.MiCarActivity">
         </activity>
-        <activity android:name=".MiCarJekXpress.MiBikeActivity"/>
+        <activity android:name=".MiCarJekXpress.MiBikeActivity">
+        </activity>
         <activity android:name=".MiCarJekXpress.MiXpress"/>
         <activity android:name=".dashboard.DashboardActivity">
         </activity>

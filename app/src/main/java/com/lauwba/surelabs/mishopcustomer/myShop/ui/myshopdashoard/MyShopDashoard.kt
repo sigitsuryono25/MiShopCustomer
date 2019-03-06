@@ -53,6 +53,8 @@ class MyShopDashoard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.posting?.visibility = View.VISIBLE
+
         activity?.posting?.onClick {
             if (realPath.isNullOrEmpty()) {
                 toast("Silahkan Pilih 1 Foto Terlebih Dahulu")
@@ -230,7 +232,7 @@ class MyShopDashoard : Fragment() {
         myshop.harga = harga.text.toString().toInt()
         myshop.judul = judul.text.toString()
         myshop.lokasi = lokasi.text.toString()
-        myshop.tanggalPost = time.toString()
+        myshop.tanggalPost = time
         myshop.deskripsi = deskripsiBarang.text.toString()
         myshop.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         myref.child(timestamp).setValue(myshop).addOnCompleteListener {

@@ -15,4 +15,6 @@ class ItemMitra {
     val status_mitra: Int? = null
     val tgl_daftar: Long? = null
     val tgl_lahir: String? = null
+    val lat : Double? = null
+    val lon : Double? = null
 }
