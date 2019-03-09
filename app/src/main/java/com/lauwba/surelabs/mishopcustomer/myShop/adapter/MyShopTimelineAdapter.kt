@@ -1,5 +1,6 @@
 package com.lauwba.surelabs.mishopcustomer.myShop.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -39,6 +41,7 @@ class MyShopTimelineAdapter(
         return mList?.size ?: 0
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val data = mList?.get(p1)
         val cus = mListCustomer?.get(p1)
@@ -54,8 +57,8 @@ class MyShopTimelineAdapter(
         val number = cus?.telepon
         p0.wa.text = number
 //        Log.d("TEL", cus?.telepon)
-        p0.wa.onClick {
-//            val url = "https://api.whatsapp.com/send?phone=$number"
+        p0.layoutWa.onClick {
+            //            val url = "https://api.whatsapp.com/send?phone=$number"
             val url = "whatsapp://send?phone=$number"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
@@ -85,9 +88,10 @@ class MyShopTimelineAdapter(
         val lokasi: TextView = mView.lokasi
         val wa: TextView = mView.wa
         val judul: TextView = mView.judul
-        val ambilPenawaran: TextView = mView.ambilPenawaran
+        //        val ambilPenawaran: TextView = mView.ambilPenawaran
         val imagePost: ImageView = mView.imagePost
         val fotouser: ImageView = mView.fotouser
         val container: CardView = mView.container
+        val layoutWa: LinearLayout = mView.layoutWa
     }
 }

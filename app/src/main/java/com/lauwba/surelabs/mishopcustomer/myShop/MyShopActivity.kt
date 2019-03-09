@@ -16,7 +16,7 @@ class MyShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.my_shop_activity)
 
-        supportFragmentManager.beginTransaction().replace(R.id.container, MyShopDashoard())
+        supportFragmentManager.beginTransaction().replace(R.id.container, BrowseMyShop())
             .commit()
 
         checkPermission()

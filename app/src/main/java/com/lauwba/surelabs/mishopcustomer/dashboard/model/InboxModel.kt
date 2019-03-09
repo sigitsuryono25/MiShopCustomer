@@ -1,9 +1,10 @@
-package com.lauwba.surelabs.mishopcustomer.dashboard.adapter
+package com.lauwba.surelabs.mishopcustomer.dashboard.model
 
 class InboxModel {
-    val broadcaston: Long? = null
-    val id: String? = null
-    val message: String? = null
-    val to: String? = null
-    val foto: String? = null
+    var broadcaston: Long? = null
+    var id: String? = null
+    var message: String? = null
+    var to: String? = null
+    var foto: String? = null
+    var type: Int? = null
 }

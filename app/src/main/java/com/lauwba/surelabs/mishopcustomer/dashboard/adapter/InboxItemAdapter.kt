@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.dashboard.model.InboxModel
 import kotlinx.android.synthetic.main.inbox_item.view.*
 
 class InboxItemAdapter(

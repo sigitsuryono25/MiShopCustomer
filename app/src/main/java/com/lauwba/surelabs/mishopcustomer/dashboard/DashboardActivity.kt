@@ -1,6 +1,5 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
@@ -25,8 +24,6 @@ import org.jetbrains.anko.toast
 
 class DashboardActivity : AppCompatActivity() {
 
-    private var sharedPreferences: SharedPreferences? = null
-    private var editor: SharedPreferences.Editor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

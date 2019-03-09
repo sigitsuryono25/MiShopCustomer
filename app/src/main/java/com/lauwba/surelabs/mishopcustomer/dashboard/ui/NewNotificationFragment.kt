@@ -24,6 +24,9 @@ class NewNotificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP))
+
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.miShop -> {

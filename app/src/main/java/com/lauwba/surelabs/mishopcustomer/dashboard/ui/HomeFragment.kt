@@ -31,7 +31,7 @@ import java.net.URL
 
 class HomeFragment : Fragment() {
 
-    val gambar = arrayOf(
+    private val gambar = arrayOf(
         R.drawable._1000_blocks_teaser,
         R.drawable.drag_racing_club_teaser,
         R.drawable.duo_cards_teaser,
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         R.drawable.running_jack_teaser,
         R.drawable.smarty_bubbles
     )
-    val url = arrayOf(
+    private val url = arrayOf(
         "https://play.famobi.com/1000-blocks",
         "https://play.famobi.com/drag-racing-club",
         "https://play.famobi.com/duo-cards",
@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         "https://play.famobi.com/smarty-bubbles"
     )
 
-    var title = arrayOf(
+    private var title = arrayOf(
         "1000 Blocks",
         "Drag Racing Club",
         "Duo Cards",
@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
     )
 
 
-    var sampleImages = arrayOf(
+    private var sampleImages = arrayOf(
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-2-trans-studio-mini-maguwo-001-tantri-setyorini.jpg",
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-1-the-world-landmarks-merapi-park-001-tantri-setyorini.jpg",
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-3-pantai-nglambor-001-tantri-setyorini.jpg",
@@ -78,14 +78,14 @@ class HomeFragment : Fragment() {
         "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-5-kebun-teh-nglinggo-001-tantri-setyorini.jpg"
     )
 
-    var image: MutableList<String>? = null
-    var titleNews: MutableList<String>? = null
-    var linkNews: MutableList<String>? = null
-    val xml = "http://rss.detik.com/index.php/inet"
-    var adapter: GameAdapter? = null
-    var rssList: ArrayList<RssFeedModel>? = null
-    var gameList: MutableList<GameModel>? = null
-    var rssAdapter: RssFeedAdapter? = null
+    private var image: MutableList<String>? = null
+    private var titleNews: MutableList<String>? = null
+    private var linkNews: MutableList<String>? = null
+    private val xml = "http://rss.detik.com/index.php/inet"
+    private var adapter: GameAdapter? = null
+    private var rssList: ArrayList<RssFeedModel>? = null
+    private var gameList: MutableList<GameModel>? = null
+    private var rssAdapter: RssFeedAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_home_fragment, container, false)
@@ -194,11 +194,11 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun parseFeed(inputStream: InputStream): ArrayList<RssFeedModel> {
+    private fun parseFeed(inputStream: InputStream): ArrayList<RssFeedModel> {
         var title: String? = null
         var link: String? = null
         var date: String? = null
-        var desc: String? = null
+        var desc: String?
         var src: String? = null
         var isItem = false
         val items = ArrayList<RssFeedModel>()
@@ -235,22 +235,24 @@ class HomeFragment : Fragment() {
                     xmlPullParser.nextTag()
                 }
 
-                if (name.equals("title", ignoreCase = true)) {
-                    title = result
-                } else if (name.equals("link", ignoreCase = true)) {
-                    link = result
-                } else if (name.equals("enclosure", ignoreCase = true)) {
-                    date = result
-                } else if (name.equals("description", ignoreCase = true)) {
-                    desc = result
-                    try {
-                        val document = Jsoup.parse(desc)
-                        src = document.select("img").first().attr("src")
-                        Log.d("link", link)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+                //                        mFeedTitle = title
+//                        mFeedLink = link
+//                        mFeedDescription = date
+                when {
+                    name.equals("title", ignoreCase = true) -> title = result
+                    name.equals("link", ignoreCase = true) -> link = result
+                    name.equals("enclosure", ignoreCase = true) -> date = result
+                    name.equals("description", ignoreCase = true) -> {
+                        desc = result
+                        try {
+                            val document = Jsoup.parse(desc)
+                            src = document.select("img").first().attr("src")
+                            Log.d("link", link)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
 
+                    }
                 }
 
                 if (title != null && link != null && date != null) {
