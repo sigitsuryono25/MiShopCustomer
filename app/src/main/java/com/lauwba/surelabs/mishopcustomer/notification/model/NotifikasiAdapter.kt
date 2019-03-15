@@ -2,14 +2,17 @@ package com.lauwba.surelabs.mishopcustomer.notification.model
 
 
 import android.content.Context
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpressActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.shop.detail.DetailMiShopActivity
@@ -44,25 +47,44 @@ class NotifikasiAdapter(
 //        holder.more.setOnCreateContextMenuListener(this)
 
         if (item.type == 0) {
-            holder.harga.text = "Rp. " + ChangeFormat.toRupiahFormat2(item.harga.toString())
+            val harga = item.kenaikan?.let { item.ongkos?.let { it1 -> item.harga?.plus(it)?.plus(it1) } }
+            holder.harga.text =
+                "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
             holder.harga.visibility = View.VISIBLE
             holder.ambil.visibility = View.GONE
             holder.tolak.visibility = View.GONE
             holder.detail.visibility = View.VISIBLE
             holder.detail.onClick {
                 //            c?.toast(holder.orderNumber.text)
-                c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text)
+                c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text.toString())
             }
-        } else if (item.type == 1 || item.type == 2 || item.type == 3) {
+        } else if (item.type == 1) {
             holder.ambil.visibility = View.GONE
             holder.tolak.visibility = View.GONE
             holder.detail.visibility = View.VISIBLE
+            holder.detail.onClick {
+                c?.startActivity<MiCarActivity>("idOrder" to holder.orderNumber.text.toString())
+            }
+        } else if (item.type == 2) {
+            holder.ambil.visibility = View.GONE
+            holder.tolak.visibility = View.GONE
+            holder.detail.visibility = View.VISIBLE
+            holder.detail.onClick {
+                c?.startActivity<MiBikeActivity>("idOrder" to holder.orderNumber.text.toString())
+            }
+        } else if (item.type == 3) {
+            holder.ambil.visibility = View.GONE
+            holder.tolak.visibility = View.GONE
+            holder.detail.visibility = View.VISIBLE
+
+            c?.startActivity<MiXpressActivity>("idOrder" to holder.orderNumber.text.toString())
         } else if (item.type == 4) {
             holder.harga.text = "Rp. " + ChangeFormat.toRupiahFormat2(item.harga.toString())
             holder.harga.visibility = View.VISIBLE
             holder.ambil.visibility = View.GONE
             holder.tolak.visibility = View.GONE
             holder.detail.visibility = View.VISIBLE
+
         }
     }
 
@@ -71,7 +93,7 @@ class NotifikasiAdapter(
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val type: View = mView.type
-        val content: RelativeLayout = mView.container
+        val content: CardView = mView.container
         val orderNumber: TextView = mView.orderNumber
         val deskripsi: TextView = mView.deskripsi
         val typeJassa: TextView = mView.typeJasa

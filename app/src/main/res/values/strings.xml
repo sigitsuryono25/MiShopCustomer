@@ -56,5 +56,7 @@
 
     <string name="slogan">LOOK FIRST &amp; GET IT\n...SIMPLE, QUICK &amp; EASY...</string>
     <string name="kritik_dan_saran">Kritik dan Saran</string>
+    <string name="loading">memproses data...</string>
+    <string name="welcome">Selamat datang</string>
 
 </resources>

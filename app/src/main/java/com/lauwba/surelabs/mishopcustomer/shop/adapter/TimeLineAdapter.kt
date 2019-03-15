@@ -56,8 +56,8 @@ class TimeLineAdapter(
         holder.namaPosting.text = data?.nama_mitra
         holder.uidMitra.text = item?.uid
         holder.datePosting.text = item?.tanggalPost?.toLong()?.let { HourToMillis.millisToDate(it) }
-        holder.hargaPost.text = "Rp. " +
-                tarif?.let { item?.harga?.plus(it).toString() }?.let { ChangeFormat.toRupiahFormat2(it) }
+        val harga = item?.kenaikan?.let { item.ongkos?.let { it1 -> item.harga?.plus(it)?.plus(it1) } }
+        holder.hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
         holder.deskripsi.text = item?.deskripsi
         holder.idShop.text = item?.idOrder
         holder.lokasi.text = item?.lokasi
@@ -117,7 +117,7 @@ class TimeLineAdapter(
         shopOrderModel.email = Prefs.getString(Constant.EMAIL, "")
         shopOrderModel.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.qty = qty
-        shopOrderModel.ship_shop = getTarif.getTarif("add")
+        shopOrderModel.ship_shop = getTarif.getTarif("shop").toInt()
         shopOrderModel.price_shop = item?.harga
         shopOrderModel.lat_cust = 0.0
         shopOrderModel.lon_cust = 0.0

@@ -1,9 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.lauwba.surelabs.mishopcustomer.login
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,7 +17,6 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_signin.*
-import kotlinx.android.synthetic.main.loading.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -25,6 +26,7 @@ import org.jetbrains.anko.toast
 class LoginActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
+    private var pd: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +34,10 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         email_sign_in_button.onClick {
-            loading.visibility = View.VISIBLE
+            pd = ProgressDialog.show(this@LoginActivity, "", getString(R.string.loading), false, false)
             mAuth?.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
                 ?.addOnCompleteListener {
                     if (it.isSuccessful) {
-//                        Prefs.putString(Config.EMAIL, email.text.toString())
-//                        toast("Selamat datang kembali")
-//                        loading.visibility = View.GONE
-//                        startActivity(intentFor<DashboardActivity>().clearTop().newTask())
                         checkOnTableCustomer(email.text.toString())
                     } else {
                         toast("Terjadi Kesalahan")
@@ -60,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    loading.visibility = View.GONE
+                    pd?.dismiss()
                     if (!p0.hasChildren()) {
                         alert(
                             "Email Tidak Ditemukan.\nPastikan anda Terdaftar sebagai customer sebelum melakukan login",
@@ -75,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                             Prefs.putString(Constant.EMAIL, email)
                             Prefs.putString(Constant.UID, mAuth?.currentUser?.uid)
                             Prefs.putString(Constant.ALAMAT, data?.alamat)
-                            toast("Selamat datang")
+                            toast(getString(R.string.welcome))
                             finish()
                             startActivity<DashboardActivity>()
                         }

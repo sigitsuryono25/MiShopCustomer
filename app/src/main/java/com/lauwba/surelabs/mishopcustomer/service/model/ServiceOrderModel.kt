@@ -1,6 +1,6 @@
-package com.lauwba.surelabs.mishopcustomer.shop.model
+package com.lauwba.surelabs.mishopcustomer.service.model
 
-class ShopOrderModel {
+class ServiceOrderModel {
 
     var id_order_shop: String? = null
     var idOrder: String? = null

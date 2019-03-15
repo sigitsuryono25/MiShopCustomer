@@ -1,162 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container"
-        android:layout_margin="@dimen/margin_padding"
+        android:layout_marginTop="@dimen/margin_padding"
+        android:layout_marginEnd="@dimen/margin_padding"
+        android:layout_marginStart="@dimen/margin_padding"
+        app:cardCornerRadius="@dimen/margin_padding"
+        app:cardElevation="@dimen/margin_padding"
         android:background="@drawable/gradient_background_trans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
-            android:visibility="gone"
-            android:id="@+id/more"
-            android:src="@drawable/ic_more_horiz_black_24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
 
-    <View
-            android:id="@+id/type"
-            android:layout_marginEnd="@dimen/margin_padding"
-            android:layout_width="5dp"
-            android:background="@android:color/transparent"
-            android:layout_alignParentTop="true"
-            android:layout_alignBottom="@id/buttonContainer"
-            android:layout_height="0dp"/>
-
-    <LinearLayout
-            android:layout_below="@id/more"
-            android:layout_toEndOf="@id/type"
-            android:id="@+id/typeText"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/typeJasa"
-                android:textStyle="bold"
-                android:text="MI-SHOP"
-                android:layout_weight="1"
+        <ImageView
+                android:visibility="gone"
+                android:id="@+id/more"
+                android:src="@drawable/ic_more_horiz_black_24dp"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-        <TextView
+        <View
+                android:id="@+id/type"
+                android:layout_marginEnd="@dimen/margin_padding"
+                android:layout_width="5dp"
+                android:background="@android:color/transparent"
+                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@id/buttonContainer"
+                android:layout_height="0dp"/>
+
+        <LinearLayout
+                android:layout_below="@id/more"
+                android:layout_toEndOf="@id/type"
+                android:id="@+id/typeText"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/typeJasa"
+                    android:textStyle="bold"
+                    android:text="MI-SHOP"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:visibility="gone"
+                    android:id="@+id/harga"
+                    android:text="Rp.0"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_toEndOf="@id/type"
+                android:id="@+id/Numberordermishop"
+                android:orientation="vertical"
+                android:layout_below="@+id/typeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/orderNumber"
+                    android:text="OR-00093"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/deskripsiContent"
+                android:paddingRight="@dimen/margin_padding"
+                android:layout_toEndOf="@id/type"
+                android:layout_below="@id/Numberordermishop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/deskripsi"
+                    android:text="Lorem ipsum dolor sit amet, "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
                 android:visibility="gone"
-                android:id="@+id/harga"
-                android:text="Rp.0"
-                android:layout_weight="1"
+                android:id="@+id/tanggalExpired"
+                android:paddingRight="@dimen/margin_padding"
+                android:layout_toEndOf="@id/type"
+                android:layout_below="@id/deskripsiContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/expiredOn"
+                    android:textSize="12sp"
+                    android:text="Lorem ipsum dolor sit amet, "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+                android:paddingBottom="@dimen/margin_padding"
+                android:paddingTop="@dimen/margin_padding"
+                android:orientation="horizontal"
+                android:id="@+id/buttonContainer"
+                android:layout_below="@id/tanggalExpired"
+                android:layout_width="match_parent"
                 android:gravity="end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+                android:layout_height="wrap_content">
 
-    <LinearLayout
-            android:layout_toEndOf="@id/type"
-            android:id="@+id/Numberordermishop"
-            android:orientation="vertical"
-            android:layout_below="@+id/typeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/tolak"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_close_black_24dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/white"
+                    android:text="@string/tolak_penawaran"
+                    android:background="@drawable/button_style_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <TextView
-                android:id="@+id/orderNumber"
-                android:text="OR-00093"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+            <TextView
+                    android:id="@+id/ambil"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_check"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/button_style_green_small"
+                    android:text="@string/ambil_penawaran"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-    <LinearLayout
-            android:visibility="visible"
-            android:id="@+id/deskripsiContent"
-            android:paddingRight="@dimen/margin_padding"
-            android:layout_toEndOf="@id/type"
-            android:layout_below="@id/Numberordermishop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/atur"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_access_time_black_24dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"
+                    android:text="Atur "
+                    android:background="@drawable/button_style_orange_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <TextView
-                android:id="@+id/deskripsi"
-                android:text="Lorem ipsum dolor sit amet, "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
+            <TextView
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_art_track_black_24dp"
+                    android:id="@+id/detail"
+                    android:visibility="gone"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/button_style"
+                    android:text="Order"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-    <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/tanggalExpired"
-            android:paddingRight="@dimen/margin_padding"
-            android:layout_toEndOf="@id/type"
-            android:layout_below="@id/deskripsiContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/expiredOn"
-                android:textSize="12sp"
-                android:text="Lorem ipsum dolor sit amet, "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-            android:paddingBottom="@dimen/margin_padding"
-            android:paddingTop="@dimen/margin_padding"
-            android:orientation="horizontal"
-            android:id="@+id/buttonContainer"
-            android:layout_below="@id/tanggalExpired"
-            android:layout_width="match_parent"
-            android:gravity="end"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/tolak"
-                android:layout_marginEnd="@dimen/margin_padding"
-                android:drawablePadding="@dimen/margin_padding"
-                android:drawableStart="@drawable/ic_close_black_24dp"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:text="@string/tolak_penawaran"
-                android:background="@drawable/button_style_red"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:id="@+id/ambil"
-                android:layout_marginEnd="@dimen/margin_padding"
-                android:drawableStart="@drawable/ic_check"
-                android:drawablePadding="@dimen/margin_padding"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_style_green_small"
-                android:text="@string/ambil_penawaran"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:id="@+id/atur"
-                android:layout_marginEnd="@dimen/margin_padding"
-                android:drawablePadding="@dimen/margin_padding"
-                android:drawableStart="@drawable/ic_access_time_black_24dp"
-                android:gravity="center_vertical"
-                android:textColor="@android:color/white"
-                android:visibility="gone"
-                android:text="Atur "
-                android:background="@drawable/button_style_orange_small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:layout_marginEnd="@dimen/margin_padding"
-                android:drawableStart="@drawable/ic_art_track_black_24dp"
-                android:id="@+id/detail"
-                android:visibility="gone"
-                android:drawablePadding="@dimen/margin_padding"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_style"
-                android:text="Order"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-</RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

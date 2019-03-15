@@ -10,15 +10,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpressActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.GameAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.RssFeedAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.GameModel
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
 import com.lauwba.surelabs.mishopcustomer.myShop.MyShopActivity
+import com.lauwba.surelabs.mishopcustomer.myShop.detail.DetailMyShopActivity
+import com.lauwba.surelabs.mishopcustomer.myShop.model.MyShopModel
+import com.lauwba.surelabs.mishopcustomer.service.ServiceActivity
 import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -70,13 +79,13 @@ class HomeFragment : Fragment() {
     )
 
 
-    private var sampleImages = arrayOf(
-        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-2-trans-studio-mini-maguwo-001-tantri-setyorini.jpg",
-        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-1-the-world-landmarks-merapi-park-001-tantri-setyorini.jpg",
-        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-3-pantai-nglambor-001-tantri-setyorini.jpg",
-        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-4-jogja-bay-waterpark-001-tantri-setyorini.jpg",
-        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-5-kebun-teh-nglinggo-001-tantri-setyorini.jpg"
-    )
+//    private var sampleImages = arrayOf(
+//        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-2-trans-studio-mini-maguwo-001-tantri-setyorini.jpg",
+//        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-1-the-world-landmarks-merapi-park-001-tantri-setyorini.jpg",
+//        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113239-3-pantai-nglambor-001-tantri-setyorini.jpg",
+//        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-4-jogja-bay-waterpark-001-tantri-setyorini.jpg",
+//        "https://cdns.klimg.com/merdeka.com/i/w/news/2018/05/21/978617/content_images/670x335/20180521113240-5-kebun-teh-nglinggo-001-tantri-setyorini.jpg"
+//    )
 
     private var image: MutableList<String>? = null
     private var titleNews: MutableList<String>? = null
@@ -86,6 +95,8 @@ class HomeFragment : Fragment() {
     private var rssList: ArrayList<RssFeedModel>? = null
     private var gameList: MutableList<GameModel>? = null
     private var rssAdapter: RssFeedAdapter? = null
+    private var imageC2c: MutableList<String>? = null
+    private var idC2c: MutableList<String>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_home_fragment, container, false)
@@ -98,21 +109,16 @@ class HomeFragment : Fragment() {
         titleNews = mutableListOf()
         linkNews = mutableListOf()
         gameList = mutableListOf()
-
-        c2cView.setImageListener { position, imageView ->
-
-            activity?.let {
-                Glide.with(it)
-                    .load(sampleImages[position])
-                    .into(imageView)
-            }
-        }
-
-        c2cView.pageCount = sampleImages.size
+        imageC2c = mutableListOf()
+        idC2c = mutableListOf()
 
 
         miShop.onClick {
             activity?.startActivity<ShopActivity>()
+        }
+
+        miService.onClick {
+            activity?.startActivity<ServiceActivity>()
         }
 
         miCar.onClick {
@@ -124,7 +130,7 @@ class HomeFragment : Fragment() {
         }
 
         miXpress.onClick {
-            //            activity?.startActivity<MiXpress>()
+            activity?.startActivity<MiXpressActivity>()
         }
 
         reload.onClick {
@@ -138,7 +144,50 @@ class HomeFragment : Fragment() {
         try {
             initNews()
             initGames()
+            initC2C()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
+    private fun initC2C() {
+        val ref = Constant.database.getReference(Constant.TB_MYSHOP)
+        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+            .limitToFirst(5)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    imageC2c?.removeAll(imageC2c!!)
+                    idC2c?.removeAll(idC2c!!)
+                    for (issue in p0.children) {
+                        val data = issue.getValue(MyShopModel::class.java)
+                        data?.image?.let { imageC2c?.add(it) }
+                        data?.idMyShop?.let { idC2c?.add(it) }
+                        setToCarousel(imageC2c, idC2c)
+                    }
+                }
+            })
+    }
+
+    private fun setToCarousel(imageC2c: MutableList<String>?, idC2c: MutableList<String>?) {
+        try {
+            c2cView.setImageListener { position, imageView ->
+
+                activity?.let {
+                    Glide.with(it)
+                        .load(imageC2c?.get(position))
+                        .into(imageView)
+                }
+            }
+            c2cView.pageCount = imageC2c?.size ?: 0
+
+            c2cView.setImageClickListener {
+                //                toast(idC2c?.get(it).toString())
+                startActivity<DetailMyShopActivity>("idMyShop" to idC2c?.get(it))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

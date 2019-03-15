@@ -68,6 +68,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:padding="@dimen/margin_padding"
+                                android:id="@+id/miService"
                                 android:orientation="vertical"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">

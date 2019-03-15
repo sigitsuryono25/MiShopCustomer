@@ -1,7 +1,7 @@
 package com.lauwba.surelabs.mishopcustomer.myShop.model
 
 class MyShopModel {
-    var idMyShop: Long? = null
+    var idMyShop: String? = null
     var image: String? = null
     var harga : Int? = null
     var judul : String? = null

@@ -19,6 +19,11 @@ class CarBikeBooking : Serializable {
     var type: Int? = null
     var driver: String? = null
 
+    //express punya
+
+    var namaBarang : String? = null
+    var nomorYangDihubungi : String? = null
+
     init {
 
 

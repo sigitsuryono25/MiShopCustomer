@@ -2,6 +2,8 @@ package com.lauwba.surelabs.mishopcustomer.tracking
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -119,6 +121,14 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         mMap?.setOnMapLoadedCallback {
             mMap?.moveCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 12))
         }
+
+        Glide.with(this@TrackingDriver)
+            .load(driver?.foto)
+            .apply(RequestOptions().centerCrop().circleCrop())
+            .into(driverImage)
+
+        driverName.text = driver?.nama_mitra
+        plat.text = "AB 6729 POQ"
     }
 
 }

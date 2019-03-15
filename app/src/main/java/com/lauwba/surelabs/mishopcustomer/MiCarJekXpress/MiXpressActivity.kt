@@ -5,21 +5,27 @@ import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Config
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_mi_things.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
-class MiXpress : AppCompatActivity(), OnMapReadyCallback {
+class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
 
     var mMap: GoogleMap? = null
     var latAwal: Double? = null
@@ -36,6 +42,8 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
     var lonTujuan: Double? = null
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
+    var harga: Int? = null
+    var idOrder: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +51,13 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
 
         checkPermissionGps()
         initView()
+
+        try {
+            idOrder = intent.getStringExtra("idOrder")
+            Log.d("idOrder", idOrder)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         val mp = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mp.onCreate(savedInstanceState)
@@ -59,12 +74,82 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
         }
 
         booking.onClick {
-            insertFirebase()
+            if (!idOrder.isNullOrEmpty()) {
+                updateOrderan()
+            } else {
+                insertFirebase()
+            }
         }
     }
 
-    private fun insertFirebase() {
+    private fun updateOrderan() {
+        val ref = Constant.database.getReference(Constant.TB_EXPRESS)
+        ref.child(idOrder ?: "").child("harga").setValue(harga)
+        ref.child(idOrder ?: "").child("jarak").setValue(jarakTrip.text.toString())
+        ref.child(idOrder ?: "").child("latAwal").setValue(latAwal)
+        ref.child(idOrder ?: "").child("lonAwal").setValue(lonAwal)
+        ref.child(idOrder ?: "").child("lokasiAwal").setValue(asal.text.toString())
+        ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
+        ref.child(idOrder ?: "").child("latTujuan").setValue(latTujuan)
+        ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
+        ref.child(idOrder ?: "").child("namaBarang").setValue(barang.text.toString())
+        ref.child(idOrder ?: "").child("nomorYangDihubungi").setValue(nomorTelepon.text.toString())
+        ref.child(idOrder ?: "").child("status").setValue(1)
 
+        val i = Intent(this@MiXpressActivity, WaitingActivity::class.java)
+        i.putExtra("key", idOrder.toString())
+        i.putExtra("from", Constant.TB_EXPRESS)
+        startActivity(i)
+    }
+
+    private fun insertFirebase() {
+        val myref = Config.databaseInstance(Constant.TB_EXPRESS)
+
+        val booking = CarBikeBooking()
+        val time = Calendar.getInstance()
+        val idOrder = time.timeInMillis
+
+        booking.tanggal = idOrder
+        booking.idOrder = idOrder.toString()
+        booking.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
+        booking.lokasiAwal = asal.text.toString()
+        booking.latAwal = latAwal
+        booking.lonAwal = lonAwal
+        booking.lokasiTujuan = tujuan.text.toString()
+        booking.latTujuan = latTujuan
+        booking.lonTujuan = lonTujuan
+        booking.harga = harga
+        booking.jarak = jarakTrip.text.toString()
+        booking.status = 1
+        booking.type = 3
+        booking.namaBarang = barang.text.toString()
+        booking.nomorYangDihubungi = nomorTelepon.text.toString()
+        booking.driver = ""
+        myref.child(idOrder.toString()).setValue(booking).addOnCompleteListener {
+
+            if (it.isSuccessful) {
+                val notificationBooking = NotificationBooking()
+                val firebaseBooking = FirebaseBooking()
+
+                firebaseBooking.title = "Orderan Mi-Express"
+                firebaseBooking.deskripsi = asal.text.toString() + " - " + tujuan.text.toString()
+                firebaseBooking.book = booking
+                firebaseBooking.type = 3
+
+                notificationBooking.token = "/topics/miexpress"
+                notificationBooking.booking = firebaseBooking
+
+                NetworkModule.getServiceFcm()
+                    .actionSendBook(notificationBooking)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+                val i = Intent(this@MiXpressActivity, WaitingActivity::class.java)
+                i.putExtra("key", idOrder.toString())
+                i.putExtra("from", Constant.TB_EXPRESS)
+                startActivity(i)
+            }
+        }
     }
 
     private fun showPlace(status: Int) {
@@ -86,8 +171,18 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
                 if (tujuan.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latTujuan, lonTujuan, place.name.toString())
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(
+                        latTujuan,
+                        lonTujuan,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                    )
                     showBound()
                     route()
                 }
@@ -98,7 +193,12 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
                 if (asal.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
                 }
 
                 latTujuan = place.latLng.latitude
@@ -107,7 +207,12 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
                 var name = place.address
                 tujuan.text = name
 
-                showMarker(latTujuan, lonTujuan, place.name.toString())
+                showMarker(
+                    latTujuan,
+                    lonTujuan,
+                    place.name.toString(),
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                )
                 showBound()
                 route()
             }
@@ -120,7 +225,6 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
         dis = CompositeDisposable()
         val origin = "$latAwal, $lonAwal"
         val destination = "$latTujuan, $lonTujuan"
-
 
         dis?.add(
             NetworkModule.getService().actionRoute(
@@ -153,22 +257,26 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
 
         var hargaAwal = 0.0
-        if (valueBulat < 5) {
-            hargaAwal = valueBulat * 2000
-        } else {
-            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
-        }
+        hargaAwal = valueBulat * 1750
+        harga = hargaAwal.toInt()
 
-        var resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
+        val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
         jarakTrip.text = text
         hargaTrip.text = "Rp. " + resultHarga
+
+        if (hargaTrip.text.length > 0) {
+            booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
+            booking.isEnabled = true
+            barangContainer.visibility = View.VISIBLE
+            teleponContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun showBound() {
         if (latAwal != 0.0 && lonAwal != 0.0 && latTujuan != 0.0 && lonTujuan != 0.0)
             bottom.visibility = View.VISIBLE
-        mMap?.setPadding(200, 0, 200, 0)
+        mMap?.setPadding(200, 200, 200, 200)
         val bound = LatLngBounds.builder()
         bound.include(LatLng(latAwal ?: 0.0, lonAwal ?: 0.0))
         bound.include(LatLng(latTujuan ?: 0.0, lonTujuan ?: 0.0))
@@ -205,7 +313,7 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showGps() {
-        gps = this.let { GPSTracker(it) }
+        gps = GPSTracker(this)
         if (gps?.canGetLocation() != false) {
             latAwal = gps?.latitude
             lonAwal = gps?.longitude
@@ -214,20 +322,20 @@ class MiXpress : AppCompatActivity(), OnMapReadyCallback {
 
             asal.text = name
 
-            showMarker(latAwal, lonAwal, "My Location")
+            showMarker(latAwal, lonAwal, "My Location", BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
 
         }
     }
 
-    private fun showMarker(lat: Double?, lon: Double?, title: String?) {
+    private fun showMarker(lat: Double?, lon: Double?, title: String?, icon: BitmapDescriptor?) {
         val posisi = LatLng(lat ?: 0.0, lon ?: 0.0)
-        mMap?.addMarker(MarkerOptions().position(posisi).title(title))
+        mMap?.addMarker(MarkerOptions().position(posisi).title(title).icon(icon))
         mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(posisi, 15f))
     }
 
     private fun showNameLocations(lat: Double?, lon: Double?): CharSequence? {
-        var geocoder = Geocoder(this, Locale.getDefault())
-        var location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
 
         //get address location
         val nameLocations = location.get(0).getAddressLine(0)

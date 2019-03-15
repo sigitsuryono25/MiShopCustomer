@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -40,7 +41,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     var lonTujuan: Double? = null
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
-    var harga : Int? = null
+    var harga: Int? = null
+    var idOrder: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,13 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         checkPermissionGps()
         initView()
+
+        try {
+            idOrder = intent.getStringExtra("idOrder")
+            Log.d("idOrder", idOrder)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         val mp = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mp.onCreate(savedInstanceState)
@@ -64,12 +73,34 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         booking.onClick {
-            insertFirebase()
+            if (!idOrder.isNullOrEmpty()) {
+                updateOrderan()
+            } else {
+                insertFirebase()
+            }
         }
     }
 
+    private fun updateOrderan() {
+        val ref = Constant.database.getReference(Constant.TB_CAR)
+        ref.child(idOrder ?: "").child("harga").setValue(harga)
+        ref.child(idOrder ?: "").child("jarak").setValue(jarakTrip.text.toString())
+        ref.child(idOrder ?: "").child("latAwal").setValue(latAwal)
+        ref.child(idOrder ?: "").child("lonAwal").setValue(lonAwal)
+        ref.child(idOrder ?: "").child("lokasiAwal").setValue(asal.text.toString())
+        ref.child(idOrder ?: "").child("latTujuan").setValue(latTujuan)
+        ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
+        ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
+        ref.child(idOrder ?: "").child("status").setValue(1)
+
+        val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
+        i.putExtra("key", idOrder.toString())
+        i.putExtra("from", Constant.TB_CAR)
+        startActivity(i)
+    }
+
     private fun insertFirebase() {
-        val myref = Config.databaseInstance(Constant.TB_CAR_ORDER)
+        val myref = Config.databaseInstance(Constant.TB_CAR)
 
         val booking = CarBikeBooking()
         val time = Calendar.getInstance()
@@ -81,7 +112,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.lonTujuan = lonTujuan
         booking.jarak = jarakTrip.text.toString()
         booking.tanggal = idOrder
-        booking.idOrder= idOrder.toString()
+        booking.idOrder = idOrder.toString()
         booking.harga = harga
         booking.status = 1
         booking.type = 1
@@ -114,7 +145,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 //                startActivity<WaitingActivity>("key" to idOrder.toString(), "from" to Constant.TB_CAR_ORDER)
                 val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
                 i.putExtra("key", idOrder.toString())
-                i.putExtra("from", Constant.TB_CAR_ORDER)
+                i.putExtra("from", Constant.TB_CAR)
                 startActivity(i)
             }
         }
@@ -139,8 +170,18 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (tujuan.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latTujuan, lonTujuan, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
-                    showMarker(latAwal, lonAwal, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2))
+                    showMarker(
+                        latTujuan,
+                        lonTujuan,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                    )
                     showBound()
                     route()
                 }
@@ -151,7 +192,12 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (asal.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latAwal, lonAwal, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
                 }
 
                 latTujuan = place.latLng.latitude
@@ -160,7 +206,12 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 var name = place.address
                 tujuan.text = name
 
-                showMarker(latTujuan, lonTujuan, place.name.toString(), BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2))
+                showMarker(
+                    latTujuan,
+                    lonTujuan,
+                    place.name.toString(),
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                )
                 showBound()
                 route()
             }
@@ -277,7 +328,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun showMarker(lat: Double?, lon: Double?, title: String?, icon : BitmapDescriptor?) {
+    private fun showMarker(lat: Double?, lon: Double?, title: String?, icon: BitmapDescriptor?) {
         val posisi = LatLng(lat ?: 0.0, lon ?: 0.0)
         mMap?.addMarker(MarkerOptions().position(posisi).title(title).icon(icon))
         mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(posisi, 15f))

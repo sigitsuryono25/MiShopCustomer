@@ -95,7 +95,6 @@ dependencies {
     //preferences
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
-
     //sqlite
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 

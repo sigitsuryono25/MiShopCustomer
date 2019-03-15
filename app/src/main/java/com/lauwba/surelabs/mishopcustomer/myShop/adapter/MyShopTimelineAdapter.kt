@@ -58,8 +58,8 @@ class MyShopTimelineAdapter(
         p0.wa.text = number
 //        Log.d("TEL", cus?.telepon)
         p0.layoutWa.onClick {
-            //            val url = "https://api.whatsapp.com/send?phone=$number"
-            val url = "whatsapp://send?phone=$number"
+            val url = "https://api.whatsapp.com/send?phone=$number"
+//            val url = "whatsapp://send?phone=$number"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             c?.startActivity(i)

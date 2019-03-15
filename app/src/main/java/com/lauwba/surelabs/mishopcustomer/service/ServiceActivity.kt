@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer.shop
+package com.lauwba.surelabs.mishopcustomer.service
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -9,53 +9,37 @@ import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
-import com.lauwba.surelabs.mishopcustomer.shop.adapter.TimeLineAdapter
+import com.lauwba.surelabs.mishopcustomer.service.adapter.TimeLineServiceAdapter
+import com.lauwba.surelabs.mishopcustomer.service.model.ItemPostService
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
-import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
-import kotlinx.android.synthetic.main.activity_shop.*
+import kotlinx.android.synthetic.main.activity_service.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class ShopActivity : AppCompatActivity() {
-    private var mList: MutableList<ItemPost>? = null
+class ServiceActivity : AppCompatActivity() {
+
+    private var mList: MutableList<ItemPostService>? = null
     private var mListMitra: MutableList<ItemMitra>? = null
     private var tarif: Int? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shop)
+        setContentView(R.layout.activity_service)
         setSupportActionBar(toolbar)
 
-        titleToolbar.text = "Mi Shop"
+        titleToolbar.text = "Mi Service"
+
 
         mList = mutableListOf()
         mListMitra = mutableListOf()
 
-        getDataShop()
+        getDataService()
         getTarif()
     }
 
-    private fun getTarif() {
-        val ref = Constant.database.getReference(Constant.TB_TARIF)
-        ref.orderByChild("tipe").equalTo("add")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    for (issue in p0.children) {
-                        val data = issue.getValue(Tarif::class.java)
-                        tarif = data?.tarif?.toInt()
-                    }
-                }
-            })
-    }
-
-    private fun getDataShop() {
+    private fun getDataService() {
         try {
             val ref = Constant.database.reference
-            ref.child(Constant.TB_SHOP).orderByChild("tanggal").limitToFirst(10)
+            ref.child(Constant.TB_SERVICE).orderByChild("tanggal").limitToFirst(10)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
 
@@ -64,7 +48,7 @@ class ShopActivity : AppCompatActivity() {
                     override fun onDataChange(p0: DataSnapshot) {
                         if (p0.hasChildren()) {
                             for (issue in p0.children) {
-                                val data = issue.getValue(ItemPost::class.java)
+                                val data = issue.getValue(ItemPostService::class.java)
                                 data?.let { mList?.add(it) }
                                 val uid = data?.uid
 
@@ -95,20 +79,38 @@ class ShopActivity : AppCompatActivity() {
         }
     }
 
+    private fun getTarif() {
+        val ref = Constant.database.getReference(Constant.TB_TARIF)
+        ref.orderByChild("tipe").equalTo("add")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (issue in p0.children) {
+                        val data = issue.getValue(Tarif::class.java)
+                        tarif = data?.tarif?.toInt()
+                    }
+                }
+            })
+    }
+
     private fun setItemToAdapter(
-        mList: MutableList<ItemPost>?,
+        mList: MutableList<ItemPostService>?,
         mitraData: MutableList<ItemMitra>?,
         tarif: Int?
     ) {
         mList?.sortByDescending {
-            it.tanggalPost
+            it.tanggal
         }
-        val adapter = TimeLineAdapter(mList, this, mitraData, tarif)
+        val adapter = TimeLineServiceAdapter(mList, this, mitraData, tarif)
         try {
-            timeline.layoutManager = LinearLayoutManager(this)
-            timeline.adapter = adapter
+            rv.layoutManager = LinearLayoutManager(this)
+            rv.adapter = adapter
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
 }

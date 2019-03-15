@@ -227,7 +227,7 @@ class MyShopDashoard : Fragment() {
         val myref = Constant.database.getReference(Constant.TB_MYSHOP)
         val myshop = MyShopModel()
 
-        myshop.idMyShop = time
+        myshop.idMyShop = time.toString()
         myshop.image = urlDownload
         myshop.harga = harga.text.toString().toInt()
         myshop.judul = judul.text.toString()

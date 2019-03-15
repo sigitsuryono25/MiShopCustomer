@@ -75,6 +75,53 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+            android:layout_marginTop="2dp"
+            android:id="@+id/driver"
+            android:layout_below="@id/c"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:padding="@dimen/margin_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/driverImage"
+                    android:src="@mipmap/ic_launcher"
+                    android:scaleType="centerCrop"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"/>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_toEndOf="@+id/driverImage"
+                    android:layout_marginStart="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:id="@+id/driverName"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:text="@string/nama"
+                        android:padding="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+                <TextView
+                        android:id="@+id/plat"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:text="@string/nama"
+                        android:padding="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 
     <android.support.v7.widget.CardView
             android:id="@+id/homebottom"
@@ -164,38 +211,38 @@
                 android:layout_height="wrap_content">
 
 
-        <ImageView
-                android:id="@+id/message"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:padding="@dimen/margin_padding"
-                android:src="@drawable/ic_chat_bubble"/>
+            <ImageView
+                    android:id="@+id/message"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/ic_chat_bubble"/>
 
-        <ImageView
-                android:id="@+id/call"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:padding="@dimen/margin_padding"
-                android:src="@drawable/ic_call"/>
+            <ImageView
+                    android:id="@+id/call"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/ic_call"/>
 
-        <ImageView
-                android:id="@+id/sms"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:padding="@dimen/margin_padding"
-                android:src="@drawable/ic_email"/>
+            <ImageView
+                    android:id="@+id/sms"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/ic_email"/>
 
-        <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:padding="@dimen/margin_padding"
-                android:src="@drawable/ic_home"/>
+            <ImageView
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/ic_home"/>
 
-        <ImageView
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:padding="@dimen/margin_padding"
-                android:src="@drawable/ic_arrow_back_grey"/>
+            <ImageView
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/ic_arrow_back_grey"/>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

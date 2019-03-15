@@ -27,13 +27,15 @@ import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class DetailMiShopActivity : AppCompatActivity() {
-    private var getTarif = Tarif()
+    private var tarif  : Int? = null
     private var detail: ItemPost? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_mi_shop)
         setSupportActionBar(toolbar)
+
+        ShipShop()
 
         try {
             titleToolbar.text = getString(R.string.detail_shop)
@@ -115,8 +117,8 @@ class DetailMiShopActivity : AppCompatActivity() {
         shopOrderModel.email = Prefs.getString(Constant.EMAIL, "")
         shopOrderModel.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.qty = qty
-        shopOrderModel.ship_shop = getTarif.getTarif("add")
-        shopOrderModel.price_shop = detail?.harga
+        shopOrderModel.ship_shop = tarif
+        shopOrderModel.price_shop = detail?.kenaikan?.let { detail.harga?.plus(it) }
         shopOrderModel.lat_cust = 0.0
         shopOrderModel.lon_cust = 0.0
         shopOrderModel.status_order_shop = 0
@@ -146,6 +148,23 @@ class DetailMiShopActivity : AppCompatActivity() {
 
     }
 
+    private fun ShipShop() {
+        Constant.database.getReference(Constant.TB_TARIF)
+            .orderByChild("tipe").equalTo("shop")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (issue in p0.children) {
+                        val data = issue.getValue(Tarif::class.java)
+                        tarif = data?.tarif?.toInt()
+                    }
+                }
+            })
+    }
+
     private fun setToView(
         detail: ItemPost?,
         nama_mitra: String?,
@@ -156,7 +175,8 @@ class DetailMiShopActivity : AppCompatActivity() {
             idShop.text = detail?.idOrder
             datePosting.text = detail?.tanggalPost?.toLong()?.let { HourToMillis.millisToDate(it) }
             lokasi.text = detail?.lokasi
-            hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(detail?.harga.toString())
+            val harga = detail?.kenaikan?.let { detail.ongkos?.let { it1 -> detail.harga?.plus(it)?.plus(it1) } }
+            hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
             deskripsi.text = detail?.deskripsi
             Glide.with(this@DetailMiShopActivity)
                 .load(detail?.foto)

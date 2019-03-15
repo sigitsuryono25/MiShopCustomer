@@ -22,16 +22,14 @@
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:padding="10dp"
+                          android:padding="@dimen/margin_padding"
                           android:orientation="horizontal">
-
-
-                <ImageView android:layout_width="20dp"
-                           android:layout_height="20dp"
-                           android:src="@drawable/ic_pin1"/>
 
                 <TextView
                         android:id="@+id/asal"
+                        android:drawableStart="@drawable/ic_pin1"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/margin_padding"
                         android:layout_width="match_parent"
                         android:hint="Dari mana ?"
                         android:lines="2"
@@ -47,17 +45,15 @@
                   android:background="@android:color/darker_gray"/>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:padding="10dp"
+                          android:padding="@dimen/margin_padding"
                           android:orientation="horizontal">
-
-
-                <ImageView android:layout_width="20dp"
-                           android:layout_height="20dp"
-                           android:src="@drawable/ic_pin2"/>
 
                 <TextView
                         android:id="@+id/tujuan"
                         android:lines="2"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/margin_padding"
+                        android:drawableStart="@drawable/ic_pin2"
                         android:layout_width="match_parent"
                         android:hint="Mau Kemana ?"
                         android:layout_marginLeft="10dp"
@@ -65,7 +61,59 @@
                         android:layout_height="wrap_content"/>
 
             </LinearLayout>
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:layout_marginLeft="40dp"
+                  android:background="@android:color/darker_gray"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:visibility="gone"
+                          android:id="@+id/barangContainer"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/margin_padding"
+                          android:gravity="center_vertical"
+                          android:orientation="horizontal">
 
+
+                <EditText
+                        android:id="@+id/barang"
+                        android:lines="2"
+                        android:padding="@dimen/margin_padding"
+                        android:drawableStart="@drawable/ic_shop_two_black_24dp"
+                        android:layout_width="match_parent"
+                        android:hint="Deskripsi Singkat"
+                        android:layout_marginLeft="10dp"
+                        android:drawablePadding="@dimen/margin_padding"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:layout_marginLeft="40dp"
+                  android:background="@android:color/darker_gray"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/margin_padding"
+                          android:visibility="gone"
+                          android:id="@+id/teleponContainer"
+                          android:gravity="center_vertical"
+                          android:orientation="horizontal">
+
+                <EditText
+                        android:id="@+id/nomorTelepon"
+                        android:lines="2"
+                        android:padding="@dimen/margin_padding"
+                        android:drawableStart="@drawable/ic_phone_in_talk_black_24dp"
+                        android:layout_width="match_parent"
+                        android:hint="NomorTelepon"
+                        android:layout_marginLeft="10dp"
+                        android:drawablePadding="@dimen/margin_padding"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

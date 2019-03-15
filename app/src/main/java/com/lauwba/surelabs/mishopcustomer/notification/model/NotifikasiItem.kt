@@ -6,4 +6,6 @@ class NotifikasiItem {
     var type: Int? = null
     var deskripsi: String? = null
     var harga : Int? = null
+    var ongkos : Int? = null
+    var kenaikan : Int? = null
 }

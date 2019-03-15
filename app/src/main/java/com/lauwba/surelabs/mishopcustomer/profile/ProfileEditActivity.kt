@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
 import android.util.Log
 import android.widget.EditText
 import com.bumptech.glide.Glide
@@ -127,8 +128,8 @@ class ProfileEditActivity : AppCompatActivity() {
                 verticalLayout {
                     padding = dip(8)
                     password = editText {
-                        hint = "Password Anda"
-                        inputType = android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        hint = "Masukkan Password"
+                        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                     }
                 }
             }

@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -43,6 +44,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     var gps: GPSTracker? = null
     var dis: CompositeDisposable? = null
     var harga: Int? = null
+    var idOrder: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,13 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         checkPermissionGps()
         initView()
+
+        try {
+            idOrder = intent.getStringExtra("idOrder")
+            Log.d("idOrder", idOrder)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         val mp = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mp.onCreate(savedInstanceState)
@@ -66,12 +75,28 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         booking.onClick {
-            insertFirebase()
+            if (!idOrder.isNullOrEmpty()) {
+                updateOrderan()
+            } else {
+                insertFirebase()
+            }
         }
     }
 
+    private fun updateOrderan() {
+        val ref = Constant.database.getReference(Constant.TB_BIKE)
+        ref.child(idOrder ?: "").child("harga").setValue(harga)
+        ref.child(idOrder ?: "").child("jarak").setValue(jarakTrip.text.toString())
+        ref.child(idOrder ?: "").child("latAwal").setValue(latAwal)
+        ref.child(idOrder ?: "").child("lonAwal").setValue(lonAwal)
+        ref.child(idOrder ?: "").child("lokasiAwal").setValue(asal.text.toString())
+        ref.child(idOrder ?: "").child("latTujuan").setValue(latTujuan)
+        ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
+        ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
+    }
+
     private fun insertFirebase() {
-        val myref = Config.databaseInstance(Constant.TB_BIKE_ORDER)
+        val myref = Config.databaseInstance(Constant.TB_BIKE)
         val key = myref.push().key
 
         val booking = CarBikeBooking()
@@ -117,7 +142,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 //                    startActivity<WaitingActivity>("key" to key, "from" to Constant.TB_BIKE_ORDER)
                     val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
                     i.putExtra("key", idOrder.toString())
-                    i.putExtra("from", Constant.TB_BIKE_ORDER)
+                    i.putExtra("from", Constant.TB_BIKE)
                     startActivity(i)
                 }
             }
