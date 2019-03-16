@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
@@ -70,6 +71,8 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         for (issues in p0.children) {
                             val data = issues.getValue(Customer::class.java)
+
+                            ref.child(data?.key ?: "").child("token").setValue(FirebaseInstanceId.getInstance().token)
                             Prefs.putString(Constant.EMAIL, email)
                             Prefs.putString(Constant.UID, mAuth?.currentUser?.uid)
                             Prefs.putString(Constant.ALAMAT, data?.alamat)

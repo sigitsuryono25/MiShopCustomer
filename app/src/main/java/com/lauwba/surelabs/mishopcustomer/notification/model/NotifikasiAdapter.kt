@@ -76,8 +76,9 @@ class NotifikasiAdapter(
             holder.ambil.visibility = View.GONE
             holder.tolak.visibility = View.GONE
             holder.detail.visibility = View.VISIBLE
-
-            c?.startActivity<MiXpressActivity>("idOrder" to holder.orderNumber.text.toString())
+            holder.detail.onClick {
+                c?.startActivity<MiXpressActivity>("idOrder" to holder.orderNumber.text.toString())
+            }
         } else if (item.type == 4) {
             holder.harga.text = "Rp. " + ChangeFormat.toRupiahFormat2(item.harga.toString())
             holder.harga.visibility = View.VISIBLE

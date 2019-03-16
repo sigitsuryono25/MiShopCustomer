@@ -31,6 +31,7 @@
         <activity android:name=".service.ServiceActivity">
         </activity>
         <activity android:name=".chat.ChatActivity">
+
         </activity>
         <activity android:name=".profile.ProfileEditActivity">
         </activity>
@@ -72,18 +73,19 @@
         </activity>
         <activity android:name=".MiCarJekXpress.MiXpressActivity"/>
         <activity android:name=".dashboard.DashboardActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".webview.WebViewActivity">
         </activity>
         <activity android:name=".registrasi.RegistrasiActivity">
         </activity>
         <activity android:name=".splash.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
                 android:name=".MainActivity"

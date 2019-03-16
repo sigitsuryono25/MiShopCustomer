@@ -151,7 +151,7 @@ class DashboardActivity : AppCompatActivity() {
                     FirebaseMessaging.getInstance().subscribeToTopic("mibikecustomer")
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                Log.d("MIBIKE", "successful subcsribe")
+                                Log.d("MIEXPRESS", "successful subcsribe")
                             }
                         }
                         .addOnFailureListener {
