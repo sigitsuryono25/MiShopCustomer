@@ -54,7 +54,7 @@ class InboxFragment : Fragment() {
             val ref = Constant.database.getReference(Constant.TB_INBOX)
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    loading.visibility = View.GONE
+
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {

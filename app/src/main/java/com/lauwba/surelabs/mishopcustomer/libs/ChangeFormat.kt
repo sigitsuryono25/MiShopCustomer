@@ -34,6 +34,10 @@ object ChangeFormat {
         return x
     }
 
+    fun clearRp(c: String): String {
+        return c.replace("Rp", "").replace(".", "").replace(" ", "")
+    }
+
 }
 
 

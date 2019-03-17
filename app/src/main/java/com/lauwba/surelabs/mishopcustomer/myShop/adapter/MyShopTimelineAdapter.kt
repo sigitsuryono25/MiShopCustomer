@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.myShop.model.MyShopModel
@@ -23,13 +28,18 @@ import kotlinx.android.synthetic.main.fragment_item.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
+//class MyShopTimelineAdapter(
+//    private val mList: MutableList<MyShopModel>?,
+//    private val mListCustomer: MutableList<Customer>?
+//) :
 class MyShopTimelineAdapter(
-    private val mList: MutableList<MyShopModel>?,
-    private val mListCustomer: MutableList<Customer>?
+    private val mList: MutableList<MyShopModel>?
 ) :
     RecyclerView.Adapter<MyShopTimelineAdapter.ViewHolder>() {
 
     private var c: Context? = null
+    private var cus: Customer? = null
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(p0.context)
             .inflate(R.layout.fragment_item, p0, false)
@@ -44,8 +54,9 @@ class MyShopTimelineAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val data = mList?.get(p1)
-        val cus = mListCustomer?.get(p1)
-        p0.namaPosting.text = cus?.nama
+
+        val uid = data?.uid
+        getCustomerData(uid, p0)
 //        Log.d("NAMA", cus?.nama)
         p0.deskripsi.text = data?.deskripsi
         p0.judul.text = data?.judul
@@ -54,28 +65,51 @@ class MyShopTimelineAdapter(
         p0.hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(data?.harga.toString())
         p0.lokasi.text = data?.lokasi
         p0.idShop.text = data?.idMyShop.toString()
-        val number = cus?.telepon
-        p0.wa.text = number
-//        Log.d("TEL", cus?.telepon)
-        p0.layoutWa.onClick {
-            val url = "https://api.whatsapp.com/send?phone=$number"
-//            val url = "whatsapp://send?phone=$number"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            c?.startActivity(i)
-        }
+
 
         c?.let {
             Glide.with(it)
                 .load(data?.image)
                 .into(p0.imagePost)
         }
-        c?.let {
-            Glide.with(it)
-                .load(cus?.fotoCustomer)
-                .apply(RequestOptions().centerCrop().circleCrop())
-                .into(p0.fotouser)
-        }
+    }
+
+    private fun getCustomerData(
+        uid: String?,
+        holder: ViewHolder
+    ) {
+
+        val ref = Constant.database.getReference(Constant.TB_CUSTOMER)
+        ref.orderByChild("uid").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (issue in p0.children) {
+                        cus = issue.getValue(Customer::class.java)
+                        holder.namaPosting.text = cus?.nama
+                        val number = cus?.telepon
+                        holder.wa.text = number
+                        Log.d("TEL", cus?.telepon)
+                        holder.layoutWa.onClick {
+                            val url = "whatsapp://send?phone=$number"
+                            val i = Intent(Intent.ACTION_VIEW)
+                            i.data = Uri.parse(url)
+                            c?.startActivity(i)
+                        }
+
+                        c?.let {
+                            Glide.with(it)
+                                .load(cus?.fotoCustomer)
+                                .apply(RequestOptions().centerCrop().circleCrop())
+                                .into(holder.fotouser)
+                        }
+                    }
+                }
+            })
+
 
     }
 

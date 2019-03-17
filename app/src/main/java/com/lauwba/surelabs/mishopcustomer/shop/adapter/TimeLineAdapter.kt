@@ -6,19 +6,24 @@ import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
-import com.lauwba.surelabs.mishopcustomer.config.Tarif
 import com.lauwba.surelabs.mishopcustomer.firebase.FirebaseMessagingModel
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
@@ -35,14 +40,18 @@ import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
+//class TimeLineAdapter(
+//    private val mValues: MutableList<ItemPost>?,
+//    var c: Context,
+//    private val mitra: MutableList<ItemMitra>?,
+//    private val tarif: Int?
+//) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
 class TimeLineAdapter(
     private val mValues: MutableList<ItemPost>?,
     var c: Context,
-    private val mitra: MutableList<ItemMitra>?,
     private val tarif: Int?
 ) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
-
-    private var getTarif = Tarif()
+    private var data: ItemMitra? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -52,11 +61,12 @@ class TimeLineAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues?.get(position)
-        val data = mitra?.get(position)
-        holder.namaPosting.text = data?.nama_mitra
+
+        val harga = item?.kenaikan?.let { item.harga?.plus(it) }
+        getNameMitra(item?.uid, holder, item, harga)
+
         holder.uidMitra.text = item?.uid
         holder.datePosting.text = item?.tanggalPost?.toLong()?.let { HourToMillis.millisToDate(it) }
-        val harga = item?.kenaikan?.let { item.ongkos?.let { it1 -> item.harga?.plus(it)?.plus(it1) } }
         holder.hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
         holder.deskripsi.text = item?.deskripsi
         holder.idShop.text = item?.idOrder
@@ -65,23 +75,48 @@ class TimeLineAdapter(
         holder.ambilPenawaran.visibility = View.VISIBLE
 
         Glide.with(c)
-            .load(data?.foto)
-            .apply(RequestOptions.circleCropTransform())
-            .into(holder.fotouser)
-
-        Glide.with(c)
             .load(item?.foto)
             .into(holder.imagePost)
 
-        holder.ambilPenawaran.onClick {
-            //            orderShop(item)
-            showQtyAndAddress(item, data)
-        }
+    }
+
+    private fun getNameMitra(
+        uid: String?,
+        holder: ViewHolder,
+        item: ItemPost?,
+        harga: Int?
+    ): Boolean {
+        var flag = false
+        val ref = Constant.database.getReference(Constant.TB_MITRA)
+        ref.orderByChild("uid").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (issue in p0.children) {
+                        data = issue.getValue(ItemMitra::class.java)
+                        holder.namaPosting.text = data?.nama_mitra
+                        Glide.with(c)
+                            .load(data?.foto)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(holder.fotouser)
+                        holder.ambilPenawaran.onClick {
+                            //            orderShop(item)
+                            showQtyAndAddress(item, data, harga)
+                        }
+                    }
+                }
+            })
+
+        return flag
     }
 
     private fun showQtyAndAddress(
         item: ItemPost?,
-        data: ItemMitra?
+        data: ItemMitra?,
+        harga: Int?
     ) {
         val dialog = AlertDialog.Builder(c)
         val inflater = c.layoutInflater
@@ -91,6 +126,36 @@ class TimeLineAdapter(
 
         val qty = view.findViewById<EditText>(R.id.qty)
         val alamat = view.findViewById<EditText>(R.id.alamat)
+        val ongkir = view.findViewById<TextView>(R.id.ongkir)
+        val hargaTv = view.findViewById<TextView>(R.id.harga)
+        val total = view.findViewById<TextView>(R.id.total)
+
+        ongkir.text = "Rp. " + ChangeFormat.toRupiahFormat2(tarif.toString())
+        hargaTv.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
+//        qty.textChangedListener {
+//
+//        }
+        qty.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    val kuantiti = ChangeFormat.clearRp(qty.text.toString()).toInt()
+                    val ongkos = ChangeFormat.clearRp(ongkir.text.toString()).toInt()
+                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    total.text = "Rp. " + ChangeFormat.toRupiahFormat2(totl.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
+
         alamat.setText(Prefs.getString(Constant.ALAMAT, ""))
 
         dialog.setPositiveButton("Order", object : DialogInterface.OnClickListener {
@@ -117,7 +182,7 @@ class TimeLineAdapter(
         shopOrderModel.email = Prefs.getString(Constant.EMAIL, "")
         shopOrderModel.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.qty = qty
-        shopOrderModel.ship_shop = getTarif.getTarif("shop").toInt()
+        shopOrderModel.ship_shop = tarif
         shopOrderModel.price_shop = item?.harga
         shopOrderModel.lat_cust = 0.0
         shopOrderModel.lon_cust = 0.0
@@ -133,6 +198,9 @@ class TimeLineAdapter(
         model.deskripsi = "Orderan Mi Shop ke $alamat"
         model.book = shopOrderModel
         model.type = 0
+
+
+        Toast.makeText(c, data?.regid, Toast.LENGTH_SHORT).show()
 
         notif.token = data?.regid
         notif.data = model
