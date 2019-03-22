@@ -14,6 +14,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiBikeActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpressActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.shop.detail.DetailMiShopActivity
 import kotlinx.android.synthetic.main.notifikasi_item.view.*
@@ -56,7 +57,10 @@ class NotifikasiAdapter(
             holder.detail.visibility = View.VISIBLE
             holder.detail.onClick {
                 //            c?.toast(holder.orderNumber.text)
-                c?.startActivity<DetailMiShopActivity>("idOrder" to holder.orderNumber.text.toString())
+                c?.startActivity<DetailMiShopActivity>(
+                    "idOrder" to holder.orderNumber.text.toString(),
+                    "from" to Constant.TB_SHOP
+                )
             }
         } else if (item.type == 1) {
             holder.ambil.visibility = View.GONE
@@ -85,7 +89,12 @@ class NotifikasiAdapter(
             holder.ambil.visibility = View.GONE
             holder.tolak.visibility = View.GONE
             holder.detail.visibility = View.VISIBLE
-
+            holder.detail.onClick {
+                c?.startActivity<DetailMiShopActivity>(
+                    "idOrder" to holder.orderNumber.text.toString(),
+                    "from" to Constant.TB_SERVICE
+                )
+            }
         }
     }
 

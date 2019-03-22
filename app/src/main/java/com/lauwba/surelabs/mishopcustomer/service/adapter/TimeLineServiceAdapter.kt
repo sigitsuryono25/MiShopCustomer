@@ -2,14 +2,14 @@ package com.lauwba.surelabs.mishopcustomer.service.adapter
 
 
 import android.content.Context
-import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -20,20 +20,20 @@ import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.service.model.ItemPostService
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
-import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.fragment_item.view.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.sendSMS
 
 
 class TimeLineServiceAdapter(
     private val mValues: MutableList<ItemPostService>?,
     var c: Context,
     private val mitra: MutableList<ItemMitra>?,
-    private val tarif: Int?
+    private val tarif: Int?,
+    private val mitraData: ItemMitra?
 ) : RecyclerView.Adapter<TimeLineServiceAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -54,7 +54,7 @@ class TimeLineServiceAdapter(
         holder.idShop.text = item?.idOrder
         holder.lokasi.visibility = View.GONE
         holder.wa.visibility = View.GONE
-        holder.ambilPenawaran.text = "Ambil dan Atur"
+        holder.ambilPenawaran.text = "Hubungi Mitra"
         holder.ambilPenawaran.visibility = View.VISIBLE
 
         Glide.with(c)
@@ -67,32 +67,44 @@ class TimeLineServiceAdapter(
             .into(holder.imagePost)
 
         holder.ambilPenawaran.onClick {
-            item?.idOrder?.let { it1 -> c.toast(it1) }
-            aturJadwal(item?.idOrder)
+            showAlert(mitraData)
         }
     }
 
-    private fun aturJadwal(idOrder: String?) {
-        val dialog = AlertDialog.Builder(c)
-        val inflater = c.layoutInflater
-        val view = inflater.inflate(R.layout.atur_jadwal_service, null)
-        dialog.setView(view)
-        dialog.setTitle("Konfirmasi Berapa Kali")
+    private fun showAlert(mitra: ItemMitra?) {
+        val layout = LayoutInflater.from(c)
+        val nomorTelpon = mitra?.no_tel
+        val v = layout.inflate(R.layout.layout_mitra, null)
+        val alertDialog = AlertDialog.Builder(c)
+        alertDialog.setView(v)
+        val foto = v.findViewById<ImageView>(R.id.fotomitra)
+        val nama = v.findViewById<TextView>(R.id.namaMitra)
+        val tel = v.findViewById<TextView>(R.id.nomorTelepon)
+        val wa = v.findViewById<TextView>(R.id.wa)
+        val sms = v.findViewById<TextView>(R.id.sms)
+        val telepon = v.findViewById<TextView>(R.id.call)
+        nama.text = mitra?.nama_mitra
+        tel.text = nomorTelpon
+        Glide.with(c)
+            .load(mitra?.foto)
+            .apply(RequestOptions().centerCrop().circleCrop())
+            .into(foto)
+        wa.onClick {
+            val url = "whatsapp://send?phone=$nomorTelpon"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            c.startActivity(i)
+        }
 
-        val berapaKali = view.findViewById<EditText>(R.id.berapaKali)
+        sms.onClick {
+            nomorTelpon?.let { it1 -> c.sendSMS(it1) }
+        }
 
-        dialog.setPositiveButton("Order", object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                orderService(
-                    idOrder,
-                    berapaKali.text.toString().toInt(),
-                    Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
-                )
-            }
+        telepon.onClick {
+            nomorTelpon?.let { it1 -> c.makeCall(it1) }
+        }
 
-        })
-
-        dialog.show()
+        alertDialog.create().show()
     }
 
     private fun orderService(idOrder: String?, kali: Int, uidCustomer: String) {

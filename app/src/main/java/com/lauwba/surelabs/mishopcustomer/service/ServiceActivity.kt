@@ -62,7 +62,7 @@ class ServiceActivity : AppCompatActivity() {
                                             for (issues in p0.children) {
                                                 val mitraData = issues.getValue(ItemMitra::class.java)
                                                 mitraData?.let { mListMitra?.add(it) }
-                                                setItemToAdapter(mList, mListMitra, tarif)
+                                                setItemToAdapter(mList, mListMitra, tarif, mitraData)
                                             }
                                         }
 
@@ -99,12 +99,13 @@ class ServiceActivity : AppCompatActivity() {
     private fun setItemToAdapter(
         mList: MutableList<ItemPostService>?,
         mitraData: MutableList<ItemMitra>?,
-        tarif: Int?
+        tarif: Int?,
+        mitra: ItemMitra?
     ) {
         mList?.sortByDescending {
             it.tanggal
         }
-        val adapter = TimeLineServiceAdapter(mList, this, mitraData, tarif)
+        val adapter = TimeLineServiceAdapter(mList, this, mitraData, tarif, mitra)
         try {
             rv.layoutManager = LinearLayoutManager(this)
             rv.adapter = adapter

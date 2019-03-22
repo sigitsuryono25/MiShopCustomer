@@ -11,7 +11,7 @@ class ItemPost {
     var image : String? = null
     var kenaikan : Int? = null
     var ongkos : Int? = null
-
+    var statusPost: String? = null
     init {
 
     }

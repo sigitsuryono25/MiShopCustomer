@@ -61,8 +61,14 @@ class ShopActivity : AppCompatActivity() {
                         if (p0.hasChildren()) {
                             for (issue in p0.children) {
                                 val data = issue.getValue(ItemPost::class.java)
-                                data?.let { mList?.add(it) }
-                                setItemToAdapter(mList, tarif)
+                                if (data?.statusPost?.equals(
+                                        "expired",
+                                        true
+                                    ) == false || data?.statusPost.isNullOrEmpty()
+                                ) {
+                                    data?.let { mList?.add(it) }
+                                    setItemToAdapter(mList, tarif)
+                                }
                             }
                         } else {
 

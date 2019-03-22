@@ -2,16 +2,33 @@ package com.lauwba.surelabs.mishopcustomer.service.model
 
 class ServiceOrderModel {
 
-    var id_order_shop: String? = null
+    var alamat: String? = null
+    var harga: Int? = null
+    var idCustomer: String? = null
     var idOrder: String? = null
+    var idOrderService: String? = null
+    var jadwal: Long? = null
+    var jenis: Int? = null
+    var lat: Double? = null
+    var lon: Double? = null
+    var namaCustomer: String? = null
+    var ship: Int? = null
+    var status: Int? = null
+    var tanggal_order: Long? = null
     var uid: String? = null
-    var email: String? = null
-    var qty: Int? = null
-    var ship_shop: Int? = null
-    var price_shop: Int? = null
-    var lat_cust: Double? = null
-    var lon_cust: Double? = null
-    var status_order_shop: Int? = null
     var uidCustomer: String? = null
-    var tanggalOrder: Long? = null
+
+    class MiService {
+        var deskripsi: String? = null
+        var harga: Int? = null
+        var foto: String? = null
+        var idOrder: String? = null
+        var idMitra: String? = null
+        var namaService: String? = null
+        var ship_service: Int? = null
+        var status: Int? = null
+        var tanggal: Long? = null
+        var type: Int? = null
+        var uid: String? = null
+    }
 }
