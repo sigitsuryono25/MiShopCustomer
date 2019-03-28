@@ -6,11 +6,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
 import com.lauwba.surelabs.mishopcustomer.chat.model.ListViewAdapter
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishoplatest.chat.model.FirebaseMessagingMessage
 import com.lauwba.surelabs.mishoplatest.chat.model.NotificationMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private var item: ItemChat? = null
     private var listViewAdapter: ListViewAdapter? = null
     private var listChat: MutableList<ItemChat>? = null
-    private var token: String? = null
+    private var token: ItemMitra? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,13 @@ class ChatActivity : AppCompatActivity() {
             val filter = IntentFilter("MESSAGE_CUSTOMER")
             registerReceiver(receiver, filter)
 
-            token = intent.getStringExtra("token")
+            token = intent.getSerializableExtra("token") as ItemMitra
+
+            namaMitra.text = token?.nama_mitra
+            Glide.with(this)
+                .load(token?.foto)
+                .apply(RequestOptions().centerCrop().circleCrop())
+                .into(fotoMitra)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -64,7 +73,8 @@ class ChatActivity : AppCompatActivity() {
             base.data = item as ItemChat
 //            notif.token =
 //                "f_7x4QyWUCI:APA91bEjcI2YHDfvFydFgqjD_HNj4OW9qOnljCLJ8NY1gT05vp3PV0JCXuMVuvArIooAdCvfOa1oaiX9M5akjzsw1Rl-AXh_n28OSXUg4MTIjmiaNEOIyc60iRRABRQcBsfcMDlTzWNC"
-            notif.token = token
+            notif.token =
+                "dexw56Avorc:APA91bHT2uqsBTi6fUFRR6kd31UFBpeXJn0j0DWI0tECenCm_S7QZJqksKGPoPTLrzGGazfS1x8AW82sqMZ7WGypUKeq6Z2KqdCrmJpq9VNn7mDiPt7-dXyVsBXFoEGOJonpCC-n2KJF"
             notif.message = base
 
             NetworkModule.getServiceFcm()

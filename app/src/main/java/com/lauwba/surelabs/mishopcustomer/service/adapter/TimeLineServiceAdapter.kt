@@ -67,7 +67,7 @@ class TimeLineServiceAdapter(
             .into(holder.imagePost)
 
         holder.ambilPenawaran.onClick {
-            showAlert(mitraData)
+            showAlert(data)
         }
     }
 

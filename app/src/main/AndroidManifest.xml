@@ -26,12 +26,13 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".dashboard.ui.ProsesFragmentNew">
+        </activity>
         <activity android:name=".myShop.detail.DetailMyShopActivity">
         </activity>
         <activity android:name=".service.ServiceActivity">
         </activity>
         <activity android:name=".chat.ChatActivity">
-
         </activity>
         <activity android:name=".profile.ProfileEditActivity">
         </activity>
@@ -73,7 +74,6 @@
         </activity>
         <activity android:name=".MiCarJekXpress.MiXpressActivity"/>
         <activity android:name=".dashboard.DashboardActivity">
-
         </activity>
         <activity android:name=".webview.WebViewActivity">
         </activity>

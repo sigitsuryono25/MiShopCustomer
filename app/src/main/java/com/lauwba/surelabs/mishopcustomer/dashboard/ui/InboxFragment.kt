@@ -49,6 +49,7 @@ class InboxFragment : Fragment() {
     }
 
     private fun getDataInbox() {
+        var flag = true
         try {
             loading.visibility = View.VISIBLE
             val ref = Constant.database.getReference(Constant.TB_INBOX)
@@ -72,9 +73,10 @@ class InboxFragment : Fragment() {
                             setToView(mList)
 
                             if (insert?.InsertInbox(insertData) == true) {
-                                setBadges(View.VISIBLE)
+                                setBadges(View.VISIBLE, flag)
+                                flag = false
                             } else {
-                                setBadges(View.GONE)
+                                setBadges(View.GONE, false)
                             }
                         }
                     }
@@ -99,25 +101,24 @@ class InboxFragment : Fragment() {
     }
 
 
-    private fun setBadges(visible: Int) {
+    private fun setBadges(visible: Int, flag: Boolean) {
         val bottomNavigationMenuView = activity?.navigation?.getChildAt(0) as BottomNavigationMenuView
         val v = bottomNavigationMenuView.getChildAt(2)
         val itemView = v as BottomNavigationItemView
 
-        if (visible == View.VISIBLE) {
-            try {
-                val badge = LayoutInflater.from(activity)
-                    .inflate(R.layout.badges, itemView, true)
-                val count = badge.findViewById<TextView>(R.id.notifications)
+        try {
+            val badge = LayoutInflater.from(activity)
+                .inflate(R.layout.badges, itemView, true)
+            val count = badge.findViewById<TextView>(R.id.notifications)
+            count.visibility = visible
+            if (flag) {
                 val defaultSoundUri =
                     Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + activity?.packageName + "/" + R.raw.notification)
                 val r = RingtoneManager.getRingtone(activity, defaultSoundUri)
                 r.play()
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-        } else {
-
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

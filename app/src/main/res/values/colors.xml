@@ -6,11 +6,12 @@
     <color name="aqua">#B9F5FA</color>
     <color name="gray">#EEEEEE</color>
     <color name="green">#049C00</color>
+    <color name="greenDark">#035F01</color>
     <color name="red">#D50000</color>
-    <color name="mijek">#FFC400</color>
-    <color name="mishop">#009B4C</color>
-    <color name="micar">#2962FF</color>
-    <color name="miexpress">#6200EA</color>
-    <color name="miservice">#FF3D00</color>
     <color name="blue">#008ED5</color>
+    <color name="mishop">#D50000</color>
+    <color name="miservice">#049C00</color>
+    <color name="micar">#FFC400</color>
+    <color name="mibike">#232324</color>
+    <color name="miexpress">#008ED5</color>
 </resources>

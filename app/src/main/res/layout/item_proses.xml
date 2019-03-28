@@ -3,6 +3,7 @@
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:layout_width="match_parent"
                                     app:cardCornerRadius="5dp"
+                                    app:cardElevation="@dimen/margin_padding"
                                     android:layout_marginTop="@dimen/margin_padding"
                                     android:layout_marginStart="@dimen/margin_padding"
                                     android:layout_marginEnd="@dimen/margin_padding"
@@ -34,6 +35,7 @@
                     android:textAppearance="?attr/textAppearanceListItem"/>
 
             <View
+                    android:id="@+id/marker"
                     android:background="@android:color/darker_gray"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
@@ -62,6 +64,7 @@
 
             <TextView
                     android:padding="@dimen/margin_padding"
+                    android:visibility="gone"
                     android:id="@+id/keterangan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

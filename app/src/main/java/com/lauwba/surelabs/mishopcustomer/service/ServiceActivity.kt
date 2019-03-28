@@ -102,12 +102,12 @@ class ServiceActivity : AppCompatActivity() {
         tarif: Int?,
         mitra: ItemMitra?
     ) {
-        mList?.sortByDescending {
-            it.tanggal
-        }
         val adapter = TimeLineServiceAdapter(mList, this, mitraData, tarif, mitra)
         try {
-            rv.layoutManager = LinearLayoutManager(this)
+            val lm = LinearLayoutManager(this)
+            lm.stackFromEnd = true
+            lm.reverseLayout = true
+            rv.layoutManager = lm
             rv.adapter = adapter
         } catch (e: Exception) {
             e.printStackTrace()

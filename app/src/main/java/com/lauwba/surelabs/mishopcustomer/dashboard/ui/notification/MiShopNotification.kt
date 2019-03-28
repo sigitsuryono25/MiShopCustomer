@@ -1,4 +1,4 @@
-package com.lauwba.surelabs.mishopcustomer.dashboard.ui.notification.ui
+package com.lauwba.surelabs.mishopcustomer.dashboard.ui.notification
 
 
 import android.app.ProgressDialog

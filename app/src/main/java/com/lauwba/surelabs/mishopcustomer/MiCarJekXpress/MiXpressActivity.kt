@@ -120,7 +120,7 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.lonTujuan = lonTujuan
         booking.harga = harga
         booking.jarak = jarakTrip.text.toString()
-        booking.status = 1
+        booking.status = 5
         booking.type = 3
         booking.namaBarang = barang.text.toString()
         booking.nomorYangDihubungi = nomorTelepon.text.toString()

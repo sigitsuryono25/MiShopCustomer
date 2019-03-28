@@ -7,7 +7,7 @@
 
     <android.support.v7.widget.RecyclerView
             android:layout_marginBottom="@dimen/margin_padding"
-            android:id="@+id/notifikasiList"
+            android:id="@+id/listProses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

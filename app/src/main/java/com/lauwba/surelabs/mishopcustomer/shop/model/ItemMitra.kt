@@ -1,6 +1,8 @@
 package com.lauwba.surelabs.mishopcustomer.shop.model
 
-class ItemMitra {
+import java.io.Serializable
+
+class ItemMitra : Serializable {
 
     val alamat_mitra: String? = null
     val email_mitra: String? = null
@@ -17,4 +19,5 @@ class ItemMitra {
     val tgl_lahir: String? = null
     val lat : Double? = null
     val lon : Double? = null
+    val uid: String? = null
 }

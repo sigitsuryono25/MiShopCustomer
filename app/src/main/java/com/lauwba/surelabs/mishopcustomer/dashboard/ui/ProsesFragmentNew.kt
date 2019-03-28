@@ -1,52 +1,47 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
-import com.lauwba.surelabs.mishopcustomer.dashboard.ui.notification.MiShopNotification
-import kotlinx.android.synthetic.main.fragment_new_notification.*
+import com.lauwba.surelabs.mishopcustomer.dashboard.ui.proses.NewProsesFragment
+import kotlinx.android.synthetic.main.fragment_proses.*
 
-class NewNotificationFragment : Fragment() {
+class ProsesFragmentNew : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_notification, container, false)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_proses, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP))
+        changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER))
 
-        bottomNav.setOnNavigationItemSelectedListener {
+        tabs.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.miShop -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miService -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_SERVICE))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SERVICE_ORDER))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miBike -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_BIKE))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_BIKE))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miCar -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_CAR))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_CAR))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miXpress -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_EXPRESS))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_EXPRESS))
                     return@setOnNavigationItemSelectedListener true
                 }
             }
@@ -55,9 +50,7 @@ class NewNotificationFragment : Fragment() {
     }
 
     private fun changeFragment(f: Fragment) {
-        childFragmentManager.beginTransaction().replace(R.id.containerNotif, f)
+        childFragmentManager.beginTransaction().replace(R.id.container, f)
             .commit()
     }
-
-
 }

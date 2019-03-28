@@ -3,22 +3,36 @@ package com.lauwba.surelabs.mishopcustomer.dashboard
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
+import android.support.design.widget.TextInputEditText
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.dashboard.ui.*
 import com.lauwba.surelabs.mishopcustomer.kritik.KritikSaranActivity
+import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.bottom_nav.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -33,10 +47,11 @@ class DashboardActivity : AppCompatActivity() {
         switchOn.visibility = View.VISIBLE
         switchOnCheck()
         setBadges()
+        checkTransaksiMiCar()
 
         if (!Prefs.getBoolean(Constant.SERVICE, false)) {
             switchOn.isChecked = false
-            toast("Layanan Belum Diaktikan")
+            toast("Layanan Belum Diaktifkan")
         } else {
             switchOn.isChecked = true
         }
@@ -58,7 +73,7 @@ class DashboardActivity : AppCompatActivity() {
                         .beginTransaction()
                         .replace(
                             R.id.container,
-                            ProsesFragment()
+                            ProsesFragmentNew()
                         ).commit()
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -92,7 +107,7 @@ class DashboardActivity : AppCompatActivity() {
                 navigation.selectedItemId = R.id.notifikasi
                 supportFragmentManager.beginTransaction().replace(
                     R.id.container,
-                    NotifikasiFragment()
+                    NewNotificationFragment()
                 ).commit()
             } else {
                 supportFragmentManager
@@ -115,6 +130,168 @@ class DashboardActivity : AppCompatActivity() {
         val badge = LayoutInflater.from(this)
             .inflate(R.layout.badges, itemView, true)
         val count = badge.findViewById<TextView>(R.id.notifications)
+    }
+
+    fun checkTransaksiMiCar() {
+        val ref = Constant.database.getReference(Constant.TB_CAR)
+        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.hasChildren()) {
+                        for (issues in p0.children) {
+                            val data = issues.getValue(CarBikeBooking::class.java)
+                            if (data?.rating.isNullOrEmpty()) {
+                                val uidMitra = data?.driver
+                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            }
+                        }
+                    } else {
+                        checkTransaksiMiBike()
+                    }
+                }
+            })
+    }
+
+    fun checkTransaksiMiBike() {
+        val ref = Constant.database.getReference(Constant.TB_BIKE)
+        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.hasChildren()) {
+                        for (issues in p0.children) {
+                            val data = issues.getValue(CarBikeBooking::class.java)
+                            if (data?.rating.isNullOrEmpty()) {
+                                val uidMitra = data?.driver
+                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            }
+                        }
+                    } else {
+                        checkTransaksiMiExpress()
+                    }
+                }
+            })
+    }
+
+    fun checkTransaksiMiExpress() {
+        val ref = Constant.database.getReference(Constant.TB_EXPRESS)
+        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.hasChildren()) {
+                        for (issues in p0.children) {
+                            val data = issues.getValue(CarBikeBooking::class.java)
+                            if (data?.rating.isNullOrEmpty()) {
+                                val uidMitra = data?.driver
+                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            }
+                        }
+                    } else {
+                        checkTransakskMiShop()
+                    }
+                }
+            })
+    }
+
+    fun checkTransakskMiShop() {
+
+    }
+
+    fun getMitraItem(uidMitra: String?, idOrder: String?, table: String) {
+        var itemMitra: ItemMitra?
+        val ref = Constant.database.getReference(Constant.TB_MITRA)
+        ref.orderByChild("uid").equalTo(uidMitra)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    for (issue in p0.children) {
+                        itemMitra = issue.getValue(ItemMitra::class.java)
+                        checkRatingTransaksi(itemMitra, idOrder, table)
+                    }
+                }
+            })
+
+    }
+
+    fun checkRatingTransaksi(
+        item: ItemMitra?,
+        idOrder: String?,
+        table: String
+    ) {
+        val l = LayoutInflater.from(this@DashboardActivity)
+        val v = l.inflate(R.layout.layout_rating_mitra, null)
+        val ad = AlertDialog.Builder(this@DashboardActivity)
+        ad.setView(v)
+        val ratingbar = v.findViewById<RatingBar>(R.id.itemRating)
+        val fotoMitra = v.findViewById<ImageView>(R.id.imageItem)
+        val namaMitra = v.findViewById<TextView>(R.id.nameText)
+        val kirimRating = v.findViewById<Button>(R.id.kirimRating)
+        val ulasan = v.findViewById<TextInputEditText>(R.id.ulasan)
+
+        Glide.with(this)
+            .load(item?.foto)
+            .apply(RequestOptions().centerCrop().circleCrop())
+            .into(fotoMitra)
+
+        namaMitra.text = item?.nama_mitra
+
+
+        val ac = ad.create()
+        ac.show()
+
+        kirimRating.onClick {
+            if (ratingbar.rating == 0f) {
+                toast("Kasih Rating Dulu kak Buat Mitranya :)")
+            } else {
+                sendRating(item, ratingbar.rating, ulasan.text.toString(), ac, idOrder, table)
+            }
+        }
+
+
+    }
+
+    private fun sendRating(
+        item: ItemMitra?,
+        rate: Float,
+        ulasan: String,
+        ad: AlertDialog,
+        idOrder: String?,
+        table: String
+    ) {
+        val ref = Constant.database.getReference(Constant.RATING)
+        val key = ref.push().key
+        val rating = Rating()
+        rating.rating = rate
+        rating.comment = ulasan
+        rating.key = key
+        rating.uidMitra = item?.uid
+        rating.user = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
+
+        ref.child(key ?: HourToMillis.millis().toString()).setValue(rating)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Constant.database.getReference(table).child(idOrder ?: "")
+                        .child("rating").setValue("done")
+                    toast("Terima kasih untuk rating dan ulasanya kak :)")
+                } else
+                    toast("Terjadi kesalahan")
+
+                ad.dismiss()
+            }
     }
 
     private fun switchOnCheck() {

@@ -3,10 +3,50 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:padding="@dimen/margin_padding"
         android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:background="@color/green"
+            android:layout_height="?actionBarSize">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <ImageView
+                    android:id="@+id/fotoMitra"
+                    android:layout_centerVertical="true"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+            />
+
+            <LinearLayout
+                    android:layout_toEndOf="@id/fotoMitra"
+                    android:layout_marginStart="@dimen/margin_padding"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:id="@+id/namaMitra"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+                <TextView
+                        android:id="@+id/plat"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
     <ListView
+            android:padding="@dimen/margin_padding"
+            android:layout_below="@+id/toolbar"
             android:id="@+id/message"
             android:background="@android:color/white"
             android:listSelector="@android:color/white"
@@ -14,11 +54,11 @@
             android:dividerHeight="0dp"
             android:clickable="false"
             android:layout_above="@id/messageSendContainer"
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
     <LinearLayout
+            android:padding="@dimen/margin_padding"
             android:id="@+id/messageSendContainer"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"

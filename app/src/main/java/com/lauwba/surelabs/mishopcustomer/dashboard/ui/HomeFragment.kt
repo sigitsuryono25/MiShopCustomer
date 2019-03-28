@@ -160,13 +160,17 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    imageC2c?.removeAll(imageC2c!!)
-                    idC2c?.removeAll(idC2c!!)
-                    for (issue in p0.children) {
-                        val data = issue.getValue(MyShopModel::class.java)
-                        data?.image?.let { imageC2c?.add(it) }
-                        data?.idMyShop?.let { idC2c?.add(it) }
-                        setToCarousel(imageC2c, idC2c)
+                    if (p0.hasChildren()) {
+                        imageC2c?.removeAll(imageC2c!!)
+                        idC2c?.removeAll(idC2c!!)
+                        for (issue in p0.children) {
+                            val data = issue.getValue(MyShopModel::class.java)
+                            data?.image?.let { imageC2c?.add(it) }
+                            data?.idMyShop?.let { idC2c?.add(it) }
+                            setToCarousel(imageC2c, idC2c)
+                        }
+                    } else {
+                        noData.visibility = View.VISIBLE
                     }
                 }
             })

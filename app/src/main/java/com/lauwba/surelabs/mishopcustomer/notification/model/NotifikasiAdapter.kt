@@ -30,7 +30,7 @@ class NotifikasiAdapter(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    var color = intArrayOf(R.color.mishop, R.color.micar, R.color.mijek, R.color.miexpress, R.color.miservice)
+    var color = intArrayOf(R.color.mishop, R.color.micar, R.color.mibike, R.color.miexpress, R.color.miservice)
     var jenis = arrayListOf("Mi-Shop", "Mi-Car", "Mi-Bike", "Mi-Express", "Mi-Service")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

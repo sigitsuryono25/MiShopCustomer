@@ -58,5 +58,6 @@
     <string name="kritik_dan_saran">Kritik dan Saran</string>
     <string name="loading">memproses data...</string>
     <string name="welcome">Selamat datang</string>
+    <string name="no_data">Belum ada data kak 😔\n Yuk Posting 😋</string>
 
 </resources>

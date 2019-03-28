@@ -3,7 +3,6 @@ package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.ProsesRecyclerAdapte
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.ProsesModel
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.fragment_proses.*
 
 class ProsesFragment : Fragment() {
 
@@ -74,13 +72,13 @@ class ProsesFragment : Fragment() {
     }
 
     private fun setToRc(mList: MutableList<ProsesModel>?, deskripsi: MutableList<ItemPost>?) {
-        try {
+//        try {
             val adapter = mList?.let { activity?.let { it1 -> ProsesRecyclerAdapter(it, deskripsi, it1) } }
-            rcProses.layoutManager = LinearLayoutManager(activity)
-            rcProses.adapter = adapter
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//            rcProses.layoutManager = LinearLayoutManager(activity)
+//            rcProses.adapter = adapter
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
     }
 
 

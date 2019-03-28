@@ -12,6 +12,7 @@ class ItemPost {
     var kenaikan : Int? = null
     var ongkos : Int? = null
     var statusPost: String? = null
+    var maxPesanan: Int? = null
     init {
 
     }

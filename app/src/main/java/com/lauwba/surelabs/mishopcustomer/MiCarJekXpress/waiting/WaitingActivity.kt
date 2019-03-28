@@ -45,7 +45,7 @@ class WaitingActivity : AppCompatActivity() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val book = p0.getValue(CarBikeBooking::class.java)
-                    if (book?.status == 2) {
+                    if (book?.status == 1) {
                         try {
                             val defaultSoundUri =
                                 Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.driver_found)
@@ -55,14 +55,15 @@ class WaitingActivity : AppCompatActivity() {
                             e.printStackTrace()
                         }
 //                        pulsator.stop()
-                        startActivity(intentFor<TrackingDriver>("booking" to book).clearTop().newTask())
+                        finish()
+                        startActivity(intentFor<TrackingDriver>("booking" to book, "from" to from).clearTop().newTask())
                     }
                 }
 
             })
 
         cancelBooking.onClick {
-            ref.child(key ?: "").child("status").setValue(3)
+            ref.child(key ?: "").child("status").setValue(4)
 //            pulsator.stop()
             finish()
         }

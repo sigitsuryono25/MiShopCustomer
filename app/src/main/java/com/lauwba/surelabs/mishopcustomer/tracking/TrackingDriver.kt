@@ -1,7 +1,15 @@
 package com.lauwba.surelabs.mishopcustomer.tracking
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -15,20 +23,25 @@ import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.chat.ChatActivity
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
+import com.lauwba.surelabs.mishopcustomer.dashboard.Rating
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_tracking_driver.*
-import org.jetbrains.anko.makeCall
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.sendSMS
-import org.jetbrains.anko.startActivity
 
 class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
     private var book: CarBikeBooking? = null
     private var phone: String? = null
+    private var itemMitra: ItemMitra? = null
+    private var from: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +49,9 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
 
         book = intent.getSerializableExtra("booking") as CarBikeBooking
+        from = intent.getStringExtra("from")
+
+
 
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
         homeAwal.text = book?.lokasiAwal
@@ -58,6 +74,40 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             phone?.let { it1 -> sendSMS(it1) }
         }
 
+        message.onClick {
+            if (itemMitra == null)
+            else
+                startActivity<ChatActivity>("token" to itemMitra)
+        }
+
+    }
+
+    private fun ratingListener(itemMitra: ItemMitra?) {
+        val ref = from?.let { Constant.database.getReference(it) }
+        ref?.orderByChild("idOrder")?.equalTo(book?.idOrder)
+            ?.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.hasChildren()) {
+                        for (issue in p0.children) {
+                            val data = issue.getValue(CarBikeBooking::class.java)
+                            if (data?.status == 3) {
+                                from?.let { checkRatingTransaksi(itemMitra, book?.idOrder, it) }
+                                break
+                            }
+                        }
+                    }
+                }
+            })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        startActivity(intentFor<DashboardActivity>().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     override fun onMapReady(p0: GoogleMap?) {
@@ -73,17 +123,79 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
             override fun onDataChange(p0: DataSnapshot) {
                 for (issue in p0.children) {
-                    val driver = issue.getValue(ItemMitra::class.java)
-                    phone = driver?.no_tel
-//                    if(book?.type == 2) {
-                    showData(driver, BitmapDescriptorFactory.fromResource(R.drawable.driver_icon4))
-//                    }else{
-//                        showData(driver, BitmapDescriptorFactory.fromResource(R.drawable.car))
-//                    }
+                    itemMitra = issue.getValue(ItemMitra::class.java)
+                    phone = itemMitra?.no_tel
+                    ratingListener(itemMitra)
+                    showData(itemMitra, BitmapDescriptorFactory.fromResource(R.drawable.driver_icon4))
                 }
             }
 
         })
+    }
+
+    fun checkRatingTransaksi(
+        item: ItemMitra?,
+        idOrder: String?,
+        table: String
+    ) {
+        val l = LayoutInflater.from(this@TrackingDriver)
+        val v = l.inflate(R.layout.layout_rating_mitra, null)
+        val ad = AlertDialog.Builder(this@TrackingDriver)
+        ad.setView(v)
+        val ratingbar = v.findViewById<RatingBar>(R.id.itemRating)
+        val fotoMitra = v.findViewById<ImageView>(R.id.imageItem)
+        val namaMitra = v.findViewById<TextView>(R.id.nameText)
+        val kirimRating = v.findViewById<Button>(R.id.kirimRating)
+        val ulasan = v.findViewById<TextInputEditText>(R.id.ulasan)
+
+        Glide.with(this)
+            .load(item?.foto)
+            .apply(RequestOptions().centerCrop().circleCrop())
+            .into(fotoMitra)
+
+        namaMitra.text = item?.nama_mitra
+
+
+        val ac = ad.create()
+        ac.show()
+
+        kirimRating.onClick {
+            if (ratingbar.rating == 0f) {
+                toast("Kasih Rating Dulu kak Buat Mitranya :)")
+            } else {
+                sendRating(item, ratingbar.rating, ulasan.text.toString(), ac, idOrder, table)
+            }
+        }
+    }
+
+    private fun sendRating(
+        item: ItemMitra?,
+        rate: Float,
+        ulasan: String,
+        ad: AlertDialog,
+        idOrder: String?,
+        table: String
+    ) {
+        val ref = Constant.database.getReference(Constant.RATING)
+        val key = ref.push().key
+        val rating = Rating()
+        rating.rating = rate
+        rating.comment = ulasan
+        rating.key = key
+        rating.uidMitra = item?.uid
+        rating.user = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
+
+        ref.child(key ?: HourToMillis.millis().toString()).setValue(rating)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Constant.database.getReference(table).child(idOrder ?: "")
+                        .child("rating").setValue("done")
+                    toast("Terima kasih untuk rating dan ulasanya kak :)")
+                } else
+                    toast("Terjadi kesalahan")
+
+                ad.dismiss()
+            }
     }
 
     private fun showData(driver: ItemMitra?, icon: BitmapDescriptor?) {

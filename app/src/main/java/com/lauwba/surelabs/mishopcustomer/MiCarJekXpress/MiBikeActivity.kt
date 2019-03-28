@@ -111,7 +111,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.tanggal = idOrder
         booking.idOrder = idOrder.toString()
         booking.harga = harga
-        booking.status = 1
+        booking.status = 5
         booking.type = 2
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()

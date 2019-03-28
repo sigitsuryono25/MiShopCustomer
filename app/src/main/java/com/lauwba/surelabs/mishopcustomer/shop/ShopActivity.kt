@@ -23,7 +23,6 @@ class ShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
         setSupportActionBar(toolbar)
-
         titleToolbar.text = "Mi Shop"
 
         mList = mutableListOf()
@@ -88,6 +87,7 @@ class ShopActivity : AppCompatActivity() {
         mList?.sortByDescending {
             it.tanggalPost
         }
+
 
         val adapter = TimeLineAdapter(mList, this, tarif)
         try {

@@ -1,12 +1,13 @@
 package com.lauwba.surelabs.mishopcustomer.shop.adapter
 
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBookin
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.config.InputFilterMinMax
 import com.lauwba.surelabs.mishopcustomer.firebase.FirebaseMessagingModel
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
@@ -46,6 +48,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 //    private val mitra: MutableList<ItemMitra>?,
 //    private val tarif: Int?
 //) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
+
+@SuppressLint("SetTextI18n")
 class TimeLineAdapter(
     private val mValues: MutableList<ItemPost>?,
     var c: Context,
@@ -86,7 +90,7 @@ class TimeLineAdapter(
         item: ItemPost?,
         harga: Int?
     ): Boolean {
-        var flag = false
+        val flag = false
         val ref = Constant.database.getReference(Constant.TB_MITRA)
         ref.orderByChild("uid").equalTo(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -129,7 +133,9 @@ class TimeLineAdapter(
         val ongkir = view.findViewById<TextView>(R.id.ongkir)
         val hargaTv = view.findViewById<TextView>(R.id.harga)
         val total = view.findViewById<TextView>(R.id.total)
-
+        val max = item?.maxPesanan
+        qty.hint = "Maksimal Pesanan $max"
+        qty.filters = max?.let { InputFilterMinMax(1, it) }?.let { arrayOf<InputFilter>(it) }
         ongkir.text = "Rp. " + ChangeFormat.toRupiahFormat2(tarif.toString())
         hargaTv.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
 //        qty.textChangedListener {
@@ -158,12 +164,9 @@ class TimeLineAdapter(
 
         alamat.setText(Prefs.getString(Constant.ALAMAT, ""))
 
-        dialog.setPositiveButton("Order", object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                orderShop(item, qty.text.toString().toInt(), alamat.text.toString(), data)
-            }
-
-        })
+        dialog.setPositiveButton(
+            "Order"
+        ) { _, _ -> orderShop(item, qty.text.toString().toInt(), alamat.text.toString(), data, harga) }
 
         dialog.show()
 
@@ -173,7 +176,8 @@ class TimeLineAdapter(
         item: ItemPost?,
         qty: Int,
         alamat: String,
-        data: ItemMitra?
+        data: ItemMitra?,
+        harga: Int?
     ) {
         val shopOrderModel = ShopOrderModel()
         val time = HourToMillis.millis()
@@ -183,7 +187,7 @@ class TimeLineAdapter(
         shopOrderModel.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.qty = qty
         shopOrderModel.ship_shop = tarif
-        shopOrderModel.price_shop = item?.harga
+        shopOrderModel.price_shop = harga
         shopOrderModel.lat_cust = 0.0
         shopOrderModel.lon_cust = 0.0
         shopOrderModel.status_order_shop = 0

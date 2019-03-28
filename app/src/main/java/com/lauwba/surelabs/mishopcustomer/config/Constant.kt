@@ -23,6 +23,8 @@ object Constant {
     const val TB_KRITIK = "kritik"
     const val TB_SERVICE = "service"
     const val TB_CUSTOMER = "customer"
+    const val RATING = "rating"
+
 
     const val TB_BIKE_ORDER = "mibikebooking"
     const val TB_CAR_ORDER = "micarbooking"
