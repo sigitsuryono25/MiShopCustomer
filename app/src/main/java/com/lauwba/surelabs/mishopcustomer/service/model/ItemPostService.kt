@@ -9,7 +9,7 @@ class ItemPostService {
     var lokasi: String? = null
     var uid: String? = null
     var ship_service: Int? = null
-
+    var namaService: String? = null
     init {
 
     }

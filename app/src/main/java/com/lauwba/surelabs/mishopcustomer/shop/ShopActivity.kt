@@ -9,10 +9,12 @@ import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
+import com.lauwba.surelabs.mishopcustomer.services.MyLocationService
 import com.lauwba.surelabs.mishopcustomer.shop.adapter.TimeLineAdapter
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import kotlinx.android.synthetic.main.activity_shop.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.startService
 
 class ShopActivity : AppCompatActivity() {
     private var mList: MutableList<ItemPost>? = null
@@ -26,6 +28,7 @@ class ShopActivity : AppCompatActivity() {
         titleToolbar.text = "Mi Shop"
 
         mList = mutableListOf()
+        startService<MyLocationService>()
         getTarif()
     }
 

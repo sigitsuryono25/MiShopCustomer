@@ -14,4 +14,5 @@ class ShopOrderModel {
     var status_order_shop: Int? = null
     var uidCustomer: String? = null
     var tanggalOrder: Long? = null
+    var kenaikan: Int? = null
 }

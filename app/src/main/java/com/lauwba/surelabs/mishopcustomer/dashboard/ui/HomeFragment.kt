@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.activity_home_fragment.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 import org.jsoup.Jsoup
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -111,8 +112,23 @@ class HomeFragment : Fragment() {
         gameList = mutableListOf()
         imageC2c = mutableListOf()
         idC2c = mutableListOf()
+        checkLayanan()
+    }
 
+    private fun checkLayanan() {
+        val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+        if (!layanan) {
+            setBackgroundTintMode()
+        } else {
+            initOnlick()
+        }
+    }
 
+    private fun setBackgroundTintMode() {
+        toast("Aktifkan layanan terlebih dahulu")
+    }
+
+    private fun initOnlick() {
         miShop.onClick {
             activity?.startActivity<ShopActivity>()
         }

@@ -1,6 +1,5 @@
 package com.lauwba.surelabs.mishopcustomer.shop.adapter
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AlertDialog
@@ -40,14 +39,6 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
-
-
-//class TimeLineAdapter(
-//    private val mValues: MutableList<ItemPost>?,
-//    var c: Context,
-//    private val mitra: MutableList<ItemMitra>?,
-//    private val tarif: Int?
-//) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
 
 @SuppressLint("SetTextI18n")
 class TimeLineAdapter(
@@ -187,13 +178,14 @@ class TimeLineAdapter(
         shopOrderModel.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.qty = qty
         shopOrderModel.ship_shop = tarif
-        shopOrderModel.price_shop = harga
-        shopOrderModel.lat_cust = 0.0
-        shopOrderModel.lon_cust = 0.0
+        shopOrderModel.price_shop = item?.harga
+        shopOrderModel.lat_cust = Prefs.getDouble("lat", Constant.LAT_DEFAULT)
+        shopOrderModel.lon_cust = Prefs.getDouble("lon", Constant.LON_DEFAULT)
         shopOrderModel.status_order_shop = 0
         shopOrderModel.uid = item?.uid
         shopOrderModel.uidCustomer = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.tanggalOrder = time
+        shopOrderModel.kenaikan = item?.kenaikan
 
         val notif = FirebaseMessagingModel()
         val model = FirebaseBooking()

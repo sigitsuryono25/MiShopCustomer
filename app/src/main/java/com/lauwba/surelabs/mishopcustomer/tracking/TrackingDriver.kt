@@ -85,7 +85,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     private fun ratingListener(itemMitra: ItemMitra?) {
         val ref = from?.let { Constant.database.getReference(it) }
         ref?.orderByChild("idOrder")?.equalTo(book?.idOrder)
-            ?.addValueEventListener(object : ValueEventListener {
+            ?.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
                 }

@@ -60,5 +60,7 @@ object Constant {
     val IDSERVICE = "idService"
     val LINK = "link"
 
+    val LAT_DEFAULT = -8.6724334
+    val LON_DEFAULT = 115.2240954
 
 }

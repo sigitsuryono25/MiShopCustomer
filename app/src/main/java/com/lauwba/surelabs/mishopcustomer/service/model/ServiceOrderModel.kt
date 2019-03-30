@@ -8,7 +8,7 @@ class ServiceOrderModel {
     var idOrder: String? = null
     var idOrderService: String? = null
     var jadwal: Long? = null
-    var jenis: Int? = null
+    var jenis: String? = null
     var lat: Double? = null
     var lon: Double? = null
     var namaCustomer: String? = null

@@ -52,6 +52,7 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
+                                    android:id="@+id/miShopIcon"
                                     android:src="@mipmap/ic_shop"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -75,6 +76,7 @@
 
                             <ImageView
                                     android:src="@mipmap/ic_service"
+                                    android:id="@+id/miServiceIcon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                         </LinearLayout>
@@ -96,6 +98,7 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
+                                    android:id="@+id/miCarIcon"
                                     android:src="@mipmap/ic_car"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -118,6 +121,7 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
+                                    android:id="@+id/miBikeIcon"
                                     android:src="@mipmap/ic_bike"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -140,6 +144,7 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
+                                    android:id="@+id/miXpressIcon"
                                     android:src="@mipmap/ic_express"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>

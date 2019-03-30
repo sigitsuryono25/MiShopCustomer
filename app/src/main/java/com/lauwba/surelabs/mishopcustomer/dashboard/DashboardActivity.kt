@@ -54,6 +54,7 @@ class DashboardActivity : AppCompatActivity() {
             toast("Layanan Belum Diaktifkan")
         } else {
             switchOn.isChecked = true
+            Prefs.putBoolean(Constant.SERVICE, true)
         }
 
 
@@ -275,6 +276,7 @@ class DashboardActivity : AppCompatActivity() {
         val ref = Constant.database.getReference(Constant.RATING)
         val key = ref.push().key
         val rating = Rating()
+        rating.idOrder = idOrder
         rating.rating = rate
         rating.comment = ulasan
         rating.key = key
@@ -337,6 +339,9 @@ class DashboardActivity : AppCompatActivity() {
 //                    sharedPreferences = getPreferences(Context.MODE_PRIVATE)
 //                    sharedPreferences?.edit()?.putBoolean(Constant.SERVICE, true)?.apply()
                     Prefs.putBoolean(Constant.SERVICE, true)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, HomeFragment())
+                        .commit()
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -379,8 +384,12 @@ class DashboardActivity : AppCompatActivity() {
                         it.printStackTrace()
                     }
                 Prefs.putBoolean(Constant.SERVICE, false)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, HomeFragment())
+                    .commit()
 
             }
+
         }
     }
 
