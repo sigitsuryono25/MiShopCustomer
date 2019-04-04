@@ -10,6 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubeThumbnailLoader
+import com.google.android.youtube.player.YouTubeThumbnailView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -39,8 +42,9 @@ import java.io.InputStream
 import java.net.URL
 
 
-class HomeFragment : Fragment() {
-
+class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
+    private var youTubeThumbnailLoader: YouTubeThumbnailLoader? = null
+    private var thumbnailView: YouTubeThumbnailView? = null
     private val gambar = arrayOf(
         R.drawable._1000_blocks_teaser,
         R.drawable.drag_racing_club_teaser,
@@ -98,6 +102,7 @@ class HomeFragment : Fragment() {
     private var rssAdapter: RssFeedAdapter? = null
     private var imageC2c: MutableList<String>? = null
     private var idC2c: MutableList<String>? = null
+    private var layanan: Boolean? = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_home_fragment, container, false)
@@ -113,15 +118,15 @@ class HomeFragment : Fragment() {
         imageC2c = mutableListOf()
         idC2c = mutableListOf()
         checkLayanan()
+        initOnlick()
     }
 
-    private fun checkLayanan() {
-        val layanan = Prefs.getBoolean(Constant.SERVICE, false)
-        if (!layanan) {
+    private fun checkLayanan(): Boolean {
+        layanan = Prefs.getBoolean(Constant.SERVICE, false)
+        if (layanan == false) {
             setBackgroundTintMode()
-        } else {
-            initOnlick()
         }
+        return layanan ?: false
     }
 
     private fun setBackgroundTintMode() {
@@ -130,23 +135,28 @@ class HomeFragment : Fragment() {
 
     private fun initOnlick() {
         miShop.onClick {
-            activity?.startActivity<ShopActivity>()
+            if (checkLayanan())
+                activity?.startActivity<ShopActivity>()
         }
 
         miService.onClick {
-            activity?.startActivity<ServiceActivity>()
+            if (checkLayanan())
+                activity?.startActivity<ServiceActivity>()
         }
 
         miCar.onClick {
-            activity?.startActivity<MiCarActivity>()
+            if (checkLayanan())
+                activity?.startActivity<MiCarActivity>()
         }
 
         miBike.onClick {
-            activity?.startActivity<MiBikeActivity>()
+            if (checkLayanan())
+                activity?.startActivity<MiBikeActivity>()
         }
 
         miXpress.onClick {
-            activity?.startActivity<MiXpressActivity>()
+            if (checkLayanan())
+                activity?.startActivity<MiXpressActivity>()
         }
 
         reload.onClick {
@@ -161,14 +171,19 @@ class HomeFragment : Fragment() {
             initNews()
             initGames()
             initC2C()
+            initYoutube()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
+    private fun initYoutube() {
+        preview.initialize(getString(R.string.google_api_key), this)
+    }
+
     private fun initC2C() {
         val ref = Constant.database.getReference(Constant.TB_MYSHOP)
-        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .limitToFirst(5)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -176,17 +191,22 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    if (p0.hasChildren()) {
-                        imageC2c?.removeAll(imageC2c!!)
-                        idC2c?.removeAll(idC2c!!)
-                        for (issue in p0.children) {
-                            val data = issue.getValue(MyShopModel::class.java)
-                            data?.image?.let { imageC2c?.add(it) }
-                            data?.idMyShop?.let { idC2c?.add(it) }
-                            setToCarousel(imageC2c, idC2c)
+                    try {
+                        if (p0.hasChildren()) {
+                            imageC2c?.removeAll(imageC2c!!)
+                            idC2c?.removeAll(idC2c!!)
+                            for (issue in p0.children) {
+                                val data = issue.getValue(MyShopModel::class.java)
+                                data?.image?.let { imageC2c?.add(it) }
+                                data?.idMyShop?.let { idC2c?.add(it) }
+                                setToCarousel(imageC2c, idC2c)
+                            }
+                        } else {
+                            noData.visibility = View.VISIBLE
                         }
-                    } else {
-                        noData.visibility = View.VISIBLE
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             })
@@ -345,5 +365,26 @@ class HomeFragment : Fragment() {
         } finally {
             inputStream.close()
         }
+    }
+
+    override fun onInitializationSuccess(p0: YouTubeThumbnailView?, p1: YouTubeThumbnailLoader?) {
+        youTubeThumbnailLoader = p1
+        p1?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+            override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
+                Log.d("YOUTUBE", "THUMBNAIL LOADED")
+            }
+
+            override fun onThumbnailError(p0: YouTubeThumbnailView?, p1: YouTubeThumbnailLoader.ErrorReason?) {
+                Log.d("YOUTUBE", "THUMBNAIL ERROR ${p1.toString()}")
+            }
+
+        })
+
+        youTubeThumbnailLoader?.setVideo("wqfCbcUrWuw")
+    }
+
+    override fun onInitializationFailure(p0: YouTubeThumbnailView?, p1: YouTubeInitializationResult?) {
+        toast("onInitializationFailure ${p1.toString()}")
+
     }
 }

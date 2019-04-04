@@ -4,6 +4,7 @@
                                     android:layout_width="match_parent"
                                     app:cardCornerRadius="5dp"
                                     app:cardElevation="@dimen/margin_padding"
+                                    android:id="@+id/detail"
                                     android:layout_marginTop="@dimen/margin_padding"
                                     android:layout_marginStart="@dimen/margin_padding"
                                     android:layout_marginEnd="@dimen/margin_padding"
@@ -38,8 +39,409 @@
                     android:id="@+id/marker"
                     android:background="@android:color/darker_gray"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="@dimen/margin_padding"
                     android:layout_height="1dp"/>
+            <LinearLayout
+                    android:id="@+id/carBikeExpress"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                <TextView
+                        android:text="Detail Order"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="17sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Lokasi Awal"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/lokasi"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Tujuan"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/tujuan"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/barangContainer"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Barang"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/namaBarang"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="@string/harga"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/hargaCarBikeExpress"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:id="@+id/shopDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Detail Order"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="17sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Pesanan"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/isiPesanan"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Jumlah"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/jumlahPesanan"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="@string/harga"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/nominal"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Biaya Antar"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/ongkir"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/serviceDetail"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Detail Order"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textSize="17sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Layanan"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/isiLayanan"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Deskripsi"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/deskripsiService"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="@string/harga"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/nominalService"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Biaya Jasa"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/biayaJasa"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                    android:layout_marginTop="@dimen/margin_padding"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -48,12 +450,12 @@
                 <TextView
                         android:layout_weight="1"
                         android:layout_width="0dp"
-                        android:text="@string/harga"
+                        android:text="Total"
                         android:textSize="12sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceListItem"/>
                 <TextView
-                        android:id="@+id/nominal"
+                        android:id="@+id/totalAkhir"
                         android:gravity="end"
                         android:layout_weight="1"
                         android:layout_width="0dp"

@@ -27,6 +27,7 @@ import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -93,6 +94,12 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("latTujuan").setValue(latTujuan)
         ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
         ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
+        ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+
+        val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
+        i.putExtra("key", idOrder.toString())
+        i.putExtra("from", Constant.TB_CAR)
+        startActivity(i)
     }
 
     private fun insertFirebase() {
@@ -116,7 +123,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
         booking.driver = ""
-        booking.uid = Config.authInstanceCurrentUser()
+        booking.uidCustomer = Config.authInstanceCurrentUser()
 
         myref.child(idOrder.toString()).setValue(booking)
             .addOnCompleteListener {

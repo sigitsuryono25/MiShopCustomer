@@ -54,7 +54,7 @@ object Constant {
     val EMAIL = "email"
     val URL = "URL"
     val ID_MITRA = "idMitra"
-    val UID = "uid"
+    val UID = "uidCustomer"
     val ALAMAT = "alamat"
     val START = "start"
     val IDSERVICE = "idService"

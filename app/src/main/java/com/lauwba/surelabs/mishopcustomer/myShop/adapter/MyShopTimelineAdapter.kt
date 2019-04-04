@@ -80,7 +80,7 @@ class MyShopTimelineAdapter(
     ) {
 
         val ref = Constant.database.getReference(Constant.TB_CUSTOMER)
-        ref.orderByChild("uid").equalTo(uid)
+        ref.orderByChild("uidCustomer").equalTo(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 

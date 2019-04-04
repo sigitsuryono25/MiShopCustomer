@@ -7,4 +7,8 @@
     <item android:id="@+id/kritik"
           android:title="@string/kritik_dan_saran"
     />
+
+    <item android:id="@+id/tentang"
+          android:title="Tentang Aplikasi"
+    />
 </menu>

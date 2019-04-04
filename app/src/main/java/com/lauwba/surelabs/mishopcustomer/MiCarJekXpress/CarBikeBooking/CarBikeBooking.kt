@@ -5,8 +5,9 @@ import java.io.Serializable
 class CarBikeBooking : Serializable {
 
     var tanggal: Long? = null
-    var idOrder : String? = null
-    var uid: String? = null
+    var deskripsi: String? = null
+    var idOrder: String? = null
+    var uidCustomer: String? = null
     var lokasiAwal: String? = null
     var latAwal: Double? = null
     var lonAwal: Double? = null
@@ -19,11 +20,12 @@ class CarBikeBooking : Serializable {
     var type: Int? = null
     var driver: String? = null
     var rating: String? = null
+    var uid: String? = null
 
     //express punya
 
-    var namaBarang : String? = null
-    var nomorYangDihubungi : String? = null
+    var namaBarang: String? = null
+    var nomorYangDihubungi: String? = null
 
     init {
 

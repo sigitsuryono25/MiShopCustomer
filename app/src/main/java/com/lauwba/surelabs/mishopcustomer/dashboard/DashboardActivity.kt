@@ -28,6 +28,7 @@ import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.dashboard.ui.*
 import com.lauwba.surelabs.mishopcustomer.kritik.KritikSaranActivity
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.lauwba.surelabs.mishopcustomer.tentang.TentangActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.bottom_nav.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -135,7 +136,7 @@ class DashboardActivity : AppCompatActivity() {
 
     fun checkTransaksiMiCar() {
         val ref = Constant.database.getReference(Constant.TB_CAR)
-        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -159,7 +160,7 @@ class DashboardActivity : AppCompatActivity() {
 
     fun checkTransaksiMiBike() {
         val ref = Constant.database.getReference(Constant.TB_BIKE)
-        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -183,7 +184,7 @@ class DashboardActivity : AppCompatActivity() {
 
     fun checkTransaksiMiExpress() {
         val ref = Constant.database.getReference(Constant.TB_EXPRESS)
-        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -212,7 +213,7 @@ class DashboardActivity : AppCompatActivity() {
     fun getMitraItem(uidMitra: String?, idOrder: String?, table: String) {
         var itemMitra: ItemMitra?
         val ref = Constant.database.getReference(Constant.TB_MITRA)
-        ref.orderByChild("uid").equalTo(uidMitra)
+        ref.orderByChild("uidCustomer").equalTo(uidMitra)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -339,9 +340,9 @@ class DashboardActivity : AppCompatActivity() {
 //                    sharedPreferences = getPreferences(Context.MODE_PRIVATE)
 //                    sharedPreferences?.edit()?.putBoolean(Constant.SERVICE, true)?.apply()
                     Prefs.putBoolean(Constant.SERVICE, true)
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, HomeFragment())
-                        .commit()
+//                    supportFragmentManager.beginTransaction()
+//                        .replace(R.id.container, HomeFragment())
+//                        .commit()
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -384,9 +385,9 @@ class DashboardActivity : AppCompatActivity() {
                         it.printStackTrace()
                     }
                 Prefs.putBoolean(Constant.SERVICE, false)
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, HomeFragment())
-                    .commit()
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.container, HomeFragment())
+//                    .commit()
 
             }
 
@@ -401,8 +402,8 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.bantuan -> {
-//                startActivity<TentangActivity>()
+            R.id.tentang -> {
+                startActivity<TentangActivity>()
                 return true
             }
             R.id.kritik -> {

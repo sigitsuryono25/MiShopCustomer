@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".shop.markershop.MarkerShop">
+    <fragment android:layout_width="match_parent" android:layout_height="match_parent"
+              android:id="@+id/map"
+              android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:background="@drawable/button_style_white"
+            android:drawablePadding="@dimen/margin_padding"
+            android:drawableStart="@drawable/ic_pin2"
+            android:id="@+id/showAll"
+            android:padding="@dimen/margin_padding"
+            android:layout_alignParentEnd="true"
+            android:text="Tampilkan Semua titik Pemesan"
+            android:layout_margin="@dimen/margin_padding"
+            android:layout_marginEnd="5dp"/>
+</RelativeLayout>

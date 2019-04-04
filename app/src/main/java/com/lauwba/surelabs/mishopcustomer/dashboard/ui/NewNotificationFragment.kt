@@ -25,28 +25,28 @@ class NewNotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP))
+        changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP, 0))
 
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.miShop -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP))
+                    changeFragment(MiShopNotification.newInstance(Constant.TB_SHOP, 0))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miService -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_SERVICE))
+                    changeFragment(MiShopNotification.newInstance(Constant.TB_SERVICE, 4))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miBike -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_BIKE))
+                    changeFragment(MiShopNotification.newInstance(Constant.TB_BIKE, 2))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miCar -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_CAR))
+                    changeFragment(MiShopNotification.newInstance(Constant.TB_CAR, 1))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miXpress -> {
-                    changeFragment(MiShopNotification.newInstance(Constant.TB_EXPRESS))
+                    changeFragment(MiShopNotification.newInstance(Constant.TB_EXPRESS, 3))
                     return@setOnNavigationItemSelectedListener true
                 }
             }

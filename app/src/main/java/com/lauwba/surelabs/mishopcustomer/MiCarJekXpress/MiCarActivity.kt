@@ -25,6 +25,7 @@ import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -92,6 +93,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
         ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
         ref.child(idOrder ?: "").child("status").setValue(1)
+        ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
 
         val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
         i.putExtra("key", idOrder.toString())
@@ -119,7 +121,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         booking.driver = ""
         booking.lokasiAwal = asal.text.toString()
         booking.lokasiTujuan = tujuan.text.toString()
-        booking.uid = Config.authInstanceCurrentUser()
+        booking.uidCustomer = Config.authInstanceCurrentUser()
 
         myref.child(idOrder.toString()).setValue(booking).addOnCompleteListener {
 

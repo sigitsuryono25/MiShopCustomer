@@ -20,28 +20,28 @@ class ProsesFragmentNew : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER))
+        changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER, 0))
 
         tabs.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.miShop -> {
-                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SHOP_ORDER, 0))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miService -> {
-                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SERVICE_ORDER))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_SERVICE_ORDER, 4))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miBike -> {
-                    changeFragment(NewProsesFragment.newInstance(Constant.TB_BIKE))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_BIKE, 2))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miCar -> {
-                    changeFragment(NewProsesFragment.newInstance(Constant.TB_CAR))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_CAR, 1))
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.miXpress -> {
-                    changeFragment(NewProsesFragment.newInstance(Constant.TB_EXPRESS))
+                    changeFragment(NewProsesFragment.newInstance(Constant.TB_EXPRESS, 3))
                     return@setOnNavigationItemSelectedListener true
                 }
             }

@@ -2,7 +2,7 @@ package com.lauwba.surelabs.mishopcustomer.registrasi.model
 
 import java.io.Serializable
 
-class Customer : Serializable{
+class Customer : Serializable {
 
     var key: String? = null
     var uid: String? = null
@@ -13,6 +13,7 @@ class Customer : Serializable{
     var gender: String? = null
     var terdaftar: Long? = null
     var token: String? = null
-    var fotoCustomer : String? = null
-    var lastEdited : Long? = null
+    var fotoCustomer: String? = null
+    var lat: Double? = null
+    var lon: Double? = null
 }

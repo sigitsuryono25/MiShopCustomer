@@ -55,7 +55,7 @@ class DetailMyShopActivity : AppCompatActivity() {
                         val data = issue.getValue(MyShopModel::class.java)
                         val uid = data?.uid
 
-                        user.orderByChild("uid").equalTo(uid)
+                        user.orderByChild("uidCustomer").equalTo(uid)
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onCancelled(p0: DatabaseError) {
 

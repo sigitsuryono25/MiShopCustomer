@@ -1,212 +1,162 @@
 package com.lauwba.surelabs.mishopcustomer.shop.detail
 
-import android.content.DialogInterface
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.LayoutInflater
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.config.InputFilterMinMax
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
+import com.lauwba.surelabs.mishopcustomer.firebase.FirebaseMessagingModel
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
-import com.lauwba.surelabs.mishopcustomer.service.model.ServiceOrderModel
+import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import com.lauwba.surelabs.mishopcustomer.shop.model.ShopOrderModel
 import com.pixplicity.easyprefs.library.Prefs
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_mi_shop.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.alert
-import org.jetbrains.anko.makeCall
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.sendSMS
 
 class DetailMiShopActivity : AppCompatActivity() {
     private var tarif: Int? = null
-    private var detail: ServiceOrderModel.MiService? = null
-    private var shop: ItemPost? = null
-    private var from: String? = null
-    private var mitra: ItemMitra? = null
+    private var detail: ItemPost? = null
+    private var mitraData: ItemMitra? = null
+    private var harga: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_mi_shop)
         setSupportActionBar(toolbar)
 
-
+        ShipShop()
 
         try {
             titleToolbar.text = getString(R.string.detail_shop)
-            from = intent.getStringExtra("from")
             val i = intent.getStringExtra("idOrder")
-            when (from) {
-                Constant.TB_SHOP -> {
-                    getDetailShop(i)
-                }
+            val key = Constant.database.getReference(Constant.TB_SHOP)
+            val ref = Constant.database.reference
+            key.orderByChild("idOrder").equalTo(i)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
 
-                Constant.TB_SERVICE -> {
-                    getDetailService(i)
-                }
-            }
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        for (data in p0.children) {
+                            detail = data.getValue(ItemPost::class.java)
+                            harga = detail?.harga
+//                            setToView(detail)
+                            val uid = detail?.uid
+
+                            ref.child(Constant.TB_MITRA).orderByChild("uid").equalTo(uid)
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onCancelled(p0: DatabaseError) {
+
+                                    }
+
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        for (issues in p0.children) {
+                                            mitraData = issues.getValue(ItemMitra::class.java)
+                                            setToView(detail, mitraData?.nama_mitra, mitraData?.foto, mitraData)
+                                        }
+                                    }
+
+                                })
+                        }
+                    }
+
+                })
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
         ambilPenawaran.onClick {
-            if (from?.equals(Constant.TB_SHOP) == true)
-                showQtyAndAddress()
-            else
-                showAlert(mitra)
+            showQtyAndAddress(detail, mitraData, harga)
         }
 
     }
 
-    private fun showAlert(mitra: ItemMitra?) {
-        val layout = LayoutInflater.from(applicationContext)
-        val nomorTelpon = mitra?.no_tel
-        val v = layout.inflate(R.layout.layout_mitra, null)
-        val alertDialog = AlertDialog.Builder(this@DetailMiShopActivity)
-        alertDialog.setView(v)
-        val foto = v.findViewById<ImageView>(R.id.fotomitra)
-        val nama = v.findViewById<TextView>(R.id.namaMitra)
-        val tel = v.findViewById<TextView>(R.id.nomorTelepon)
-        val wa = v.findViewById<TextView>(R.id.wa)
-        val sms = v.findViewById<TextView>(R.id.sms)
-        val telepon = v.findViewById<TextView>(R.id.call)
-        nama.text = mitra?.nama_mitra
-        tel.text = nomorTelpon
-        Glide.with(applicationContext)
-            .load(mitra?.foto)
-            .apply(RequestOptions().centerCrop().circleCrop())
-            .into(foto)
-        wa.onClick {
-            val url = "whatsapp://send?phone=$nomorTelpon"
-            val i = Intent(Intent.ACTION_VIEW)
-            i.data = Uri.parse(url)
-            startActivity(i)
-        }
-
-        sms.onClick {
-            nomorTelpon?.let { it1 -> sendSMS(it1) }
-        }
-
-        telepon.onClick {
-            nomorTelpon?.let { it1 -> makeCall(it1) }
-        }
-
-        alertDialog.create().show()
-    }
-
-    private fun getDetailService(i: String) {
-        val key = Constant.database.getReference(Constant.TB_SERVICE)
-        val ref = Constant.database.reference
-        key.orderByChild("idOrder").equalTo(i)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    for (data in p0.children) {
-                        detail = data.getValue(ServiceOrderModel.MiService::class.java)
-//                            setToView(detail)
-                        val uid = detail?.uid
-
-                        ref.child(Constant.TB_MITRA).orderByChild("uid").equalTo(uid)
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onCancelled(p0: DatabaseError) {
-
-                                }
-
-                                override fun onDataChange(p0: DataSnapshot) {
-                                    for (issues in p0.children) {
-                                        mitra = issues.getValue(ItemMitra::class.java)
-                                        setToViewServices(detail, mitra?.nama_mitra)
-                                    }
-                                }
-
-                            })
-                    }
-                }
-
-            })
-    }
-
-    private fun getDetailShop(i: String) {
-        val key = Constant.database.getReference(Constant.TB_SHOP)
-        val ref = Constant.database.reference
-        key.orderByChild("idOrder").equalTo(i)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    for (data in p0.children) {
-                        shop = data.getValue(ItemPost::class.java)
-//                            setToView(detail)
-                        val uid = (detail as ItemPost?)?.uid
-
-                        ref.child(Constant.TB_MITRA).orderByChild("uid").equalTo(uid)
-                            .addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onCancelled(p0: DatabaseError) {
-
-                                }
-
-                                override fun onDataChange(p0: DataSnapshot) {
-                                    for (issues in p0.children) {
-                                        val mitraData = issues.getValue(ItemMitra::class.java)
-                                        setToView(detail as ItemPost?, mitraData?.nama_mitra, mitraData?.foto)
-                                    }
-                                }
-
-                            })
-                    }
-                }
-
-            })
-    }
-
-    private fun showQtyAndAddress() {
-        val dialog = AlertDialog.Builder(this)
+    private fun showQtyAndAddress(
+        item: ItemPost?,
+        data: ItemMitra?,
+        harga: Int?
+    ) {
+        val dialog = AlertDialog.Builder(this@DetailMiShopActivity)
         val inflater = layoutInflater
         val view = inflater.inflate(R.layout.custom_dialog, null)
         dialog.setView(view)
-        dialog.setCancelable(true)
         dialog.setTitle("Konfirmasi Jumlah")
 
         val qty = view.findViewById<EditText>(R.id.qty)
         val alamat = view.findViewById<EditText>(R.id.alamat)
-        alamat.setText(Prefs.getString(Constant.ALAMAT, ""))
-
-        dialog.setPositiveButton("Order", object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface?, which: Int) {
-                orderShop(qty.text.toString().toInt(), detail as ItemPost?)
+        val ongkir = view.findViewById<TextView>(R.id.ongkir)
+        val hargaTv = view.findViewById<TextView>(R.id.harga)
+        val total = view.findViewById<TextView>(R.id.total)
+        val max = item?.maxPesanan
+        qty.hint = "Maksimal Pesanan $max"
+        qty.filters = max?.let { InputFilterMinMax(1, it) }?.let { arrayOf<InputFilter>(it) }
+        ongkir.text = "Rp. " + ChangeFormat.toRupiahFormat2(tarif.toString())
+        hargaTv.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
+//        qty.textChangedListener {
+//
+//        }
+        qty.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                try {
+                    val kuantiti = ChangeFormat.clearRp(qty.text.toString()).toInt()
+                    val ongkos = ChangeFormat.clearRp(ongkir.text.toString()).toInt()
+                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    total.text = "Rp. " + ChangeFormat.toRupiahFormat2(totl.toString())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
         })
 
+        alamat.setText(Prefs.getString(Constant.ALAMAT, ""))
+
+        dialog.setPositiveButton(
+            "Order"
+        ) { _, _ -> orderShop(qty.text.toString().toInt(), item, alamat.text.toString(), data, harga) }
+
+        dialog.setCancelable(true)
         dialog.show()
 
     }
 
     private fun orderShop(
         qty: Int,
-        detail: ItemPost?
+        detail: ItemPost?,
+        alamat: String,
+        mitraData: ItemMitra?,
+        harga: Int?
     ) {
         val shopOrderModel = ShopOrderModel()
         val time = HourToMillis.millis()
@@ -217,12 +167,28 @@ class DetailMiShopActivity : AppCompatActivity() {
         shopOrderModel.qty = qty
         shopOrderModel.ship_shop = tarif
         shopOrderModel.price_shop = detail?.kenaikan?.let { detail.harga?.plus(it) }
-        shopOrderModel.lat_cust = 0.0
-        shopOrderModel.lon_cust = 0.0
+        shopOrderModel.lat_cust = Prefs.getDouble("lat", Constant.LAT_DEFAULT)
+        shopOrderModel.lon_cust = Prefs.getDouble("lon", Constant.LON_DEFAULT)
         shopOrderModel.status_order_shop = 0
         shopOrderModel.uid = detail?.uid
         shopOrderModel.uidCustomer = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         shopOrderModel.tanggalOrder = time
+
+        val notif = FirebaseMessagingModel()
+        val model = FirebaseBooking()
+
+        model.title = "Mi Shop Order"
+        model.deskripsi = "Orderan Mi Shop ke $alamat"
+        model.book = shopOrderModel
+        model.type = 0
+
+        notif.token = mitraData?.regid
+        notif.data = model
+
+        NetworkModule.getServiceFcm().actionSendMessage(notif)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
 
 
         val ref = Constant.database.getReference(Constant.TB_SHOP_ORDER)
@@ -263,27 +229,11 @@ class DetailMiShopActivity : AppCompatActivity() {
             })
     }
 
-    private fun ShipServices() {
-        Constant.database.getReference(Constant.TB_TARIF)
-            .orderByChild("tipe").equalTo("service")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    for (issue in p0.children) {
-                        val data = issue.getValue(Tarif::class.java)
-                        tarif = data?.tarif?.toInt()
-                    }
-                }
-            })
-    }
-
     private fun setToView(
         detail: ItemPost?,
         nama_mitra: String?,
-        foto: String?
+        foto: String?,
+        mitraData: ItemMitra?
     ) {
         try {
             namaPosting.text = nama_mitra
@@ -300,29 +250,7 @@ class DetailMiShopActivity : AppCompatActivity() {
                 .load(foto)
                 .apply(RequestOptions.circleCropTransform())
                 .into(fotouser)
-            ShipShop()
-            content.visibility = View.VISIBLE
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
-    private fun setToViewServices(
-        detail: ServiceOrderModel.MiService?,
-        nama_mitra: String?
-    ) {
-        try {
-            namaPosting.text = nama_mitra
-            idShop.text = detail?.idOrder
-            datePosting.text = detail?.tanggal?.let { HourToMillis.millisToDate(it) }
-            lokasi.text = detail?.namaService
-            val harga = detail?.ship_service?.let { it1 -> detail.harga?.plus(it1) }
-            hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
-            deskripsi.text = detail?.deskripsi
-            Glide.with(this@DetailMiShopActivity)
-                .load(detail?.foto)
-                .into(imagePost)
-            ShipServices()
             content.visibility = View.VISIBLE
         } catch (e: Exception) {
             e.printStackTrace()

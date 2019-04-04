@@ -24,8 +24,10 @@ class MiShopNotification : Fragment() {
 
     companion object {
         var kind: String? = null
-        fun newInstance(k: String?): Fragment {
+        var from: Int? = null
+        fun newInstance(k: String?, i: Int?): Fragment {
             kind = k
+            from = i
             return MiShopNotification()
         }
     }
@@ -41,10 +43,16 @@ class MiShopNotification : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list = mutableListOf()
-        getData()
+        if (from == 0) {
+            getData()
+        } else if (from == 4) {
+            getDataService()
+        } else if (from == 1 || from == 2 || from == 3) {
+            getDataCarBikeExpress()
+        }
     }
 
-    private fun getData() {
+    private fun getDataService() {
         pd = ProgressDialog.show(activity, "", "Memuat notifikasi...")
         val shop = Constant.database.reference
         try {
@@ -71,12 +79,70 @@ class MiShopNotification : Fragment() {
         }
     }
 
+    private fun getData() {
+        pd = ProgressDialog.show(activity, "", "Memuat notifikasi...")
+        val shop = Constant.database.reference
+        try {
+            kind?.let {
+                shop.child(it).limitToLast(10).addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        pd?.dismiss()
+                        if (p0.hasChildren()) {
+                            for (issue in p0.children) {
+                                val data = issue.getValue(NotifikasiItem::class.java)
+                                if (data?.statusPost.equals("", true)) {
+                                    data?.let { list?.add(it) }
+                                    setToAdapter(list)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getDataCarBikeExpress() {
+        pd = ProgressDialog.show(activity, "", "Memuat notifikasi...")
+        val shop = Constant.database.reference
+        try {
+            kind?.let {
+                shop.child(it).limitToLast(10).addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        pd?.dismiss()
+                        if (p0.hasChildren()) {
+                            for (issue in p0.children) {
+                                val data = issue.getValue(NotifikasiItem::class.java)
+                                if (data?.status == 0) {
+                                    data.let { list?.add(it) }
+                                    setToAdapter(list)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun setToAdapter(list: MutableList<NotifikasiItem>?) {
         list?.sortByDescending {
             it.idOrder
         }
         try {
-            val adapter = list?.let { NotifikasiAdapter(it, activity) }
+            val adapter = list?.let { from?.let { it1 -> NotifikasiAdapter(it, activity, it1) } }
             notifikasiList.layoutManager = LinearLayoutManager(activity)
             notifikasiList.adapter = adapter
         } catch (e: Exception) {

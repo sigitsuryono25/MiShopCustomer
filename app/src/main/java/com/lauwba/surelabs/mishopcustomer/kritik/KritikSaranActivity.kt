@@ -5,6 +5,7 @@ package com.lauwba.surelabs.mishopcustomer.kritik
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -15,6 +16,7 @@ import com.lauwba.surelabs.mishopcustomer.kritik.model.KritikModel
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_kritik_saran.*
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -26,7 +28,9 @@ class KritikSaranActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kritik_saran)
-
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        titleToolbar.text = "Kritik dan Saran"
         initView()
         loadDataCustomer()
     }
@@ -85,5 +89,14 @@ class KritikSaranActivity : AppCompatActivity() {
                     }
                 }
             })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

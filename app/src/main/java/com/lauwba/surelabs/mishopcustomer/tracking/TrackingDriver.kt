@@ -46,13 +46,8 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tracking_driver)
-
-
         book = intent.getSerializableExtra("booking") as CarBikeBooking
         from = intent.getStringExtra("from")
-
-
-
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
         homeAwal.text = book?.lokasiAwal
         homeTujuan.text = book?.lokasiTujuan
@@ -115,7 +110,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
         val myRef = Constant.database.getReference(Constant.TB_MITRA)
 
-        val query = myRef.orderByChild("uid").equalTo(book?.driver)
+        val query = myRef.orderByChild("uidCustomer").equalTo(book?.driver)
         query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

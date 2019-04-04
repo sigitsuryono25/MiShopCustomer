@@ -326,6 +326,32 @@
                     </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:paddingBottom="@dimen/margin_padding"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:padding="@dimen/margin_padding"
+                            android:text="Video Tutorial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    <com.google.android.youtube.player.YouTubeThumbnailView
+                            android:layout_width="match_parent"
+                            android:id="@+id/preview"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 

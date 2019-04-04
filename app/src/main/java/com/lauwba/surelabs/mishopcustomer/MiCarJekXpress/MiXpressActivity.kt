@@ -95,6 +95,7 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("namaBarang").setValue(barang.text.toString())
         ref.child(idOrder ?: "").child("nomorYangDihubungi").setValue(nomorTelepon.text.toString())
         ref.child(idOrder ?: "").child("status").setValue(1)
+        ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
 
         val i = Intent(this@MiXpressActivity, WaitingActivity::class.java)
         i.putExtra("key", idOrder.toString())
@@ -111,7 +112,7 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
 
         booking.tanggal = idOrder
         booking.idOrder = idOrder.toString()
-        booking.uid = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
+        booking.uidCustomer = Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid)
         booking.lokasiAwal = asal.text.toString()
         booking.latAwal = latAwal
         booking.lonAwal = lonAwal

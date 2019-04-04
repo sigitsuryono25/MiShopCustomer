@@ -35,6 +35,13 @@ object HourToMillis {
         return sdf.format(c.time)
     }
 
+    fun millisToDateHour(milis: Long): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH)
+        val c = Calendar.getInstance()
+        c.timeInMillis = milis
+        return sdf.format(c.time)
+    }
+
     fun millisToHour(milis: Long): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.ENGLISH)
         val c = Calendar.getInstance()

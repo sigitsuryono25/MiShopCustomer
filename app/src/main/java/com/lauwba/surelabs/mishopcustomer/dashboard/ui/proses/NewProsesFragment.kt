@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,11 @@ class NewProsesFragment : Fragment() {
 
     companion object {
         var kind: String? = null
-        fun newInstance(k: String?): Fragment {
+        var i: Int? = null
+        fun newInstance(k: String?, from: Int?): Fragment {
             kind = k
+            i = from
+            Log.d("Kind", kind)
             return NewProsesFragment()
         }
     }
@@ -42,16 +46,46 @@ class NewProsesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list = mutableListOf()
-        getData()
+        if (i == 0 || i == 4) {
+            getData()
+        } else if (i == 1 || i == 2 || i == 3) {
+            getDataCarBikeExpress()
+        }
     }
 
     private fun getData() {
         pd = ProgressDialog.show(activity, "", "Memuat history", false, true)
         try {
-            val shop = kind?.let { Constant.database.getReferenceFromUrl(it) }
+            val shop = kind?.let { Constant.database.getReference(it) }
             shop?.orderByChild("uidCustomer")
                 ?.equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
-                ?.limitToLast(10)
+                ?.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        pd?.dismiss()
+                        if (p0.hasChildren()) {
+                            for (issue in p0.children) {
+                                val data = issue.getValue(ProsesModel::class.java)
+                                data?.let { list?.add(it) }
+                                setToAdapter(list)
+                            }
+                        }
+                    }
+                })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getDataCarBikeExpress() {
+        pd = ProgressDialog.show(activity, "", "Memuat history", false, true)
+        try {
+            val shop = kind?.let { Constant.database.getReference(it) }
+            shop?.orderByChild("uid")
+                ?.equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
                 ?.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
 
@@ -74,12 +108,12 @@ class NewProsesFragment : Fragment() {
     }
 
     private fun setToAdapter(list: MutableList<ProsesModel>?) {
-        list?.sortByDescending {
-            it.idOrder
-        }
         try {
-            val adapter = list?.let { ProsesAdapter(it) }
-            listProses.layoutManager = LinearLayoutManager(activity)
+            val adapter = list?.let { i?.let { it1 -> ProsesAdapter(it, it1) } }
+            val lm = LinearLayoutManager(activity)
+            lm.reverseLayout = true
+            lm.stackFromEnd = true
+            listProses.layoutManager = lm
             listProses.adapter = adapter
         } catch (e: Exception) {
             e.printStackTrace()

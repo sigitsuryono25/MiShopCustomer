@@ -142,7 +142,7 @@ class NotifikasiFragment : Fragment() {
 
     private fun setToAdapter(list: MutableList<NotifikasiItem>?) {
         try {
-            val adapter = list?.let { NotifikasiAdapter(it, activity) }
+            val adapter = list?.let { NotifikasiAdapter(it, activity, 0) }
             notifikasi.layoutManager = LinearLayoutManager(activity)
             notifikasi.adapter = adapter
             loading.visibility = View.GONE
