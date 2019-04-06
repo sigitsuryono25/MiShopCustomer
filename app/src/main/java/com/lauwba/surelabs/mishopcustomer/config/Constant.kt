@@ -62,5 +62,6 @@ object Constant {
 
     val LAT_DEFAULT = -8.6724334
     val LON_DEFAULT = 115.2240954
+    const val PLAYER = "Rc2dG7uMlhA"
 
 }

@@ -1,5 +1,7 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v4.app.Fragment
@@ -372,15 +374,23 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         p1?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
             override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
                 Log.d("YOUTUBE", "THUMBNAIL LOADED")
+                loadingVideo.visibility = View.GONE
             }
 
             override fun onThumbnailError(p0: YouTubeThumbnailView?, p1: YouTubeThumbnailLoader.ErrorReason?) {
                 Log.d("YOUTUBE", "THUMBNAIL ERROR ${p1.toString()}")
+                loadingVideo.visibility = View.GONE
             }
 
         })
 
-        youTubeThumbnailLoader?.setVideo("wqfCbcUrWuw")
+        youTubeThumbnailLoader?.setVideo(Constant.PLAYER)
+        p0?.setOnClickListener {
+            val url = "https://www.youtube.com/watch?v=${Constant.PLAYER}"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
     }
 
     override fun onInitializationFailure(p0: YouTubeThumbnailView?, p1: YouTubeInitializationResult?) {

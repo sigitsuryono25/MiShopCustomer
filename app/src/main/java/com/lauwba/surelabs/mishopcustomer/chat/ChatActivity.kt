@@ -73,8 +73,7 @@ class ChatActivity : AppCompatActivity() {
             base.data = item as ItemChat
 //            notif.token =
 //                "f_7x4QyWUCI:APA91bEjcI2YHDfvFydFgqjD_HNj4OW9qOnljCLJ8NY1gT05vp3PV0JCXuMVuvArIooAdCvfOa1oaiX9M5akjzsw1Rl-AXh_n28OSXUg4MTIjmiaNEOIyc60iRRABRQcBsfcMDlTzWNC"
-            notif.token =
-                "dexw56Avorc:APA91bHT2uqsBTi6fUFRR6kd31UFBpeXJn0j0DWI0tECenCm_S7QZJqksKGPoPTLrzGGazfS1x8AW82sqMZ7WGypUKeq6Z2KqdCrmJpq9VNn7mDiPt7-dXyVsBXFoEGOJonpCC-n2KJF"
+            notif.token = token?.regid
             notif.message = base
 
             NetworkModule.getServiceFcm()
