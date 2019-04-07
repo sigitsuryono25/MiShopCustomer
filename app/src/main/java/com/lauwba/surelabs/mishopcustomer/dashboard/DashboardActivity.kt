@@ -1,5 +1,6 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard
 
+import android.Manifest
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
@@ -21,12 +22,19 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.dashboard.ui.*
 import com.lauwba.surelabs.mishopcustomer.kritik.KritikSaranActivity
+import com.lauwba.surelabs.mishopcustomer.services.MyLocationService
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.tentang.TentangActivity
 import com.pixplicity.easyprefs.library.Prefs
@@ -35,6 +43,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startService
 import org.jetbrains.anko.toast
 
 class DashboardActivity : AppCompatActivity() {
@@ -48,6 +57,7 @@ class DashboardActivity : AppCompatActivity() {
         switchOn.visibility = View.VISIBLE
         switchOnCheck()
         setBadges()
+        checkPermissions()
         checkTransaksiMiCar()
 
         if (!Prefs.getBoolean(Constant.SERVICE, false)) {
@@ -122,6 +132,35 @@ class DashboardActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun checkPermissions() {
+        Dexter.withActivity(this)
+            .withPermissions(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    if (report?.areAllPermissionsGranted() == true) {
+                        startService<MyLocationService>()
+                    }
+
+                    // check for permanent denial of any permission
+                    if (report?.isAnyPermissionPermanentlyDenied == true) {
+                        // show alert dialog navigating to Settings
+                        Config.showSettingsDialog(this@DashboardActivity)
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+
+            }).withErrorListener { toast("Error occurred") }.onSameThread().check()
     }
 
     private fun setBadges() {

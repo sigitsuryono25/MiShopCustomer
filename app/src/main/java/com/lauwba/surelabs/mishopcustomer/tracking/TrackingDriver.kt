@@ -229,13 +229,17 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             mMap?.moveCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 12))
         }
 
-        Glide.with(this@TrackingDriver)
-            .load(driver?.foto)
-            .apply(RequestOptions().centerCrop().circleCrop())
-            .into(driverImage)
+        try {
+            Glide.with(this@TrackingDriver)
+                .load(driver?.foto)
+                .apply(RequestOptions().centerCrop().circleCrop())
+                .into(driverImage)
 
-        driverName.text = driver?.nama_mitra
-        plat.text = "AB 6729 POQ"
+            driverName.text = driver?.nama_mitra
+            plat.text = "AB 6729 POQ"
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

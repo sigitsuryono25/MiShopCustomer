@@ -8,6 +8,10 @@ class CarBikeBooking : Serializable {
     var deskripsi: String? = null
     var idOrder: String? = null
     var uidCustomer: String? = null
+    var namaCustomer: String? = null
+    var nomorTelepon: String? = null
+    var token: String? = null
+    var foto: String? = null
     var lokasiAwal: String? = null
     var latAwal: Double? = null
     var lonAwal: Double? = null

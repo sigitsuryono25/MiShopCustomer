@@ -56,9 +56,13 @@ object Constant {
     val ID_MITRA = "idMitra"
     val UID = "uidCustomer"
     val ALAMAT = "alamat"
+    const val NAMA_CUSTOMER = "namacustomer"
+    const val TOKEN = "token"
     val START = "start"
     val IDSERVICE = "idService"
     val LINK = "link"
+    val TELEPON = "telepon"
+    val FOTO = "foto"
 
     val LAT_DEFAULT = -8.6724334
     val LON_DEFAULT = 115.2240954

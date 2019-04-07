@@ -71,11 +71,16 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         for (issues in p0.children) {
                             val data = issues.getValue(Customer::class.java)
+                            val token = FirebaseInstanceId.getInstance().token
 
-                            ref.child(data?.key ?: "").child("token").setValue(FirebaseInstanceId.getInstance().token)
+                            ref.child(data?.key ?: "").child("token").setValue(token)
                             Prefs.putString(Constant.EMAIL, email)
                             Prefs.putString(Constant.UID, mAuth?.currentUser?.uid)
                             Prefs.putString(Constant.ALAMAT, data?.alamat)
+                            Prefs.putString(Constant.NAMA_CUSTOMER, data?.nama)
+                            Prefs.putString(Constant.TOKEN, token)
+                            Prefs.putString(Constant.FOTO, data?.fotoCustomer)
+                            Prefs.putString(Constant.TELEPON, data?.telepon)
                             toast(getString(R.string.welcome))
                             finish()
                             startActivity<DashboardActivity>()

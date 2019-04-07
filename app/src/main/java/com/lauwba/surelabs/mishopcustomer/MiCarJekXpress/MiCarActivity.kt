@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.iid.FirebaseInstanceId
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBooking
@@ -107,6 +108,12 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         val booking = CarBikeBooking()
         val time = Calendar.getInstance()
         val idOrder = time.timeInMillis
+
+
+        booking.namaCustomer = Prefs.getString(Constant.NAMA_CUSTOMER, "")
+        booking.token = Prefs.getString(Constant.TOKEN, FirebaseInstanceId.getInstance().token)
+        booking.nomorTelepon = Prefs.getString(Constant.TELEPON, "")
+        booking.foto = Prefs.getString(Constant.FOTO, "")
 
         booking.latAwal = latAwal
         booking.lonAwal = lonAwal
