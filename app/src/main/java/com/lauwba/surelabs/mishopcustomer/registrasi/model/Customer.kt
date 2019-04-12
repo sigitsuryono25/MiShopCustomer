@@ -7,6 +7,7 @@ class Customer : Serializable {
     var key: String? = null
     var uid: String? = null
     var telepon: String? = null
+    var noKTP: String? = null
     var nama: String? = null
     var email: String? = null
     var alamat: String? = null

@@ -48,6 +48,8 @@ class ProfileEditActivity : AppCompatActivity() {
         try {
             val data = intent.getSerializableExtra("data") as Customer
             nama.setText(data.nama)
+            noKTP.setText(data.noKTP)
+            emailCustomer.setText(data.email)
             alamat.setText(data.alamat)
             nomorTelepon.setText(data.telepon)
             Glide.with(this)

@@ -7,76 +7,107 @@
         android:orientation="vertical"
         tools:context=".profile.ProfileEditActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"/>
 
-    <ImageView
-            android:layout_marginTop="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:id="@+id/fotouser"
-            android:src="@drawable/ic_profile"/>
-    <TextView
-            android:id="@+id/pilih"
-            android:background="@drawable/button_style_orange"
-            android:text="Pilih Foto..."
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_padding"
-            android:drawableStart="@drawable/ic_pick_image"
-            android:drawablePadding="@dimen/margin_padding"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/white"
-            android:padding="@dimen/margin_padding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+                                                android:layout_height="wrap_content">
 
-    <LinearLayout
-            android:padding="@dimen/margin_padding"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            <ImageView
+                    android:layout_marginTop="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@+id/fotouser"
+                    android:src="@drawable/ic_profile"/>
+            <TextView
+                    android:id="@+id/pilih"
+                    android:background="@drawable/button_style_orange"
+                    android:text="Pilih Foto..."
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_pick_image"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/white"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                       android:layout_height="wrap_content">
-            <EditText
-                    android:id="@+id/nama"
+            <LinearLayout
+                    android:padding="@dimen/margin_padding"
                     android:layout_width="match_parent"
-                    android:hint="Nama Customer"
-                    android:layout_height="wrap_content"
-            />
-        </android.support.design.widget.TextInputLayout>
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                       android:layout_height="wrap_content">
-            <EditText
-                    android:id="@+id/alamat"
-                    android:layout_width="match_parent"
-                    android:hint="Alamat"
-                    android:layout_height="wrap_content"
-            />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                       android:layout_height="wrap_content">
-            <EditText
-                    android:id="@+id/nomorTelepon"
-                    android:layout_width="match_parent"
-                    android:hint="Nomor Telepon"
-                    android:layout_height="wrap_content"
-            />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content">
+                    <EditText
+                            android:id="@+id/noKTP"
+                            android:layout_width="match_parent"
+                            android:hint="Nomor KTP"
+                            android:layout_height="wrap_content"
+                    />
+                </android.support.design.widget.TextInputLayout>
 
-    <TextView
-            android:id="@+id/simpan"
-            android:text="Simpan"
-            android:drawablePadding="@dimen/margin_padding"
-            android:drawableStart="@drawable/ic_save"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/button_style_green"
-            android:textColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content">
+                    <EditText
+                            android:id="@+id/emailCustomer"
+                            android:layout_width="match_parent"
+                            android:hint="Email"
+                            android:layout_height="wrap_content"
+                    />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content">
+                    <EditText
+                            android:id="@+id/nama"
+                            android:layout_width="match_parent"
+                            android:hint="Nama Customer"
+                            android:layout_height="wrap_content"
+                    />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content">
+                    <EditText
+                            android:id="@+id/alamat"
+                            android:layout_width="match_parent"
+                            android:hint="Alamat"
+                            android:layout_height="wrap_content"
+                    />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content">
+                    <EditText
+                            android:id="@+id/nomorTelepon"
+                            android:layout_width="match_parent"
+                            android:hint="Nomor Telepon"
+                            android:layout_height="wrap_content"
+                    />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/simpan"
+                    android:text="Simpan"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:drawableStart="@drawable/ic_save"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/button_style_green"
+                    android:textColor="@android:color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

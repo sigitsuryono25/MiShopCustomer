@@ -121,6 +121,12 @@ class DashboardActivity : AppCompatActivity() {
                     R.id.container,
                     NewNotificationFragment()
                 ).commit()
+            } else if (notif == 1) {
+                navigation.selectedItemId = R.id.orderan
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.container,
+                    ProsesFragmentNew()
+                ).commit()
             } else {
                 supportFragmentManager
                     .beginTransaction()

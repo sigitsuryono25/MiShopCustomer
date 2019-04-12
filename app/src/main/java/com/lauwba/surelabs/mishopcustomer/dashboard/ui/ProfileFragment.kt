@@ -66,6 +66,7 @@ class ProfileFragment : Fragment() {
         logout.onClick {
             Prefs.clear()
             Constant.mAuth.signOut()
+            activity?.finish()
             startActivity(intentFor<MainActivity>().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
         edit.onClick {

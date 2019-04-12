@@ -10,11 +10,24 @@
     <include layout="@layout/toolbar"/>
 
     <LinearLayout
-            android:layout_marginTop="@dimen/margin_padding"
-            android:layout_below="@+id/toolbar"
+            android:padding="@dimen/margin_padding"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <EditText
+                    android:id="@+id/ktp"
+                    android:hint="Nomor KTP"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -89,6 +102,7 @@
             android:id="@+id/daftar"
             android:layout_width="match_parent"
             android:text="@string/daftar"
+            android:layout_margin="@dimen/margin_padding"
             android:textColor="@android:color/white"
             android:background="@drawable/button_style"
             android:layout_height="wrap_content"/>

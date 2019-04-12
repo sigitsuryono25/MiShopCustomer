@@ -20,6 +20,7 @@ import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.config.InputFilterMinMax
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
+import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.firebase.FirebaseMessagingModel
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
@@ -31,8 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail_mi_shop.*
 import kotlinx.android.synthetic.main.toolbar.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.okButton
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class DetailMiShopActivity : AppCompatActivity() {
@@ -199,7 +199,8 @@ class DetailMiShopActivity : AppCompatActivity() {
                         message = "Orderan Berhasil Dimasukan. Silahkan Lihat Halam Proses untuk melihat Pesanan Anda"
                         title = "Berhasil"
                         okButton {
-
+                            finish()
+                            startActivity(intentFor<DashboardActivity>("notif" to 1).clearTop().clearTask().newTask())
                         }
                     }.show()
                 } else {

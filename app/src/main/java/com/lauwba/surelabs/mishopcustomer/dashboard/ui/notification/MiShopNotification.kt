@@ -94,11 +94,11 @@ class MiShopNotification : Fragment() {
                         if (p0.hasChildren()) {
                             for (issue in p0.children) {
                                 val data = issue.getValue(NotifikasiItem::class.java)
-                                if (!p0.child("statusPost").exists()) {
-                                    data?.let { list?.add(it) }
-                                    setToAdapter(list)
-                                }
-                                if (data?.statusPost.equals("", true)) {
+                                if (data?.statusPost?.equals(
+                                        "expired",
+                                        true
+                                    ) == false || data?.statusPost.isNullOrEmpty()
+                                ) {
                                     data?.let { list?.add(it) }
                                     setToAdapter(list)
                                 }

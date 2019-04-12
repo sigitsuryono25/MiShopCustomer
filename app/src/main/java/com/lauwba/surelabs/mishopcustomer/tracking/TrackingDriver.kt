@@ -21,7 +21,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
-import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.chat.ChatActivity
 import com.lauwba.surelabs.mishopcustomer.config.Constant
@@ -42,12 +41,26 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     private var phone: String? = null
     private var itemMitra: ItemMitra? = null
     private var from: String? = null
+    private var bm: BitmapDescriptor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tracking_driver)
         book = intent.getSerializableExtra("booking") as CarBikeBooking
         from = intent.getStringExtra("from")
+        when (from) {
+            Constant.TB_CAR -> {
+                bm = BitmapDescriptorFactory.fromResource(R.drawable.car)
+            }
+            Constant.TB_BIKE -> {
+                bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
+
+            }
+            Constant.TB_EXPRESS -> {
+                bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
+
+            }
+        }
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
         homeAwal.text = book?.lokasiAwal
         homeTujuan.text = book?.lokasiTujuan
@@ -58,7 +71,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         fragment.getMapAsync(this)
 
         homebuttonnext.onClick {
-            startActivity<MiCarActivity>()
+            finish()
         }
 
         call.onClick {
@@ -91,10 +104,10 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                             val data = issue.getValue(CarBikeBooking::class.java)
                             if (data?.status == 3) {
                                 from?.let { checkRatingTransaksi(itemMitra, book?.idOrder, it) }
-                                break
                             }
                         }
                     }
+                    return
                 }
             })
     }
@@ -110,7 +123,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
         val myRef = Constant.database.getReference(Constant.TB_MITRA)
 
-        val query = myRef.orderByChild("uidCustomer").equalTo(book?.driver)
+        val query = myRef.orderByChild("uid").equalTo(book?.driver)
         query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -121,7 +134,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                     itemMitra = issue.getValue(ItemMitra::class.java)
                     phone = itemMitra?.no_tel
                     ratingListener(itemMitra)
-                    showData(itemMitra, BitmapDescriptorFactory.fromResource(R.drawable.driver_icon4))
+                    showData(itemMitra)
                 }
             }
 
@@ -143,11 +156,14 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         val kirimRating = v.findViewById<Button>(R.id.kirimRating)
         val ulasan = v.findViewById<TextInputEditText>(R.id.ulasan)
 
-        Glide.with(this)
-            .load(item?.foto)
-            .apply(RequestOptions().centerCrop().circleCrop())
-            .into(fotoMitra)
-
+        try {
+            Glide.with(this)
+                .load(item?.foto)
+                .apply(RequestOptions().centerCrop().circleCrop())
+                .into(fotoMitra)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         namaMitra.text = item?.nama_mitra
 
 
@@ -193,12 +209,10 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
-    private fun showData(driver: ItemMitra?, icon: BitmapDescriptor?) {
+    private fun showData(driver: ItemMitra?) {
         mMap?.clear()
         val coordinate = LatLng(driver?.lat ?: 0.0, driver?.lon ?: 0.0)
         val destinasi = LatLng(book?.latTujuan ?: 0.0, book?.lonTujuan ?: 0.0)
-        val myLoc = LatLng(book?.latAwal ?: 0.0, book?.lonAwal ?: 0.0)
-        mMap?.addMarker(MarkerOptions().position(coordinate).title(driver?.nama_mitra).icon(icon))?.showInfoWindow()
         mMap?.addMarker(
             MarkerOptions().position(destinasi).title(book?.lokasiTujuan).icon(
                 BitmapDescriptorFactory.fromResource(
@@ -207,10 +221,8 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             )
         )?.showInfoWindow()
         mMap?.addMarker(
-            MarkerOptions().position(myLoc).title(book?.lokasiAwal).icon(
-                BitmapDescriptorFactory.fromResource(
-                    R.drawable.ic_pin2
-                )
+            MarkerOptions().position(coordinate).title(driver?.nama_mitra).icon(
+                bm
             )
         )?.showInfoWindow()
 //        mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 12f))
@@ -219,14 +231,16 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             //            startActivity()
         }
 
-        mMap?.setPadding(200, 200, 200, 200)
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+        val padding = (width * 0.40).toInt()
+
         val bound = LatLngBounds.builder()
         bound.include(destinasi)
-        bound.include(myLoc)
         bound.include(coordinate)
 
         mMap?.setOnMapLoadedCallback {
-            mMap?.moveCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), 12))
+            mMap?.moveCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), width, height, padding))
         }
 
         try {
@@ -236,10 +250,35 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                 .into(driverImage)
 
             driverName.text = driver?.nama_mitra
-            plat.text = "AB 6729 POQ"
+            val ref = Constant.database.getReference("kendaraan")
+            ref.orderByChild("driver").equalTo(driver?.uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        try {
+                            for (issue in p0.children) {
+                                val data = issue.getValue(TrackingDriver.Kendaraan::class.java)
+                                val platdata = data?.plat
+                                val jenis = data?.jenis
+                                plat.text = "$platdata\n$jenis"
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    class Kendaraan {
+        var driver: String? = null
+        var plat: String? = null
+        var jenis: String? = null
     }
 
 }

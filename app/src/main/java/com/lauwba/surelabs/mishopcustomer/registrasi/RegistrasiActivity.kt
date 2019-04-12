@@ -9,11 +9,8 @@ import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
 import java.util.*
 
 
@@ -29,7 +26,9 @@ class RegistrasiActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         daftar.onClick {
-            if (nama.text.isEmpty()) {
+            if (ktp.text.isEmpty()) {
+                ktp.error = "Nomor KTP Tidak Boleh Kosong"
+            } else if (nama.text.isEmpty()) {
                 nama.error = "Nama Tidak Boleh Kosong"
             } else if (email.text.isEmpty()) {
                 email.error = "Email Tidak Boleh Kosong"
@@ -40,14 +39,19 @@ class RegistrasiActivity : AppCompatActivity() {
             } else if (alamat.text.isEmpty()) {
                 alamat.error = "Alamat Tidak Boleh Kosong"
             } else {
-                mAuth?.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                    ?.addOnCompleteListener(this@RegistrasiActivity) {
-                        if (it.isSuccessful) {
-                            insertIntoServer()
-                        } else {
-                            toast("Terjadi Kesalahan")
-                        }
+                alert {
+                    message = "Dengan ini data yang saya masukkan adalah data yang sebenarnya. "
+                    okButton {
+                        mAuth?.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                            ?.addOnCompleteListener(this@RegistrasiActivity) {
+                                if (it.isSuccessful) {
+                                    insertIntoServer()
+                                } else {
+                                    toast("Terjadi Kesalahan")
+                                }
+                            }
                     }
+                }.show()
             }
         }
 
@@ -64,6 +68,7 @@ class RegistrasiActivity : AppCompatActivity() {
 
         customer.key = key
         customer.email = email.text.toString()
+        customer.noKTP = ktp.text.toString()
         customer.alamat = alamat.text.toString()
         customer.nama = nama.text.toString()
         customer.telepon = nomorTelepon.text.toString()

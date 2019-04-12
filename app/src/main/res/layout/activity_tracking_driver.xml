@@ -105,7 +105,8 @@
                         android:id="@+id/driverName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:text="@string/nama"
-                        android:padding="@dimen/margin_padding"
+                        android:paddingStart="@dimen/margin_padding"
+                        android:paddingEnd="@dimen/margin_padding"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                 />
@@ -113,7 +114,8 @@
                         android:id="@+id/plat"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:text="@string/nama"
-                        android:padding="@dimen/margin_padding"
+                        android:paddingStart="@dimen/margin_padding"
+                        android:paddingEnd="@dimen/margin_padding"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                 />

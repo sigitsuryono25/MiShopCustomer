@@ -80,7 +80,6 @@ class MyLocationService : Service() {
 
         override fun onLocationResult(p0: LocationResult?) {
             super.onLocationResult(p0)
-            super.onLocationResult(p0)
 
             val lat = p0?.lastLocation?.latitude
             val lon = p0?.lastLocation?.longitude
