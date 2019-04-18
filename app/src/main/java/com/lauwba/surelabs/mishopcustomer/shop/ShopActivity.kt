@@ -30,56 +30,8 @@ class ShopActivity : AppCompatActivity() {
 
         mList = mutableListOf()
 
-//        timeline.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                if (!recyclerView.canScrollVertically(1)) {
-//                    getNextData(lastTanggal)
-//                }
-//            }
-//        })
         startService<MyLocationService>()
         getTarif()
-    }
-
-    private fun getNextData(tanggal: String?) {
-        try {
-            val ref = Constant.database.reference
-            ref.child(Constant.TB_SHOP).orderByChild("tanggal").limitToFirst(1)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-
-                    }
-
-                    override fun onDataChange(p0: DataSnapshot) {
-                        if (p0.hasChildren()) {
-                            for (issue in p0.children) {
-                                val data = issue.getValue(ItemPost::class.java)
-                                if (data?.statusPost?.equals(
-                                        "expired",
-                                        true
-                                    ) == false || data?.statusPost.isNullOrEmpty()
-                                ) {
-                                    val exist = mList?.filter {
-                                        it.equals(data?.tanggalPost)
-                                    }
-                                    if (exist?.size == 0) {
-                                        data?.let { mList?.add(it) }
-                                        lastTanggal = data?.tanggalPost
-                                        setItemToAdapter(mList, tarif)
-                                    }
-
-                                }
-                            }
-                        } else {
-
-                        }
-                    }
-
-                })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     private fun getTarif() {
@@ -102,12 +54,13 @@ class ShopActivity : AppCompatActivity() {
 
     private fun getDataShop() {
         try {
-            val ref = Constant.database.reference
-            ref.child(Constant.TB_SHOP).orderByChild("tanggal")
+            val ref = Constant.database.getReference(Constant.TB_SHOP)
+            ref.orderByChild("tanggalPost").limitToFirst(10)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
 
                     }
+
 
                     override fun onDataChange(p0: DataSnapshot) {
                         if (p0.hasChildren()) {

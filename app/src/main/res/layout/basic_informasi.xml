@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<agency.tango.materialintroscreen.parallax.ParallaxLinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/aqua"
+        android:paddingBottom="80dp">
+    <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:layout_marginTop="@dimen/margin_padding"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <ImageView
+                    android:id="@+id/icon"
+                    android:padding="@dimen/margin_padding"
+                    android:src="@drawable/logo_splash_mi"
+                    android:layout_width="100dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_height="40dp"/>
+
+            <TextView
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/black"
+                    android:layout_toEndOf="@+id/icon"
+                    android:text="Informasi Dasar"
+                    android:layout_marginStart="@dimen/margin_padding"
+                    android:layout_marginEnd="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:layout_toStartOf="@id/switchOn"
+                    android:layout_height="wrap_content"/>
+
+            <Switch
+                    android:id="@+id/switchOn"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+            />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+            android:padding="@dimen/margin_padding"
+            android:text="Selamat Datang Dihalaman Pendaftaran Customer Mi Shop.\nSilahkan Isi Semua Data Yang
+telah disediakan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_padding"
+            android:layout_weight="1">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:text="Panggilan"
+            />
+            <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                             android:id="@+id/tuan"
+                             android:text="Tuan"/>
+                <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                             android:id="@+id/nyonya"
+                             android:text="Nyonya"/>
+            </RadioGroup>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Nama Lengkap"
+                        android:id="@+id/nama"
+                        android:textAllCaps="true"
+                        android:inputType="textCapCharacters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Nomor KTP"
+                        android:id="@+id/ktp"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Nomor Telepon"
+                        android:inputType="phone"
+                        android:id="@+id/telepon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Password"
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:inputType="textPassword"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                        android:hint="Konfirmasi Password"
+                        android:id="@+id/confirmPassword"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                    android:text="Pilih Foto"
+                    android:layout_marginTop="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            />
+
+            <ImageView
+                    android:id="@+id/previewImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_profile"
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_gravity="center"
+            />
+
+            <TextView
+                    android:background="@drawable/button_style"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_padding"
+                    android:id="@+id/pick"
+                    android:text="Pilih Berkas"
+                    android:layout_width="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding"
+                    android:layout_height="wrap_content"
+            />
+        </LinearLayout>
+    </ScrollView>
+
+</agency.tango.materialintroscreen.parallax.ParallaxLinearLayout>

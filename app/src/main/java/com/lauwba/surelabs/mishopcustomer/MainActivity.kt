@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.lauwba.surelabs.mishopcustomer.config.Config
-import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
+import com.lauwba.surelabs.mishopcustomer.appintro.AppIntroActivity
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.login.LoginActivity
-import com.lauwba.surelabs.mishopcustomer.registrasi.RegistrasiActivity
+import com.lauwba.surelabs.mishopcustomer.registrasi.NewRegistrasi
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.clearTop
@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        if (Prefs.contains(Config.EMAIL)) {
-            startActivity(intentFor<DashboardActivity>().clearTop().newTask())
+        if (Prefs.contains(Constant.INTRO)) {
+            startActivity(intentFor<AppIntroActivity>().clearTop().newTask())
         }
 
         Glide.with(applicationContext)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         register.onClick {
-            startActivity(intentFor<RegistrasiActivity>().newTask().clearTop())
+            startActivity(intentFor<NewRegistrasi>().newTask().clearTop())
 
         }
 

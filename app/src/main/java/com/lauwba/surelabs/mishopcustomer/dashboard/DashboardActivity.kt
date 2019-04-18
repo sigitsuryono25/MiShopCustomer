@@ -173,13 +173,13 @@ class DashboardActivity : AppCompatActivity() {
         val bottomNavigationMenuView = navigation.getChildAt(0) as BottomNavigationMenuView
         val v = bottomNavigationMenuView.getChildAt(2)
         val itemView = v as BottomNavigationItemView
-
-        val badge = LayoutInflater.from(this)
+//
+        LayoutInflater.from(this)
             .inflate(R.layout.badges, itemView, true)
-        val count = badge.findViewById<TextView>(R.id.notifications)
+//        val count = badge.findViewById<TextView>(R.id.notifications)
     }
 
-    fun checkTransaksiMiCar() {
+    private fun checkTransaksiMiCar() {
         val ref = Constant.database.getReference(Constant.TB_CAR)
         ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -191,19 +191,22 @@ class DashboardActivity : AppCompatActivity() {
                     if (p0.hasChildren()) {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
-                            if (data?.rating.isNullOrEmpty()) {
-                                val uidMitra = data?.driver
-                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            if (data?.status == 3) {
+                                if (data.rating?.isEmpty() == true) {
+                                    val uidMitra = data.driver
+                                    getMitraItem(uidMitra, data.idOrder, Constant.TB_CAR, "Untuk Transaksi Mi Car")
+                                    return
+                                } else {
+                                    checkTransaksiMiBike()
+                                }
                             }
                         }
-                    } else {
-                        checkTransaksiMiBike()
                     }
                 }
             })
     }
 
-    fun checkTransaksiMiBike() {
+    private fun checkTransaksiMiBike() {
         val ref = Constant.database.getReference(Constant.TB_BIKE)
         ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -215,19 +218,22 @@ class DashboardActivity : AppCompatActivity() {
                     if (p0.hasChildren()) {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
-                            if (data?.rating.isNullOrEmpty()) {
-                                val uidMitra = data?.driver
-                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            if (data?.status == 3) {
+                                if (data.rating?.isEmpty() == true) {
+                                    val uidMitra = data.driver
+                                    getMitraItem(uidMitra, data.idOrder, Constant.TB_BIKE, "Untuk Transaksi Mi Bike")
+                                    return
+                                } else {
+                                    checkTransaksiMiExpress()
+                                }
                             }
                         }
-                    } else {
-                        checkTransaksiMiExpress()
                     }
                 }
             })
     }
 
-    fun checkTransaksiMiExpress() {
+    private fun checkTransaksiMiExpress() {
         val ref = Constant.database.getReference(Constant.TB_EXPRESS)
         ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -239,13 +245,21 @@ class DashboardActivity : AppCompatActivity() {
                     if (p0.hasChildren()) {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
-                            if (data?.rating.isNullOrEmpty()) {
-                                val uidMitra = data?.driver
-                                getMitraItem(uidMitra, data?.idOrder, Constant.TB_CAR)
+                            if (data?.status == 3) {
+                                if (data.rating?.isEmpty() == true) {
+                                    val uidMitra = data.driver
+                                    getMitraItem(
+                                        uidMitra,
+                                        data.idOrder,
+                                        Constant.TB_EXPRESS,
+                                        "Untuk Transaksi Mi Express"
+                                    )
+                                    return
+                                } else {
+                                    checkTransakskMiShop()
+                                }
                             }
                         }
-                    } else {
-                        checkTransakskMiShop()
                     }
                 }
             })
@@ -255,10 +269,10 @@ class DashboardActivity : AppCompatActivity() {
 
     }
 
-    fun getMitraItem(uidMitra: String?, idOrder: String?, table: String) {
+    fun getMitraItem(uidMitra: String?, idOrder: String?, table: String, s: String) {
         var itemMitra: ItemMitra?
         val ref = Constant.database.getReference(Constant.TB_MITRA)
-        ref.orderByChild("uidCustomer").equalTo(uidMitra)
+        ref.orderByChild("uid").equalTo(uidMitra)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -267,7 +281,7 @@ class DashboardActivity : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot) {
                     for (issue in p0.children) {
                         itemMitra = issue.getValue(ItemMitra::class.java)
-                        checkRatingTransaksi(itemMitra, idOrder, table)
+                        checkRatingTransaksi(itemMitra, idOrder, table, s)
                     }
                 }
             })
@@ -277,7 +291,8 @@ class DashboardActivity : AppCompatActivity() {
     fun checkRatingTransaksi(
         item: ItemMitra?,
         idOrder: String?,
-        table: String
+        table: String,
+        s: String
     ) {
         val l = LayoutInflater.from(this@DashboardActivity)
         val v = l.inflate(R.layout.layout_rating_mitra, null)
@@ -285,6 +300,7 @@ class DashboardActivity : AppCompatActivity() {
         ad.setView(v)
         val ratingbar = v.findViewById<RatingBar>(R.id.itemRating)
         val fotoMitra = v.findViewById<ImageView>(R.id.imageItem)
+        val untuk = v.findViewById<TextView>(R.id.untuk)
         val namaMitra = v.findViewById<TextView>(R.id.nameText)
         val kirimRating = v.findViewById<Button>(R.id.kirimRating)
         val ulasan = v.findViewById<TextInputEditText>(R.id.ulasan)
@@ -295,6 +311,7 @@ class DashboardActivity : AppCompatActivity() {
             .into(fotoMitra)
 
         namaMitra.text = item?.nama_mitra
+        untuk.text = s
 
 
         val ac = ad.create()
@@ -303,6 +320,8 @@ class DashboardActivity : AppCompatActivity() {
         kirimRating.onClick {
             if (ratingbar.rating == 0f) {
                 toast("Kasih Rating Dulu kak Buat Mitranya :)")
+            } else if (ulasan.text.toString().isEmpty()) {
+                toast("Kasih Ulasan Dong Kak Untuk Mitranya :)")
             } else {
                 sendRating(item, ratingbar.rating, ulasan.text.toString(), ac, idOrder, table)
             }

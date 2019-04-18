@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
@@ -194,10 +193,6 @@ class TimeLineAdapter(
         model.deskripsi = "Orderan Mi Shop ke $alamat"
         model.book = shopOrderModel
         model.type = 0
-
-
-        Toast.makeText(c, data?.regid, Toast.LENGTH_SHORT).show()
-
         notif.token = data?.regid
         notif.data = model
 

@@ -87,4 +87,7 @@ dependencies {
     implementation 'com.karumi:dexter:4.2.0'
     //sqlite
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+    implementation 'agency.tango.android:material-intro-screen:0.0.5'
+    implementation 'com.github.paolorotolo:appintro:4.1.0'
+    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
 }

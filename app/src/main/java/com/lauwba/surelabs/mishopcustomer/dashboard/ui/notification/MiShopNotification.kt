@@ -1,6 +1,5 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui.notification
 
-
 import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment

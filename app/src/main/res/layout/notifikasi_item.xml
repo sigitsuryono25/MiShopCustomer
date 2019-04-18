@@ -107,7 +107,7 @@
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
-                            android:text="Pesanan"
+                            android:text="Penawaran"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -177,6 +177,35 @@
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:id="@+id/ongkir"
+                            android:gravity="end"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text="Lokasi"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:text=":"
+                            android:textSize="12sp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceListItem"/>
+                    <TextView
+                            android:id="@+id/lokasiShop"
                             android:gravity="end"
                             android:layout_weight="3"
                             android:layout_width="0dp"

@@ -24,7 +24,6 @@ class CarBikeBooking : Serializable {
     var type: Int? = null
     var driver: String? = null
     var rating: String? = null
-    var uid: String? = null
 
     //express punya
 

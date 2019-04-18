@@ -6,6 +6,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 
 object Constant {
+    val INTRO = "intro"
+    const val URL_REGENCIES = "http://mishop.server411.tech/index.php/mitra/regencies/51"
+
+    val TB_SERVICE_BOOKING = "servicebooking"
     const val CAMERAREQ = 9999
     const val GALERYREQ = 8888
     const val FILEREQ = 7777

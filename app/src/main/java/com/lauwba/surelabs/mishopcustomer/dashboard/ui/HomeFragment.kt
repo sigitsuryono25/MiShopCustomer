@@ -185,7 +185,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
 
     private fun initC2C() {
         val ref = Constant.database.getReference(Constant.TB_MYSHOP)
-        ref.orderByChild("uidCustomer").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.orderByChild("uid").equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
             .limitToFirst(5)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -319,7 +319,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
                     }
                 }
 
-                Log.d("MainActivity", "Parsing name ==> $name")
+//                Log.d("MainActivity", "Parsing name ==> $name")
                 var result = ""
                 if (xmlPullParser.next() == XmlPullParser.TEXT) {
                     result = xmlPullParser.text
@@ -338,7 +338,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
                         try {
                             val document = Jsoup.parse(desc)
                             src = document.select("img").first().attr("src")
-                            Log.d("link", link)
+//                            Log.d("link", link)
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }

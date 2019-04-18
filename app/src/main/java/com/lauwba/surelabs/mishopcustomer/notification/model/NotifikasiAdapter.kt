@@ -120,6 +120,7 @@ class NotifikasiAdapter(
                             holder.ongkir.text = ChangeFormat.toRupiahFormat2(detailShop?.ongkos.toString())
                             holder.tanggalTransaksi.text =
                                 detailShop?.tanggalPost?.let { HourToMillis.millisToDate(it.toLong()) }
+                            holder.lokasiShop.text = detailShop?.lokasi
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -332,6 +333,7 @@ class NotifikasiAdapter(
         val tanggalTransaksi: TextView = mView.tanggalTransaksi
         val jenis: View = mView.jenis
         val isiPesanan: TextView = mView.isiPesanan
+        val lokasiShop: TextView = mView.lokasiShop
         val nominal: TextView = mView.nominal
         val ongkir: TextView = mView.ongkir
 

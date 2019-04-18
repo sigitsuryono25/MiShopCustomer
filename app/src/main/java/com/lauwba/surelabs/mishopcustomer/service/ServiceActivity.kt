@@ -1,5 +1,7 @@
 package com.lauwba.surelabs.mishopcustomer.service
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -28,18 +30,30 @@ class ServiceActivity : AppCompatActivity() {
 
         titleToolbar.text = "Mi Service"
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(arrayOf(Manifest.permission_group.PHONE), 1)
+            return
+        }
 
         mList = mutableListOf()
         mListMitra = mutableListOf()
 
         getDataService()
         getTarif()
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1) {
+
+        }
     }
 
     private fun getDataService() {
         try {
             val ref = Constant.database.reference
-            ref.child(Constant.TB_SERVICE).orderByChild("tanggal").limitToFirst(10)
+            ref.child(Constant.TB_SERVICE).orderByChild("tanggal").limitToLast(10)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
 

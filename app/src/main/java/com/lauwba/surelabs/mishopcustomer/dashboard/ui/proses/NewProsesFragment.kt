@@ -46,10 +46,46 @@ class NewProsesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list = mutableListOf()
-        if (i == 0 || i == 4) {
+        if (i == 0) {
             getData()
         } else if (i == 1 || i == 2 || i == 3) {
             getDataCarBikeExpress()
+        } else if (i == 4) {
+            getDataService()
+        }
+    }
+
+    private fun getDataService() {
+        pd = ProgressDialog.show(activity, "", "Memuat Jadwal", false, true)
+        try {
+            val shop = kind?.let { Constant.database.getReference(it) }
+            shop?.orderByChild("uidCustomer")
+                ?.equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+                ?.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        try {
+                            pd?.dismiss()
+                            list?.removeAll(list!!)
+                            if (p0.hasChildren()) {
+                                for (issue in p0.children) {
+                                    val data = issue.getValue(ProsesModel::class.java)
+                                    if (data?.status != 4) {
+                                        data?.let { list?.add(it) }
+                                        setToAdapter(list)
+                                    }
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -65,13 +101,20 @@ class NewProsesFragment : Fragment() {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        pd?.dismiss()
-                        if (p0.hasChildren()) {
-                            for (issue in p0.children) {
-                                val data = issue.getValue(ProsesModel::class.java)
-                                data?.let { list?.add(it) }
-                                setToAdapter(list)
+                        try {
+                            pd?.dismiss()
+                            list?.removeAll(list!!)
+                            if (p0.hasChildren()) {
+                                for (issue in p0.children) {
+                                    val data = issue.getValue(ProsesModel::class.java)
+                                    if (data?.status_order_shop != 4) {
+                                        data?.let { list?.add(it) }
+                                        setToAdapter(list)
+                                    }
+                                }
                             }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                 })
@@ -84,7 +127,7 @@ class NewProsesFragment : Fragment() {
         pd = ProgressDialog.show(activity, "", "Memuat history", false, true)
         try {
             val shop = kind?.let { Constant.database.getReference(it) }
-            shop?.orderByChild("uid")
+            shop?.orderByChild("uidCustomer")
                 ?.equalTo(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
                 ?.addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
@@ -92,13 +135,20 @@ class NewProsesFragment : Fragment() {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        pd?.dismiss()
-                        if (p0.hasChildren()) {
-                            for (issue in p0.children) {
-                                val data = issue.getValue(ProsesModel::class.java)
-                                data?.let { list?.add(it) }
-                                setToAdapter(list)
+                        try {
+                            list?.removeAll(list!!)
+                            pd?.dismiss()
+                            if (p0.hasChildren()) {
+                                for (issue in p0.children) {
+                                    val data = issue.getValue(ProsesModel::class.java)
+                                    if (data?.status != 0 && data?.status != 3 && data?.status != 4) {
+                                        data?.let { list?.add(it) }
+                                        setToAdapter(list)
+                                    }
+                                }
                             }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                 })

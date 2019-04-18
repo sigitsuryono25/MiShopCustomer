@@ -1,6 +1,9 @@
 package com.lauwba.surelabs.mishopcustomer.tracking
 
+import android.content.ContentResolver
 import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
@@ -39,9 +42,12 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     private var book: CarBikeBooking? = null
     private var phone: String? = null
+    private var dari: String? = null
     private var itemMitra: ItemMitra? = null
+    private var platData: Kendaraan? = null
     private var from: String? = null
     private var bm: BitmapDescriptor? = null
+    //tatus: 0  posting, 1 diambil customer/mitra, 2 tiba, 3 sampai/selesai, 4  batal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +57,15 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         when (from) {
             Constant.TB_CAR -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.car)
+                dari = Constant.TB_CAR
             }
             Constant.TB_BIKE -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
-
+                dari = Constant.TB_BIKE
             }
             Constant.TB_EXPRESS -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
-
+                dari = Constant.TB_EXPRESS
             }
         }
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
@@ -87,6 +94,125 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             else
                 startActivity<ChatActivity>("token" to itemMitra)
         }
+
+    }
+
+    private fun orderListener(from: String, idOrder: String?) {
+        val ref = Constant.database.getReference(from)
+        ref.orderByChild("idOrder").equalTo(idOrder)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (issues in p0.children) {
+                            val data = issues.getValue(CarBikeBooking::class.java)
+                            val status = data?.status
+                            showAlert(status)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+    }
+
+    private fun showAlert(status: Int?) {
+        val message: String
+        val ab = AlertDialog.Builder(this@TrackingDriver)
+        val v = LayoutInflater.from(this@TrackingDriver).inflate(R.layout.layout_dialog_order, null)
+        ab.setView(v)
+        val messageTv = v.findViewById<TextView>(R.id.message)
+        val driverTV = v.findViewById<TextView>(R.id.namaDriver)
+        val platTv = v.findViewById<TextView>(R.id.plat)
+        val fotoMitras = v.findViewById<ImageView>(R.id.fotoMitra)
+
+        when (status) {
+            1 -> {
+                message = "Sedang Menjemput"
+                statusAntar.text = message
+            }
+            2 -> {
+                message = "Mitra Mishop Telah Tiba"
+                statusAntar.text = message
+                driverTV.text = itemMitra?.nama_mitra
+                platTv.text = plat.text.toString()
+                messageTv.text = message
+                try {
+                    Glide.with(this)
+                        .load(itemMitra?.foto)
+                        .apply(RequestOptions().centerCrop().circleCrop())
+                        .into(fotoMitras)
+                    val defaultSoundUri =
+                        Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.driver_found)
+                    val r = RingtoneManager.getRingtone(this@TrackingDriver, defaultSoundUri)
+                    r.play()
+
+                    ab.setPositiveButton("Siap") { dialog, which ->
+                        dialog.dismiss()
+                    }
+
+                    val ac = ab.create()
+                    ac.show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            3 -> {
+                message = "Selesai Mengantarkan"
+                statusAntar.text = message
+                driverTV.text = driverName.text.toString()
+                platTv.text = plat.text.toString()
+                messageTv.text = message
+                try {
+                    Glide.with(this)
+                        .load(itemMitra?.foto)
+                        .apply(RequestOptions().centerCrop().circleCrop())
+                        .into(fotoMitras)
+                    val defaultSoundUri =
+                        Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.driver_found)
+                    val r = RingtoneManager.getRingtone(this@TrackingDriver, defaultSoundUri)
+                    r.play()
+
+                    ab.setPositiveButton("Siap") { dialog, which ->
+                        finish()
+                    }
+
+                    val ac = ab.create()
+                    ac.show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            4 -> {
+                message = "Dibatalkan oleh mitra"
+                statusAntar.text = message
+                driverTV.text = driverName.text.toString()
+                platTv.text = plat.text.toString()
+                messageTv.text = message
+                try {
+                    Glide.with(this)
+                        .load(itemMitra?.foto)
+                        .apply(RequestOptions().centerCrop().circleCrop())
+                        .into(fotoMitras)
+                    val defaultSoundUri =
+                        Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + packageName + "/" + R.raw.driver_found)
+                    val r = RingtoneManager.getRingtone(this@TrackingDriver, defaultSoundUri)
+                    r.play()
+                    ab.setPositiveButton("Siap") { dialog, which ->
+                        dialog.dismiss()
+                    }
+
+                    val ac = ab.create()
+                    ac.show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
 
     }
 
@@ -260,10 +386,12 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                     override fun onDataChange(p0: DataSnapshot) {
                         try {
                             for (issue in p0.children) {
-                                val data = issue.getValue(TrackingDriver.Kendaraan::class.java)
-                                val platdata = data?.plat
-                                val jenis = data?.jenis
+                                platData = issue.getValue(TrackingDriver.Kendaraan::class.java)
+                                val platdata = platData?.plat
+                                val jenis = platData?.jenis
                                 plat.text = "$platdata\n$jenis"
+
+                                dari?.let { orderListener(it, book?.idOrder) }
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()

@@ -1,7 +1,9 @@
 package com.lauwba.surelabs.mishopcustomer.MiCarJekXpress
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.location.Geocoder
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -13,6 +15,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
@@ -22,6 +27,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.Tarif
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
@@ -36,6 +42,8 @@ import java.util.*
 
 class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private var pd: ProgressDialog? = null
+    private var tarif: String? = null
     var mMap: GoogleMap? = null
     var latAwal: Double? = null
     var lonAwal: Double? = null
@@ -63,6 +71,40 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
         val mp = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mp.onCreate(savedInstanceState)
         mp.getMapAsync(this)
+
+        GetTarifMiExpress().execute()
+    }
+
+    inner class GetTarifMiExpress : AsyncTask<Void, Void, Void>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+            pd = ProgressDialog.show(this@MiXpressActivity, "", "Memuat Halaman...", false, false)
+        }
+
+        override fun doInBackground(vararg params: Void?): Void? {
+            val ref = Constant.database.getReference(Constant.TB_TARIF)
+            ref.orderByChild("tipe").equalTo("express")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        try {
+                            pd?.dismiss()
+                            for (issues in p0.children) {
+                                val data = issues.getValue(Tarif::class.java)
+                                tarif = data?.tarif
+                            }
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                })
+            return null
+        }
+
     }
 
     private fun initView() {
@@ -263,9 +305,8 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
         val valueBagi = value?.div(1000)
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
 
-        var hargaAwal = 0.0
-        hargaAwal = valueBulat * 1750
-        harga = hargaAwal.toInt()
+        val hargaAwal = tarif?.toInt()?.let { valueBulat.times(it) }
+        harga = hargaAwal?.toInt()
 
         val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 

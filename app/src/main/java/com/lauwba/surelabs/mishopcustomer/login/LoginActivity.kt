@@ -12,9 +12,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.appintro.AppIntroActivity
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
-import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_signin.*
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                             Prefs.putString(Constant.TELEPON, data?.telepon)
                             toast(getString(R.string.welcome))
                             finish()
-                            startActivity<DashboardActivity>()
+                            startActivity<AppIntroActivity>()
                         }
                     }
                 }

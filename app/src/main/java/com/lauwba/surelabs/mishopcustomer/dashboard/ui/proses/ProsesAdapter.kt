@@ -23,6 +23,7 @@ import com.lauwba.surelabs.mishopcustomer.service.model.ItemPostService
 import com.lauwba.surelabs.mishopcustomer.shop.markershop.MarkerShop
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import com.lauwba.surelabs.mishopcustomer.shop.model.ShopOrderModel
+import com.lauwba.surelabs.mishopcustomer.tracking.TrackingDriver
 import kotlinx.android.synthetic.main.item_proses.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -34,7 +35,7 @@ class ProsesAdapter(
 
     var color = intArrayOf(R.color.mishop, R.color.micar, R.color.mibike, R.color.miexpress, R.color.miservice)
     val statusDel = arrayListOf("Diterima", "Dipesankan", "Sedang Dijalan", "Batal", "Selesai")
-    val statusCarBikeExpress = arrayListOf("Posting", "Diambil customer/mitra", "Tiba", "Sampai/selesai", "Batal")
+    val statusCarBikeExpress = arrayListOf("Posting", "Sedang Menjemput", "Tiba", "Sampai/selesai", "Batal")
     private var c: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -219,6 +220,9 @@ class ProsesAdapter(
                             holder.hargaCarBikeExpress.text = ChangeFormat.toRupiahFormat2(detail?.harga.toString())
                             holder.status.text = detail?.status?.let { statusCarBikeExpress.get(it) }
                             holder.totalAkhir.text = ChangeFormat.toRupiahFormat2(detail?.harga.toString())
+                            holder.detail.onClick {
+                                c?.startActivity<TrackingDriver>("booking" to detail, "from" to get)
+                            }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

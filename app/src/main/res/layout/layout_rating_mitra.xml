@@ -37,6 +37,12 @@
                 android:progressTint="@color/micar"
                 android:layout_height="wrap_content"
         />
+
+        <TextView
+                android:padding="@dimen/margin_padding"
+                android:layout_width="match_parent"
+                android:id="@+id/untuk"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
