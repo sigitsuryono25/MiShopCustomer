@@ -142,6 +142,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
 
         val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.putExtra("key", idOrder.toString())
         i.putExtra("from", Constant.TB_CAR)
         startActivity(i)
@@ -198,6 +200,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
 //                startActivity<WaitingActivity>("key" to idOrder.toString(), "from" to Constant.TB_CAR_ORDER)
                 val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 i.putExtra("key", idOrder.toString())
                 i.putExtra("from", Constant.TB_CAR)
                 startActivity(i)

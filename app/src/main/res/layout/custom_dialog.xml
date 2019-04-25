@@ -58,6 +58,23 @@
                       android:orientation="vertical">
             <TextView
                     android:layout_marginTop="@dimen/margin_padding"
+                    android:text="Kenaikan"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/kenaikan"
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                    android:layout_marginTop="@dimen/margin_padding"
                     android:text="Biaya Antar"
                     android:textStyle="bold"
                     android:layout_width="match_parent"

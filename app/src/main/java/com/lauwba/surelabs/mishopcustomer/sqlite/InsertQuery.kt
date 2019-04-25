@@ -3,7 +3,7 @@ package com.lauwba.surelabs.mishopcustomer.sqlite
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.util.Log
+import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.InboxModel
 
 /**
@@ -31,19 +31,23 @@ class InsertQuery(internal var c: Context) {
                         "'${inboxModel.to}'," +
                         "'${inboxModel.type}')"
             )
-            Log.d(
-                "QUERY INSERT", "INSERT INTO inbox VALUES(" +
-                        "'${inboxModel.broadcaston}'," +
-                        "'${inboxModel.foto}'," +
-                        "'${inboxModel.id}'," +
-                        "'${inboxModel.message}'," +
-                        "'${inboxModel.to}'," +
-                        "'${inboxModel.type}')"
-            )
             return true
         } catch (e: Exception) {
             return false
         }
 
+    }
+
+    fun insertChat(itemChat: ItemChat?): Boolean? {
+        try {
+            database.execSQL(
+                "INSERT INTO chat(message, isMe, timeStamp) VALUES('${itemChat?.message}'," +
+                        "'${itemChat?.isMe}','${itemChat?.timeStamp}')"
+            )
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
     }
 }

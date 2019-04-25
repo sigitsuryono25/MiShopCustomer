@@ -23,6 +23,7 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiCarActivity
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.MiXpressActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.Constant.TB_CUSTOMER
 import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.GameAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.adapter.RssFeedAdapter
 import com.lauwba.surelabs.mishopcustomer.dashboard.model.GameModel
@@ -30,12 +31,15 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
 import com.lauwba.surelabs.mishopcustomer.myShop.MyShopActivity
 import com.lauwba.surelabs.mishopcustomer.myShop.detail.DetailMyShopActivity
 import com.lauwba.surelabs.mishopcustomer.myShop.model.MyShopModel
+import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.lauwba.surelabs.mishopcustomer.service.ServiceActivity
 import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_home_fragment.*
+import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jsoup.Jsoup
@@ -119,16 +123,30 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         gameList = mutableListOf()
         imageC2c = mutableListOf()
         idC2c = mutableListOf()
-        checkLayanan()
         initOnlick()
     }
 
-    private fun checkLayanan(): Boolean {
-        layanan = Prefs.getBoolean(Constant.SERVICE, false)
-        if (layanan == false) {
-            setBackgroundTintMode()
-        }
-        return layanan ?: false
+    private fun checkLayanan(): Int {
+        var status = 0
+        val ref = Constant.database.getReference(TB_CUSTOMER)
+        ref.orderByChild("email").equalTo(Prefs.getString(Constant.EMAIL, ""))
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (issues in p0.children) {
+                            val data = issues.getValue(Customer::class.java)
+                            status = data?.statusAktif ?: 0
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+        return status
     }
 
     private fun setBackgroundTintMode() {
@@ -137,28 +155,63 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
 
     private fun initOnlick() {
         miShop.onClick {
-            if (checkLayanan())
+            if (checkLayanan() != 2)
                 activity?.startActivity<ShopActivity>()
+            else
+                alert {
+                    message = "Sedang ada Orderan Aktif. Silahkan Menunggu hingga Selesai"
+                    okButton {
+
+                    }
+                }.show()
         }
 
         miService.onClick {
-            if (checkLayanan())
+            if (checkLayanan() != 2)
                 activity?.startActivity<ServiceActivity>()
+            else
+                alert {
+                    message = "Sedang ada Orderan Aktif. Silahkan Menunggu hingga Selesai"
+                    okButton {
+
+                    }
+                }.show()
         }
 
         miCar.onClick {
-            if (checkLayanan())
+            if (checkLayanan() != 2)
                 activity?.startActivity<MiCarActivity>()
+            else
+                alert {
+                    message = "Sedang ada Orderan Aktif. Silahkan Menunggu hingga Selesai"
+                    okButton {
+
+                    }
+                }.show()
         }
 
         miBike.onClick {
-            if (checkLayanan())
+            if (checkLayanan() != 2)
                 activity?.startActivity<MiBikeActivity>()
+            else
+                alert {
+                    message = "Sedang ada Orderan Aktif. Silahkan Menunggu hingga Selesai"
+                    okButton {
+
+                    }
+                }.show()
         }
 
         miXpress.onClick {
-            if (checkLayanan())
+            if (checkLayanan() != 2)
                 activity?.startActivity<MiXpressActivity>()
+            else
+                alert {
+                    message = "Sedang ada Orderan Aktif. Silahkan Menunggu hingga Selesai"
+                    okButton {
+
+                    }
+                }.show()
         }
 
         reload.onClick {
@@ -374,12 +427,20 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         p1?.setOnThumbnailLoadedListener(object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
             override fun onThumbnailLoaded(p0: YouTubeThumbnailView?, p1: String?) {
                 Log.d("YOUTUBE", "THUMBNAIL LOADED")
-                loadingVideo.visibility = View.GONE
+                try {
+                    loadingVideo.visibility = View.GONE
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
             override fun onThumbnailError(p0: YouTubeThumbnailView?, p1: YouTubeThumbnailLoader.ErrorReason?) {
                 Log.d("YOUTUBE", "THUMBNAIL ERROR ${p1.toString()}")
-                loadingVideo.visibility = View.GONE
+                try {
+                    loadingVideo.visibility = View.GONE
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
         })

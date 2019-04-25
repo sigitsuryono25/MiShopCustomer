@@ -40,6 +40,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.toast
 import java.util.*
 
 class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -85,6 +86,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
+            pd?.dismiss()
             val ref = Constant.database.getReference(Constant.TB_TARIF)
             ref.orderByChild("tipe").equalTo("bike")
                 .addValueEventListener(object : ValueEventListener {
@@ -97,6 +99,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                             for (issues in p0.children) {
                                 val data = issues.getValue(Tarif::class.java)
                                 tarif = data?.tarif
+                                tarif?.let { toast(it) }
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -139,6 +142,8 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
 
         val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.putExtra("key", idOrder.toString())
         i.putExtra("from", Constant.TB_CAR)
         startActivity(i)
@@ -195,6 +200,8 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
 //                    startActivity<WaitingActivity>("key" to key, "from" to Constant.TB_BIKE_ORDER)
                     val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     i.putExtra("key", idOrder.toString())
                     i.putExtra("from", Constant.TB_BIKE)
                     startActivity(i)

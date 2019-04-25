@@ -39,7 +39,7 @@ class ListViewAdapter(context: Context, resource: Int, objects: MutableList<Item
             convertView.tag = holder
         } else
             holder = convertView.tag as ViewHolder
-        if (itemProfile?.isMe == true) {
+        if (itemProfile?.isMe.equals("true", true)) {
             holder.container?.gravity = Gravity.END
             holder.messageContainer?.background = parent.context.resources.getDrawable(R.drawable.button_style_orange)
         } else {

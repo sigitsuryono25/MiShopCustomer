@@ -14,6 +14,7 @@ import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.tracking.TrackingDriver
 import kotlinx.android.synthetic.main.activity_waiting.*
+import org.jetbrains.anko.clearTask
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -56,7 +57,12 @@ class WaitingActivity : AppCompatActivity() {
                         }
 //                        pulsator.stop()
                         finish()
-                        startActivity(intentFor<TrackingDriver>("booking" to book, "from" to from).clearTop().newTask())
+                        startActivity(
+                            intentFor<TrackingDriver>(
+                                "booking" to book,
+                                "from" to from
+                            ).clearTop().clearTask().newTask()
+                        )
                     }
                 }
 

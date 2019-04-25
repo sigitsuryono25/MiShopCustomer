@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.FirebaseBooking
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
@@ -32,12 +34,14 @@ import com.lauwba.surelabs.mishopcustomer.shop.model.ItemPost
 import com.lauwba.surelabs.mishopcustomer.shop.model.ShopOrderModel
 import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_item.view.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.toast
 
 @SuppressLint("SetTextI18n")
 class TimeLineAdapter(
@@ -46,6 +50,7 @@ class TimeLineAdapter(
     private val tarif: Int?
 ) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
     private var data: ItemMitra? = null
+    private var dis: CompositeDisposable? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -56,7 +61,7 @@ class TimeLineAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues?.get(position)
 
-        val harga = item?.kenaikan?.let { item.harga?.plus(it) }
+        val harga = item?.harga
         getNameMitra(item?.uid, holder, item, harga)
 
         holder.uidMitra.text = item?.uid
@@ -123,11 +128,13 @@ class TimeLineAdapter(
         val ongkir = view.findViewById<TextView>(R.id.ongkir)
         val hargaTv = view.findViewById<TextView>(R.id.harga)
         val total = view.findViewById<TextView>(R.id.total)
+        val kenaikan = view.findViewById<TextView>(R.id.kenaikan)
         val max = item?.maxPesanan
         qty.hint = "Maksimal Pesanan $max"
         qty.filters = max?.let { InputFilterMinMax(1, it) }?.let { arrayOf<InputFilter>(it) }
         ongkir.text = "Rp. " + ChangeFormat.toRupiahFormat2(tarif.toString())
         hargaTv.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
+        kenaikan.text = "Rp. " + ChangeFormat.toRupiahFormat2(item?.kenaikan.toString())
 //        qty.textChangedListener {
 //
 //        }
@@ -136,7 +143,9 @@ class TimeLineAdapter(
                 try {
                     val kuantiti = ChangeFormat.clearRp(qty.text.toString()).toInt()
                     val ongkos = ChangeFormat.clearRp(ongkir.text.toString()).toInt()
-                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    val kenaikanInt = ChangeFormat.clearRp(kenaikan.text.toString()).toInt()
+//                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    val totl = harga?.plus(kenaikanInt)?.times(kuantiti)?.plus(ongkos)
                     total.text = "Rp. " + ChangeFormat.toRupiahFormat2(totl.toString())
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -156,9 +165,85 @@ class TimeLineAdapter(
 
         dialog.setPositiveButton(
             "Order"
-        ) { _, _ -> orderShop(item, qty.text.toString().toInt(), alamat.text.toString(), data, harga) }
+        ) { _, _ ->
+
+            //            orderShop(item, qty.text.toString().toInt(), alamat.text.toString(), data, harga)
+            if (data?.statusAktif == 3)
+                c.toast("Mitra Lagi Ada orderan kak. Sabar ya")
+            else
+                checkDistance(
+                    Prefs.getDouble("lat", Constant.LAT_DEFAULT),
+                    Prefs.getDouble("lon", Constant.LON_DEFAULT),
+                    item?.lat,
+                    item?.lon,
+                    item, qty.text.toString().toInt(), alamat.text.toString(), data, harga
+                )
+        }
 
         dialog.show()
+
+    }
+
+    private fun checkDistance(
+        latAwal: Double?,
+        lonAwal: Double?,
+        latTujuan: Double?,
+        lonTujuan: Double?,
+        item: ItemPost?,
+        qty: Int,
+        alamat: String,
+        data: ItemMitra?,
+        harga: Int?
+    ) {
+        dis = CompositeDisposable()
+        val origin = "$latAwal, $lonAwal"
+        val destination = "$latTujuan, $lonTujuan"
+
+        dis?.add(
+            NetworkModule.getService().actionRoute(
+                origin,
+                destination,
+                c.getString(R.string.google_maps_key) ?: ""
+            )
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    val route = it?.routes?.get(0)
+                    val overview = route?.overviewPolyline
+                    val point = overview?.points
+                    val distance = route?.legs?.get(0)?.distance
+
+                    hitungJarak(distance, item, qty, alamat, data, harga)
+                }, {
+
+                })
+        )
+    }
+
+    private fun hitungJarak(
+        distance: Distance?,
+        item: ItemPost?,
+        qty: Int,
+        alamat: String,
+        data: ItemMitra?,
+        harga: Int?
+    ) {
+        val jarak = distance?.value
+
+        val valueBagi = jarak?.div(1000)
+        val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
+        Log.d("JARAK", valueBulat.toString())
+
+        if (valueBulat > 20.0) {
+            c.alert {
+                message = "Mohon Maaf kak. " +
+                        "Kakak tidak bisa order. " +
+                        "Dikarenakan diluar Jarak yang telah ditentukan"
+                okButton { }
+            }.show()
+        } else {
+            orderShop(item, qty, alamat, data, harga)
+        }
 
     }
 

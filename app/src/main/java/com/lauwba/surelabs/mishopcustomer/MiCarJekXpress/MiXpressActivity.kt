@@ -141,6 +141,8 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
 
         val i = Intent(this@MiXpressActivity, WaitingActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.putExtra("key", idOrder.toString())
         i.putExtra("from", Constant.TB_EXPRESS)
         startActivity(i)
@@ -194,6 +196,8 @@ class MiXpressActivity : AppCompatActivity(), OnMapReadyCallback {
                     .subscribeOn(Schedulers.io())
                     .subscribe()
                 val i = Intent(this@MiXpressActivity, WaitingActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 i.putExtra("key", idOrder.toString())
                 i.putExtra("from", Constant.TB_EXPRESS)
                 startActivity(i)

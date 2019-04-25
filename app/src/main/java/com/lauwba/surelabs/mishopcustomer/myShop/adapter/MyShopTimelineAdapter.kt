@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +79,7 @@ class MyShopTimelineAdapter(
     ) {
 
         val ref = Constant.database.getReference(Constant.TB_CUSTOMER)
-        ref.orderByChild("uidCustomer").equalTo(uid)
+        ref.orderByChild("uid").equalTo(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
@@ -92,9 +91,9 @@ class MyShopTimelineAdapter(
                         holder.namaPosting.text = cus?.nama
                         val number = cus?.telepon
                         holder.wa.text = number
-                        Log.d("TEL", cus?.telepon)
                         holder.layoutWa.onClick {
-                            val url = "whatsapp://send?phone=$number"
+                            val url = "https://api.whatsapp.com/send?phone=${number?.replace("+", "")}"
+//                            val url = "whatsapp://send?phone=$number"
                             val i = Intent(Intent.ACTION_VIEW)
                             i.data = Uri.parse(url)
                             c?.startActivity(i)

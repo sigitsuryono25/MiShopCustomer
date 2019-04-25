@@ -14,7 +14,7 @@ class ItemMitra : Serializable {
     val no_tel: String? = null
     val regid: String? = null
     val saldo: Int? = null
-    val status_mitra: Int? = null
+    val statusAktif: Int? = null
     val tgl_daftar: Long? = null
     val tgl_lahir: String? = null
     val lat : Double? = null

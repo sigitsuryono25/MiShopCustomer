@@ -6,12 +6,11 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
-import com.lauwba.surelabs.mishopcustomer.config.Constant
-import com.lauwba.surelabs.mishopcustomer.notification.NotificationHandler
-import com.pixplicity.easyprefs.library.Prefs
+import com.lauwba.surelabs.mishopcustomer.sqlite.InsertQuery
 import org.json.JSONObject
 
 class FirebaseService : FirebaseMessagingService() {
+    private var insert: InsertQuery? = null
     override fun onNewToken(p0: String?) {
         super.onNewToken(p0)
         Log.i("TOKEN", p0)
@@ -25,17 +24,17 @@ class FirebaseService : FirebaseMessagingService() {
 
             try {
 
-                if (!Prefs.getBoolean(Constant.SERVICE, false)) {
-
+//                if (!Prefs.getBoolean(Constant.SERVICE, false)) {
+//
+//                } else {
+                if (data.toString().contains("message", true)) {
+                    val message = JSONObject(data?.get("data"))
+                    setToView(message)
                 } else {
-                    if (data.toString().contains("message", true)) {
-                        val message = JSONObject(data?.get("data"))
-                        setToView(message)
-                    } else {
-                        val obj = JSONObject(data)
-                        val notif = NotificationHandler(this)
-                        notif.sendNotification(obj.getString("title"), obj.getString("deskripsi"))
-                    }
+//                        val obj = JSONObject(data)
+//                        val notif = NotificationHandler(this)
+//                        notif.sendNotification(obj.getString("title"), obj.getString("deskripsi"))
+//                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -51,9 +50,12 @@ class FirebaseService : FirebaseMessagingService() {
     private fun setToView(message: JSONObject) {
         val b = Bundle()
         val itemChat = ItemChat()
-        itemChat.isMe = false
+        insert = InsertQuery(this@FirebaseService)
+        itemChat.isMe = "false"
         itemChat.timeStamp = message.getString("timeStamp")
         itemChat.message = message.getString("message")
+
+        insert?.insertChat(itemChat)
 
         b.putSerializable("message", itemChat)
 

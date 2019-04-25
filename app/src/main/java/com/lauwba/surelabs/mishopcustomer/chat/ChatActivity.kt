@@ -14,6 +14,8 @@ import com.lauwba.surelabs.mishopcustomer.chat.model.ListViewAdapter
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.lauwba.surelabs.mishopcustomer.sqlite.InsertQuery
+import com.lauwba.surelabs.mishopcustomer.sqlite.SelectQuery
 import com.lauwba.surelabs.mishoplatest.chat.model.FirebaseMessagingMessage
 import com.lauwba.surelabs.mishoplatest.chat.model.NotificationMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,15 +25,24 @@ import kotlinx.android.synthetic.main.activity_chat.*
 class ChatActivity : AppCompatActivity() {
 
     private var item: ItemChat? = null
-    private var listViewAdapter: ListViewAdapter? = null
     private var listChat: MutableList<ItemChat>? = null
     private var token: ItemMitra? = null
+    private var insert: InsertQuery? = null
+    private var select: SelectQuery? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+
+        insert = InsertQuery(this@ChatActivity)
+        select = SelectQuery(this@ChatActivity)
+
         try {
+            listChat = mutableListOf()
+
+            getDbChat()
+
             //receiver
             val filter = IntentFilter("MESSAGE_CUSTOMER")
             registerReceiver(receiver, filter)
@@ -47,24 +58,18 @@ class ChatActivity : AppCompatActivity() {
             e.printStackTrace()
         }
 
-        listChat = mutableListOf()
 
         sendBtn.setOnClickListener {
-            if (send.text.length > 0) {
+            if (send.text.isNotEmpty()) {
                 item = ItemChat()
-                item?.isMe = true
+                item?.isMe = "true"
                 item?.message = send.text.toString()
                 item?.timeStamp = HourToMillis.millisToDate(HourToMillis.millis())
                 listChat?.add(item!!)
                 send.setText("")
+                insert?.insertChat(item)
             }
-
-            listViewAdapter =
-                ListViewAdapter(this@ChatActivity, R.layout.fragment_item_chat, listChat ?: mutableListOf())
-//            message.layoutManager = LinearLayoutManager(this@ChatActivity)
-            message.adapter = listViewAdapter
-            listViewAdapter?.notifyDataSetChanged()
-            message.setSelection(listViewAdapter?.count?.minus(1) ?: 0)
+            getDbChat()
 
             val notif = NotificationMessage()
             val base = FirebaseMessagingMessage()
@@ -72,7 +77,7 @@ class ChatActivity : AppCompatActivity() {
 
             base.data = item as ItemChat
 //            notif.token =
-//                "f_7x4QyWUCI:APA91bEjcI2YHDfvFydFgqjD_HNj4OW9qOnljCLJ8NY1gT05vp3PV0JCXuMVuvArIooAdCvfOa1oaiX9M5akjzsw1Rl-AXh_n28OSXUg4MTIjmiaNEOIyc60iRRABRQcBsfcMDlTzWNC"
+//                "eNVBFoQJVYs:APA91bHrJl6t7arBF3o52zNtmuAoED_YbQEOtro63hvSwxIEOSazTccgaUbL_OsZScY85mGcMUg3ykgkIuPZl-RYBltJNUJFc0MOtj4THeFF7nbzEEYOBazT2f7wnlfsbhudBGe2nRQh"
             notif.token = token?.regid
             notif.message = base
 
@@ -84,26 +89,28 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun getDbChat() {
+        val list = select?.getAllChatList()
+        val listViewAdapter = list?.let { ListViewAdapter(this@ChatActivity, R.layout.fragment_item_chat, it) }
+        message.adapter = listViewAdapter
+        listViewAdapter?.notifyDataSetChanged()
+        message.setSelection(listViewAdapter?.count?.minus(1) ?: 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        try {
+            unregisterReceiver(receiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
     private var receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             try {
-                val b = intent?.getBundleExtra("msg")
-                val data = b?.getSerializable("message") as ItemChat
-                val messager = data.message
-                val timestamp = data.timeStamp
-
-                if (messager?.isNotEmpty() == true) {
-                    item = ItemChat()
-                    item?.isMe = false
-                    item?.message = messager
-                    item?.timeStamp = timestamp
-                    listChat?.add(item!!)
-                }
-                listViewAdapter =
-                    ListViewAdapter(this@ChatActivity, R.layout.fragment_item_chat, listChat ?: mutableListOf())
-                message.adapter = listViewAdapter
-                listViewAdapter?.notifyDataSetChanged()
-                message.setSelection(listViewAdapter?.count?.minus(1) ?: 0)
+                getDbChat()
             } catch (e: Exception) {
                 e.printStackTrace()
             }

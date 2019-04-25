@@ -13,4 +13,8 @@ class NotifikasiItem {
     var tanggal: Long? = null
     var status_order_shop: Int? = null
     var id_order_shop: String? = null
+    var lat: Double? = null
+    var latAwal: Double? = null
+    var lon: Double? = null
+    var lonAwal: Double? = null
 }

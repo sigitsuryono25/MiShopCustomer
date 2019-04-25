@@ -110,12 +110,14 @@ class DetailMiShopActivity : AppCompatActivity() {
         val alamat = view.findViewById<EditText>(R.id.alamat)
         val ongkir = view.findViewById<TextView>(R.id.ongkir)
         val hargaTv = view.findViewById<TextView>(R.id.harga)
+        val kenaikan = view.findViewById<TextView>(R.id.kenaikan)
         val total = view.findViewById<TextView>(R.id.total)
         val max = item?.maxPesanan
         qty.hint = "Maksimal Pesanan $max"
         qty.filters = max?.let { InputFilterMinMax(1, it) }?.let { arrayOf<InputFilter>(it) }
         ongkir.text = "Rp. " + ChangeFormat.toRupiahFormat2(tarif.toString())
         hargaTv.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
+        kenaikan.text = "Rp. " + ChangeFormat.toRupiahFormat2(item?.kenaikan.toString())
 //        qty.textChangedListener {
 //
 //        }
@@ -124,7 +126,9 @@ class DetailMiShopActivity : AppCompatActivity() {
                 try {
                     val kuantiti = ChangeFormat.clearRp(qty.text.toString()).toInt()
                     val ongkos = ChangeFormat.clearRp(ongkir.text.toString()).toInt()
-                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    val kenaikanInt = ChangeFormat.clearRp(kenaikan.text.toString()).toInt()
+//                    val totl = harga?.let { kuantiti.times(it) }?.plus(ongkos)
+                    val totl = harga?.plus(kenaikanInt)?.times(kuantiti)?.plus(ongkos)
                     total.text = "Rp. " + ChangeFormat.toRupiahFormat2(totl.toString())
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -241,7 +245,7 @@ class DetailMiShopActivity : AppCompatActivity() {
             idShop.text = detail?.idOrder
             datePosting.text = detail?.tanggalPost?.toLong()?.let { HourToMillis.millisToDate(it) }
             lokasi.text = detail?.lokasi
-            val harga = detail?.kenaikan?.let { detail.ongkos?.let { it1 -> detail.harga?.plus(it)?.plus(it1) } }
+            val harga = detail?.harga
             hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(harga.toString())
             deskripsi.text = detail?.deskripsi
             Glide.with(this@DetailMiShopActivity)

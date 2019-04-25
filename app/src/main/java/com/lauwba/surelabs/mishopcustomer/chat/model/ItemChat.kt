@@ -4,6 +4,6 @@ import java.io.Serializable
 
 class ItemChat : Serializable {
     var message: String? = null
-    var isMe: Boolean? = false
+    var isMe: String? = null
     var timeStamp: String? = null
 }
