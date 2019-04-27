@@ -1,6 +1,8 @@
 package com.lauwba.surelabs.mishopcustomer.myShop.detail
 
 import android.app.ProgressDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -16,12 +18,13 @@ import com.lauwba.surelabs.mishopcustomer.myShop.model.MyShopModel
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import kotlinx.android.synthetic.main.activity_detail_my_shop.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 
 class DetailMyShopActivity : AppCompatActivity() {
 
     private var idMyShop: String? = null
-    private var pd : ProgressDialog? = null
+    private var pd: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +58,7 @@ class DetailMyShopActivity : AppCompatActivity() {
                         val data = issue.getValue(MyShopModel::class.java)
                         val uid = data?.uid
 
-                        user.orderByChild("uidCustomer").equalTo(uid)
+                        user.orderByChild("uid").equalTo(uid)
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onCancelled(p0: DatabaseError) {
 
@@ -85,10 +88,19 @@ class DetailMyShopActivity : AppCompatActivity() {
                 .apply(RequestOptions().centerCrop().circleCrop())
                 .into(fotouser)
             datePosting.text = data?.tanggalPost?.let { HourToMillis.millisToDate(it) }
-            namaPosting.text = data?.judul
+            namaPosting.text = content?.nama
             lokasi.text = data?.lokasi
             hargaPost.text = "Rp. " + ChangeFormat.toRupiahFormat2(data?.harga.toString())
             deskripsi.text = data?.deskripsi
+            wa.text = content?.telepon
+            val number = content?.telepon
+            wa.onClick {
+                val url = "https://api.whatsapp.com/send?phone=${number?.replace("+", "")}"
+//                            val url = "whatsapp://send?phone=$number"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+            }
             Glide.with(this@DetailMyShopActivity)
                 .load(data?.image)
                 .into(imagePost)

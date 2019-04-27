@@ -57,6 +57,7 @@ class NewRegistrasi : MaterialIntroActivity(), IFinishListener,
         cstmr?.masaSuspend = c.masaSuspend
         cstmr?.terdaftar = c.terdaftar
         cstmr?.kabupaten = c.kabupaten
+        cstmr?.provinsi = c.provinsi
 
     }
 

@@ -15,6 +15,7 @@ class Customer : Serializable {
     var terdaftar: Long? = null
     var token: String? = null
     var kabupaten: String? = null
+    var provinsi: String? = null
     var fotoCustomer: String? = null
     var lat: Double? = null
     var lon: Double? = null

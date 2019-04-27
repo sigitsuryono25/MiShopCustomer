@@ -69,7 +69,7 @@ class WaitingActivity : AppCompatActivity() {
             })
 
         cancelBooking.onClick {
-            ref.child(key ?: "").child("status").setValue(4)
+            ref.child(key ?: "").removeValue()
 //            pulsator.stop()
             finish()
         }

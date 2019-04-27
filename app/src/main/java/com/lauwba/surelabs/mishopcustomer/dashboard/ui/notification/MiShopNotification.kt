@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui.notification
 
 import android.app.ProgressDialog
@@ -15,7 +17,6 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
-import com.lauwba.surelabs.mishopcustomer.notification.NotificationHandler
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiAdapter
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiItem
 import com.pixplicity.easyprefs.library.Prefs
@@ -156,8 +157,6 @@ class MiShopNotification : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     val route = it?.routes?.get(0)
-                    val overview = route?.overviewPolyline
-                    val point = overview?.points
                     val distance = route?.legs?.get(0)?.distance
 
                     hitungJarak(distance, post, title)
@@ -178,11 +177,11 @@ class MiShopNotification : Fragment() {
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
         Log.d("JARAK", valueBulat.toString())
 
-        if (valueBulat <= 50.0) {
+        if (valueBulat <= Constant.JARAK_MAKSIMAL) {
             post?.let { list?.add(it) }
             setToAdapter(list)
-            val notif = NotificationHandler(activity)
-            notif.sendNotification(title, post?.deskripsi)
+//            val notif = NotificationHandler(activity)
+//            notif.sendNotification(title, post?.deskripsi)
         }
 
     }
@@ -209,7 +208,7 @@ class MiShopNotification : Fragment() {
                                         Prefs.getDouble("lat", Constant.LAT_DEFAULT),
                                         Prefs.getDouble("lon", Constant.LON_DEFAULT),
                                         data.latAwal,
-                                        data.lon,
+                                        data.lonAwal,
                                         data,
                                         "Penawaran $kind"
                                     )

@@ -5,12 +5,21 @@ import android.os.Bundle
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
+import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.notification.NotificationHandler
 import com.lauwba.surelabs.mishopcustomer.sqlite.InsertQuery
+import com.pixplicity.easyprefs.library.Prefs
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.json.JSONObject
 
 class FirebaseService : FirebaseMessagingService() {
     private var insert: InsertQuery? = null
+    private var dis: CompositeDisposable? = null
     override fun onNewToken(p0: String?) {
         super.onNewToken(p0)
         Log.i("TOKEN", p0)
@@ -31,9 +40,14 @@ class FirebaseService : FirebaseMessagingService() {
                     val message = JSONObject(data?.get("data"))
                     setToView(message)
                 } else {
-//                        val obj = JSONObject(data)
-//                        val notif = NotificationHandler(this)
-//                        notif.sendNotification(obj.getString("title"), obj.getString("deskripsi"))
+                    val obj = JSONObject(data)
+                    val lat = obj.getDouble("lat")
+                    val lon = obj.getDouble("lon")
+                    val latAwal = Prefs.getDouble("lat", Constant.LAT_DEFAULT)
+                    val lonAwal = Prefs.getDouble("lon", Constant.LON_DEFAULT)
+                    val title = obj.getString("title")
+                    val desc = obj.getString("deskripsi")
+                    checkDistance(latAwal, lonAwal, lat, lon, title, desc)
 //                    }
                 }
             } catch (e: Exception) {
@@ -44,6 +58,58 @@ class FirebaseService : FirebaseMessagingService() {
         if (p0?.notification != null) {
             Log.d("onMessageReceived", p0.notification?.body)
         }
+    }
+
+    private fun checkDistance(
+        latAwal: Double?,
+        lonAwal: Double?,
+        latTujuan: Double?,
+        lonTujuan: Double?,
+        title: String?,
+        desc: String
+    ) {
+        dis = CompositeDisposable()
+        val origin = "$latAwal, $lonAwal"
+        Log.d("AWAL", origin)
+        val destination = "$latTujuan, $lonTujuan"
+        Log.d("Tujuan", destination)
+
+        dis?.add(
+            NetworkModule.getService().actionRoute(
+                origin,
+                destination,
+                "AIzaSyDSMub1sBU2AnCOr8_MKJV2JC_c8I0UOsM"
+            )
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    val route = it?.routes?.get(0)
+                    val distance = route?.legs?.get(0)?.distance
+
+                    hitungJarak(distance, title, desc)
+                }, {
+
+                })
+        )
+    }
+
+    private fun hitungJarak(
+        distance: Distance?,
+        title: String?,
+        desc: String
+    ) {
+        val jarak = distance?.value
+
+        val valueBagi = jarak?.div(1000)
+        val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
+        Log.d("JARAK", valueBulat.toString())
+
+        if (valueBulat <= Constant.JARAK_MAKSIMAL) {
+
+            val notif = NotificationHandler(this)
+            notif.sendNotification(title, desc)
+        }
+
     }
 
 

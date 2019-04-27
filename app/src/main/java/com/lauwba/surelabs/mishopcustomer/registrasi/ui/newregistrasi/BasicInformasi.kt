@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.basic_informasi.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
+
 class BasicInformasi : SlideFragment() {
 
     private var odp: OnDataPass? = null
@@ -36,8 +37,7 @@ class BasicInformasi : SlideFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.titleToolbar?.text = "Informasi Dasar"
-        initPanggilan()
+        activity?.titleToolbar?.text = getString(R.string.info_dasar)
         pick.onClick {
             pickerImage()
         }
@@ -62,16 +62,6 @@ class BasicInformasi : SlideFragment() {
         }
     }
 
-    private fun initPanggilan() {
-        if (tuan.isChecked) {
-            gender = "Laki-Laki"
-            panggilan = "Tuan. "
-        } else if (nyonya.isChecked) {
-            gender = "Perempuan"
-            panggilan = "Nyonya. "
-        }
-    }
-
     private fun getRealPathFromUri(context: Context, contentUri: Uri): String {
         var cursor: Cursor? = null
         try {
@@ -92,37 +82,46 @@ class BasicInformasi : SlideFragment() {
 
 
     override fun canMoveFurther(): Boolean {
-        if (nama.text.toString().isEmpty()) {
-            message = "Nama Harus Diisi"
-            return false
-        } else if (ktp.text.toString().isEmpty()) {
-            message = "Nomor KTP Harus Diisi"
-            return false
-        } else if (email.text.toString().isEmpty()) {
-            message = "Email Harus Diisi"
-            return false
-        } else if (telepon.text.toString().isEmpty()) {
-            message = "Telepon Harus Diisi"
-            return false
-        } else if (password.text.toString().isEmpty()) {
-            message = "Password Harus Diisi"
-            return false
-        } else if (confirmPassword.text.toString().isEmpty()) {
-            message = "Konfirmasi Password Harus Diisi"
-            return false
-        } else if (password.text.toString() != confirmPassword.text.toString()) {
-            message = "Password tidak cocok"
-            return false
-        } else {
-            val c = Customer()
-            c.nama = panggilan + nama.text.toString()
-            c.noKTP = ktp.text.toString()
-            c.email = email.text.toString()
-            c.telepon = telepon.text.toString()
-            c.gender = gender
+        when {
+            nama.text.toString().isEmpty() -> {
+                message = "Nama Harus Diisi"
+                return false
+            }
+            ktp.text.toString().isEmpty() -> {
+                message = "Nomor KTP Harus Diisi"
+                return false
+            }
+            email.text.toString().isEmpty() -> {
+                message = "Email Harus Diisi"
+                return false
+            }
+            telepon.text.toString().isEmpty() -> {
+                message = "Telepon Harus Diisi"
+                return false
+            }
+            password.text.toString().isEmpty() -> {
+                message = "Password Harus Diisi"
+                return false
+            }
+            confirmPassword.text.toString().isEmpty() -> {
+                message = "Konfirmasi Password Harus Diisi"
+                return false
+            }
+            password.text.toString() != confirmPassword.text.toString() -> {
+                message = "Password tidak cocok"
+                return false
+            }
+            else -> {
+                val c = Customer()
+                c.nama = nama.text.toString()
+                c.noKTP = ktp.text.toString()
+                c.email = email.text.toString()
+                c.telepon = telepon.text.toString()
+                c.gender = gender
 
-            odp?.onDataPass(c, path, password.text.toString())
-            return true
+                odp?.onDataPass(c, path, password.text.toString())
+                return true
+            }
         }
     }
 

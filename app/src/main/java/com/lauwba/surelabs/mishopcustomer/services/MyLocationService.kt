@@ -7,6 +7,10 @@ import android.os.IBinder
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.google.android.gms.location.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.pixplicity.easyprefs.library.Prefs
 
 class MyLocationService : Service() {
@@ -54,26 +58,26 @@ class MyLocationService : Service() {
     private fun updateDatabase(lat: Double?, lon: Double?) {
         lat?.let { Prefs.putDouble("lat", it) }
         lon?.let { Prefs.putDouble("lon", it) }
-//        val myRef = Constant.database.getReference(Constant.TB_MITRA)
-//        val query = myRef.orderByChild("uidCustomer").equalTo(Constant.mAuth.currentUser?.uidCustomer)
+        val myRef = Constant.database.getReference(Constant.TB_CUSTOMER)
+        val query = myRef.orderByChild("uid").equalTo(Constant.mAuth.currentUser?.uid)
 
-//        var key = ""
-//        query.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onCancelled(p0: DatabaseError) {
-//
-//            }
-//
-//            override fun onDataChange(p0: DataSnapshot) {
-//                for (issue in p0.children) {
-//                    key = issue.key.toString()
-//
-//                    myRef.child(key).child("lat").setValue(lat)
-//                    myRef.child(key).child("lon").setValue(lon)
-//
-//                }
-//            }
-//
-//        })
+        var key = ""
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                for (issue in p0.children) {
+                    key = issue.key.toString()
+
+                    myRef.child(key).child("lat").setValue(lat)
+                    myRef.child(key).child("lon").setValue(lon)
+
+                }
+            }
+
+        })
     }
 
     private inner class MyLocationCallBack : LocationCallback() {

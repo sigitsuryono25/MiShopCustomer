@@ -26,13 +26,13 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".tested.TestingActivity">
+        </activity>
         <activity android:name=".appintro.AppIntroActivity">
-
         </activity>
         <activity
                 android:name=".registrasi.NewRegistrasi"
                 android:theme="@style/AppTheme">
-
         </activity>
         <activity android:name=".tentang.TentangActivity">
         </activity>
@@ -64,7 +64,6 @@
         <activity android:name=".service.ServiceActivity">
         </activity>
         <activity android:name=".chat.ChatActivity">
-
         </activity>
         <activity android:name=".profile.ProfileEditActivity">
         </activity>
@@ -113,14 +112,14 @@
                 android:theme="@style/MainLoginTheme">
         </activity>
 
-        <service
-                android:name="com.lauwba.surelabs.mi_shop.Service.FirebaseIntanceIdMessage"
-                android:enabled="true"
-                android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
+        <!--<service-->
+        <!--android:name="com.lauwba.surelabs.mi_shop.Service.FirebaseIntanceIdMessage"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>-->
+        <!--</intent-filter>-->
+        <!--</service>-->
         <service
                 android:name=".firebase.FirebaseService"
                 android:enabled="true"

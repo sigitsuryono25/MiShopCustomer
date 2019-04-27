@@ -141,7 +141,7 @@ class ShopActivity : AppCompatActivity() {
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
         Log.d("JARAK", valueBulat.toString())
 
-        if (valueBulat <= 20.0) {
+        if (valueBulat <= Constant.JARAK_MAKSIMAL) {
             post?.let { mList?.add(it) }
             setItemToAdapter(mList, tarif)
         }

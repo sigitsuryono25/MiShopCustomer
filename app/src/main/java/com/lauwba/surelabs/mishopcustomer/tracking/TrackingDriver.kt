@@ -1,5 +1,6 @@
 package com.lauwba.surelabs.mishopcustomer.tracking
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Intent
 import android.media.RingtoneManager
@@ -37,12 +38,12 @@ import kotlinx.android.synthetic.main.activity_tracking_driver.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
+@SuppressLint("SetTextI18n")
 class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
     private var book: CarBikeBooking? = null
     private var phone: String? = null
-    private var dari: String? = null
     private var itemMitra: ItemMitra? = null
     private var platData: Kendaraan? = null
     private var from: String? = null
@@ -57,15 +58,12 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         when (from) {
             Constant.TB_CAR -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.car)
-                dari = Constant.TB_CAR
             }
             Constant.TB_BIKE -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
-                dari = Constant.TB_BIKE
             }
             Constant.TB_EXPRESS -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.cycle)
-                dari = Constant.TB_EXPRESS
             }
         }
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
@@ -97,10 +95,11 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun orderListener(from: String, idOrder: String?) {
-        val ref = Constant.database.getReference(from)
-        ref.orderByChild("idOrder").equalTo(idOrder)
-            .addValueEventListener(object : ValueEventListener {
+    private fun orderListener(from: String?, idOrder: String?) {
+        var status: Int? = null
+        val ref = from?.let { Constant.database.getReference(it) }
+        ref?.orderByChild("idOrder")?.equalTo(idOrder)
+            ?.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
@@ -109,17 +108,19 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                     try {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
-                            val status = data?.status
-                            showAlert(status)
+                            status = data?.status
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
             })
+
+        showAlert(status)
     }
 
     private fun showAlert(status: Int?) {
+        toast(status.toString())
         val message: String
         val ab = AlertDialog.Builder(this@TrackingDriver)
         val v = LayoutInflater.from(this@TrackingDriver).inflate(R.layout.layout_dialog_order, null)
@@ -259,7 +260,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                 for (issue in p0.children) {
                     itemMitra = issue.getValue(ItemMitra::class.java)
                     phone = itemMitra?.no_tel
-                    ratingListener(itemMitra)
+//                    ratingListener(itemMitra)
                     showData(itemMitra)
                 }
             }
@@ -351,7 +352,6 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                 bm
             )
         )?.showInfoWindow()
-//        mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 12f))
 
         mMap?.setOnInfoWindowClickListener {
             //            startActivity()
@@ -391,7 +391,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                                 val jenis = platData?.jenis
                                 plat.text = "$platdata\n$jenis"
 
-                                dari?.let { orderListener(it, book?.idOrder) }
+                                orderListener(from, book?.idOrder)
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()

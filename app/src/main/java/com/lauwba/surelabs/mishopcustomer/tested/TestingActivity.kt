@@ -1,49 +1,29 @@
-package com.lauwba.surelabs.mishopcustomer.registrasi.ui.newregistrasi
+package com.lauwba.surelabs.mishopcustomer.tested
 
-import agency.tango.materialintroscreen.SlideFragment
 import android.app.ProgressDialog
-import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
-import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.libs.RequestHandler
-import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
-import kotlinx.android.synthetic.main.fragment_addressing.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_testing.*
 import org.json.JSONObject
 
-class AddressingFragment : SlideFragment() {
+class TestingActivity : AppCompatActivity() {
 
     val req = RequestHandler()
     val provinsi = mutableListOf<String>()
     val kabupaten = mutableListOf<String>()
     private var pd: ProgressDialog? = null
-    private var oap: OnAddressingPass? = null
-    private var message: String? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_addressing, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_testing)
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        oap = context as OnAddressingPass
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.titleToolbar?.text = "Pengaturan Alamat"
         GetProvinsi().execute()
         initView()
     }
@@ -64,46 +44,6 @@ class AddressingFragment : SlideFragment() {
         }
     }
 
-    override fun canMoveFurther(): Boolean {
-        if (alamat.text.toString().isEmpty()) {
-            message = "Alamat Harus Diisi"
-            return false
-        } else if (kab.selectedItem.toString().contains("--Silahkan Pilih Satu--", true)) {
-            message = "Kabupaten Harus Dipilih"
-            return false
-        } else if (!agree.isChecked) {
-            message = "Silahkan terima persyaratan"
-            return false
-        } else {
-            val c = Customer()
-            c.alamat = alamat.text.toString()
-            c.statusAktif = 0
-            c.masaSuspend = 0
-            c.terdaftar = HourToMillis.millis()
-            c.kabupaten = getTextSpinner(kab.selectedItem.toString())
-            c.provinsi = getTextSpinner(province.selectedItem.toString())
-
-            oap?.onAddressingPass(c)
-            return true
-        }
-    }
-
-    override fun cantMoveFurtherErrorMessage(): String? {
-        return message
-    }
-
-    override fun buttonsColor(): Int {
-        return R.color.micar
-    }
-
-    override fun backgroundColor(): Int {
-        return R.color.mishop
-    }
-
-    interface OnAddressingPass {
-        fun onAddressingPass(c: Customer)
-    }
-
     inner class GetKab : AsyncTask<String, Void, String>() {
         override fun doInBackground(vararg params: String?): String {
             return req.sendGetRequest(Constant.URL_KAB + params[0])
@@ -111,7 +51,7 @@ class AddressingFragment : SlideFragment() {
 
         override fun onPreExecute() {
             super.onPreExecute()
-            pd = ProgressDialog.show(activity, "Tunggu", "Sedang Memanggil Daftar Kabupaten", false, true)
+            pd = ProgressDialog.show(this@TestingActivity, "Tunggu", "Sedang Memanggil Daftar Kabupaten", false, true)
         }
 
         override fun onPostExecute(result: String?) {
@@ -129,7 +69,7 @@ class AddressingFragment : SlideFragment() {
                     kabupaten.add(show)
                 }
 
-                val adapter = ArrayAdapter(activity, android.R.layout.simple_dropdown_item_1line, kabupaten)
+                val adapter = ArrayAdapter(this@TestingActivity, android.R.layout.simple_dropdown_item_1line, kabupaten)
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
                 kab.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -147,7 +87,7 @@ class AddressingFragment : SlideFragment() {
 
         override fun onPreExecute() {
             super.onPreExecute()
-            pd = ProgressDialog.show(activity, "Tunggu", "Sedang Memanggil Daftar Provinsi", false, true)
+            pd = ProgressDialog.show(this@TestingActivity, "Tunggu", "Sedang Memanggil Daftar Provinsi", false, true)
         }
 
         override fun onPostExecute(result: String?) {
@@ -165,7 +105,7 @@ class AddressingFragment : SlideFragment() {
                     provinsi.add(show)
                 }
 
-                val adapter = ArrayAdapter(activity, android.R.layout.simple_dropdown_item_1line, provinsi)
+                val adapter = ArrayAdapter(this@TestingActivity, android.R.layout.simple_dropdown_item_1line, provinsi)
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
                 province.adapter = adapter
                 adapter.notifyDataSetChanged()
@@ -181,12 +121,4 @@ class AddressingFragment : SlideFragment() {
         val id = init?.get(0)
         GetKab().execute(id)
     }
-
-    private fun getTextSpinner(text: String?): String? {
-        val init = text?.split("-")
-        val id = init?.get(1)
-        return id
-    }
-
-
 }

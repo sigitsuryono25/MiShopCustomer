@@ -62,20 +62,20 @@ telah disediakan"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:text="Panggilan"
-            />
-            <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
-                             android:layout_weight="1"
-                             android:id="@+id/tuan"
-                             android:text="Tuan"/>
-                <RadioButton android:layout_width="0dp" android:layout_height="wrap_content"
-                             android:layout_weight="1"
-                             android:id="@+id/nyonya"
-                             android:text="Nyonya"/>
-            </RadioGroup>
+            <!--<TextView android:layout_width="match_parent" android:layout_height="wrap_content"-->
+            <!--android:text="Panggilan"-->
+            <!--/>-->
+            <!--<RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<RadioButton android:layout_width="0dp" android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/tuan"-->
+            <!--android:text="Tuan"/>-->
+            <!--<RadioButton android:layout_width="0dp" android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/nyonya"-->
+            <!--android:text="Nyonya"/>-->
+            <!--</RadioGroup>-->
 
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -102,17 +102,40 @@ telah disediakan"
                         android:layout_height="wrap_content"/>
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <LinearLayout android:layout_width="match_parent"
+                          android:orientation="vertical"
+                          android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
-                        android:hint="Email"
-                        android:inputType="textEmailAddress"
-                        android:id="@+id/email"
+                <TextView android:layout_width="match_parent"
+                          android:layout_gravity="center"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/margin_padding"
+                          android:textSize="17sp"
+                          android:gravity="center"
+                          android:textAlignment="center"
+                          android:text="Silahkan Masukkan Email Yang Valid"
+                />
+
+                <!--<com.google.android.gms.common.SignInButton-->
+                <!--android:id="@+id/sign_in_button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"/>-->
+
+
+                <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-            </android.support.design.widget.TextInputLayout>
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                            android:hint="Email"
+                            android:inputType="textEmailAddress"
+                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
