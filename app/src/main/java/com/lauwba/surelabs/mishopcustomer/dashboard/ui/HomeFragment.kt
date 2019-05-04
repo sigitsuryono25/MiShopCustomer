@@ -2,6 +2,7 @@ package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v4.app.Fragment
@@ -223,7 +224,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         }
 
         try {
-            initNews()
+            initNews().execute()
             initGames()
             initC2C()
             initYoutube()
@@ -318,22 +319,29 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         listGame.adapter = adapter
     }
 
-    private fun initNews() {
-        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-        val url = URL(xml)
-        val inputStream = url.openConnection().getInputStream()
-        rssList = parseFeed(inputStream)
-        if (rssList?.size ?: 0 > 0) {
-            loading.visibility = View.GONE
-            rssAdapter = activity?.let {
-                RssFeedAdapter(
-                    rssList!!,
-                    it
-                )
+    inner class initNews : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+            val url = URL(xml)
+            val inputStream = url.openConnection().getInputStream()
+            rssList = parseFeed(inputStream)
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            super.onPostExecute(result)
+            if (rssList?.size ?: 0 > 0) {
+                loading.visibility = View.GONE
+                rssAdapter = activity?.let {
+                    RssFeedAdapter(
+                        rssList!!,
+                        it
+                    )
+                }
+                rcNews.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                rcNews.adapter = rssAdapter
             }
-            rcNews.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            rcNews.adapter = rssAdapter
         }
 
     }

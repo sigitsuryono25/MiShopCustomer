@@ -7,29 +7,27 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'sigitsuryono25'
-            keyPassword 'sigitsuryono25'
-            storeFile file('D:/Tugas_Galau/Android_Studio_Projects/key')
+        debug {
+            storeFile file('/mnt/Hiburan_Tok/Tugas_Galau/Android_Studio_Projects/key')
             storePassword 'sigitsuryono25'
+            keyAlias = 'sigitsuryono25'
+            keyPassword 'sigitsuryono25'
         }
     }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.lauwba.surelabs.mishopcustomer"
-        minSdkVersion 19
+        minSdkVersion 22
         targetSdkVersion 28
         versionCode 1
         versionName '0.24b'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.config
         multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
     }
     buildToolsVersion '28.0.3'

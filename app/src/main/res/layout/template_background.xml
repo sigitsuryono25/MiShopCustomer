@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView android:layout_width="128dp" android:layout_height="128dp"
+               android:src="@drawable/bubble1"
+               android:layout_alignParentEnd="true"
+               android:layout_marginTop="-40dp"
+               android:layout_marginEnd="-50dp"
+    />
+
+    <ImageView android:layout_width="100dp" android:layout_height="100dp"
+               android:src="@drawable/bubble2"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentBottom="true"
+               android:id="@+id/floatBottom"
+               android:layout_marginEnd="-40dp"
+               android:layout_marginBottom="-40dp"
+
+    />
+
+    <ImageView android:layout_width="100dp" android:layout_height="100dp"
+               android:src="@drawable/bubble1"
+               android:layout_centerVertical="true"
+               android:layout_marginStart="-30dp"
+
+    />
+
+    <ImageView android:layout_width="32dp" android:layout_height="32dp"
+               android:src="@drawable/bubble2"
+               android:id="@+id/float1"
+               android:layout_marginStart="150dp"
+               android:layout_marginTop="60dp"
+
+    />
+
+    <ImageView android:layout_width="48dp" android:layout_height="48dp"
+               android:src="@drawable/bubble3"
+               android:layout_below="@id/float1"
+               android:id="@+id/float2"
+               android:layout_marginStart="45dp"
+
+    />
+
+    <ImageView android:layout_width="16dp" android:layout_height="16dp"
+               android:src="@drawable/bubble1"
+               android:layout_below="@+id/float2"
+               android:layout_marginStart="75dp"
+               android:layout_marginTop="25dp"
+
+    />
+
+    <ImageView android:layout_width="48dp" android:layout_height="48dp"
+               android:src="@drawable/bubble3"
+               android:layout_above="@id/floatBottom"
+               android:layout_alignParentEnd="true"
+               android:layout_marginEnd="25dp"
+               android:layout_marginBottom="20dp"
+
+    />
+</RelativeLayout>

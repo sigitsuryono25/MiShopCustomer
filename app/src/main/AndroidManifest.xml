@@ -63,7 +63,7 @@
         </activity>
         <activity android:name=".service.ServiceActivity">
         </activity>
-        <activity android:name=".chat.ChatActivity">
+        <activity android:name=".chat.ChatActivity" android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".profile.ProfileEditActivity">
         </activity>

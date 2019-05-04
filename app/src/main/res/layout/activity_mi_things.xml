@@ -108,6 +108,7 @@
                         android:drawableStart="@drawable/ic_phone_in_talk_black_24dp"
                         android:layout_width="match_parent"
                         android:hint="NomorTelepon"
+                        android:inputType="phone"
                         android:layout_marginLeft="10dp"
                         android:drawablePadding="@dimen/margin_padding"
                         android:textSize="15sp"
@@ -126,8 +127,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+    <ImageView
+            android:id="@+id/myLoc"
+            android:src="@mipmap/ic_gps"
+            android:layout_above="@id/bottom"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/margin_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    />
+
     <LinearLayout
-            android:visibility="gone"
+            android:visibility="invisible"
             android:background="@android:color/white"
             android:id="@+id/bottom"
             android:layout_width="match_parent"

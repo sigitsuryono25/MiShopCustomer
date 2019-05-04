@@ -68,24 +68,24 @@ class ChatActivity : AppCompatActivity() {
                 listChat?.add(item!!)
                 send.setText("")
                 insert?.insertChat(item)
-            }
-            getDbChat()
 
-            val notif = NotificationMessage()
-            val base = FirebaseMessagingMessage()
+                val notif = NotificationMessage()
+                val base = FirebaseMessagingMessage()
 
 
-            base.data = item as ItemChat
+                base.data = item as ItemChat
 //            notif.token =
 //                "eNVBFoQJVYs:APA91bHrJl6t7arBF3o52zNtmuAoED_YbQEOtro63hvSwxIEOSazTccgaUbL_OsZScY85mGcMUg3ykgkIuPZl-RYBltJNUJFc0MOtj4THeFF7nbzEEYOBazT2f7wnlfsbhudBGe2nRQh"
-            notif.token = token?.regid
-            notif.message = base
+                notif.token = token?.regid
+                notif.message = base
 
-            NetworkModule.getServiceFcm()
-                .actionSendMessage(notif)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe()
+                NetworkModule.getServiceFcm()
+                    .actionSendMessage(notif)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+            }
+            getDbChat()
         }
     }
 

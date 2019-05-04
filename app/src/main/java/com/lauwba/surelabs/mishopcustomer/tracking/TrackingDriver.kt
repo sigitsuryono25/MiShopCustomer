@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.CarBikeBooking.CarBikeBooking
 import com.lauwba.surelabs.mishopcustomer.R
@@ -33,6 +34,7 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.DashboardActivity
 import com.lauwba.surelabs.mishopcustomer.dashboard.Rating
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.lauwba.surelabs.mishopcustomer.sqlite.DeleteQuery
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_tracking_driver.*
 import org.jetbrains.anko.*
@@ -48,6 +50,8 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     private var platData: Kendaraan? = null
     private var from: String? = null
     private var bm: BitmapDescriptor? = null
+    private var delete: DeleteQuery? = null
+    private var ref: DatabaseReference? = null
     //tatus: 0  posting, 1 diambil customer/mitra, 2 tiba, 3 sampai/selesai, 4  batal
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +59,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_tracking_driver)
         book = intent.getSerializableExtra("booking") as CarBikeBooking
         from = intent.getStringExtra("from")
+        delete = DeleteQuery(this@TrackingDriver)
         when (from) {
             Constant.TB_CAR -> {
                 bm = BitmapDescriptorFactory.fromResource(R.drawable.car)
@@ -96,31 +101,34 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun orderListener(from: String?, idOrder: String?) {
-        var status: Int? = null
-        val ref = from?.let { Constant.database.getReference(it) }
+        ref = from?.let { Constant.database.getReference(it) }
         ref?.orderByChild("idOrder")?.equalTo(idOrder)
-            ?.addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
+            ?.addValueEventListener(listener())
 
+    }
+
+    inner class listener : ValueEventListener {
+        var status: Int? = null
+        override fun onCancelled(p0: DatabaseError) {
+
+        }
+
+        override fun onDataChange(p0: DataSnapshot) {
+            try {
+                for (issues in p0.children) {
+                    val data = issues.getValue(CarBikeBooking::class.java)
+                    status = data?.status
                 }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    try {
-                        for (issues in p0.children) {
-                            val data = issues.getValue(CarBikeBooking::class.java)
-                            status = data?.status
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            })
+                showAlert(status)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
-        showAlert(status)
     }
 
     private fun showAlert(status: Int?) {
-        toast(status.toString())
         val message: String
         val ab = AlertDialog.Builder(this@TrackingDriver)
         val v = LayoutInflater.from(this@TrackingDriver).inflate(R.layout.layout_dialog_order, null)
@@ -178,11 +186,14 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                     r.play()
 
                     ab.setPositiveButton("Siap") { dialog, which ->
-                        finish()
+                        ratingListener(itemMitra)
                     }
+
+                    delete?.deleteMessage()
 
                     val ac = ab.create()
                     ac.show()
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -208,6 +219,8 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
                     val ac = ab.create()
                     ac.show()
+
+                    delete?.deleteMessage()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -266,6 +279,9 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             }
 
         })
+
+
+        orderListener(from, book?.idOrder)
     }
 
     fun checkRatingTransaksi(
@@ -280,6 +296,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         val ratingbar = v.findViewById<RatingBar>(R.id.itemRating)
         val fotoMitra = v.findViewById<ImageView>(R.id.imageItem)
         val namaMitra = v.findViewById<TextView>(R.id.nameText)
+        val untuk = v.findViewById<TextView>(R.id.untuk)
         val kirimRating = v.findViewById<Button>(R.id.kirimRating)
         val ulasan = v.findViewById<TextInputEditText>(R.id.ulasan)
 
@@ -292,14 +309,15 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             e.printStackTrace()
         }
         namaMitra.text = item?.nama_mitra
+        untuk.text = from
 
 
         val ac = ad.create()
         ac.show()
 
         kirimRating.onClick {
-            if (ratingbar.rating == 0f) {
-                toast("Kasih Rating Dulu kak Buat Mitranya :)")
+            if (ratingbar.rating == 0f || ulasan.text.toString().isEmpty()) {
+                toast("Kasih Rating dan ulasanya Dulu kak Buat Mitra :)")
             } else {
                 sendRating(item, ratingbar.rating, ulasan.text.toString(), ac, idOrder, table)
             }
@@ -328,7 +346,11 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                 if (it.isSuccessful) {
                     Constant.database.getReference(table).child(idOrder ?: "")
                         .child("rating").setValue("done")
+                    delete?.deleteMessage()
                     toast("Terima kasih untuk rating dan ulasanya kak :)")
+                    finish()
+                    startActivity(intentFor<DashboardActivity>("req" to 1000).clearTop().newTask())
+                    return@addOnCompleteListener
                 } else
                     toast("Terjadi kesalahan")
 
@@ -391,7 +413,7 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
                                 val jenis = platData?.jenis
                                 plat.text = "$platdata\n$jenis"
 
-                                orderListener(from, book?.idOrder)
+
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()

@@ -71,21 +71,21 @@ class NotifikasiAdapter(
                 holder.carBikeExpress.visibility = View.VISIBLE
                 getDetailCarBikExpress(item, holder, Constant.TB_CAR)
                 holder.detail.onClick {
-                    c?.startActivity<MiCarActivity>("idOrder" to item.idOrder)
+                    c?.startActivity<MiCarActivity>("idOrder" to item.idOrder, "driver" to item.driver)
                 }
             }
             2 -> {
                 holder.carBikeExpress.visibility = View.VISIBLE
                 getDetailCarBikExpress(item, holder, Constant.TB_BIKE)
                 holder.detail.onClick {
-                    c?.startActivity<MiBikeActivity>("idOrder" to item.idOrder)
+                    c?.startActivity<MiBikeActivity>("idOrder" to item.idOrder, "driver" to item.driver)
                 }
             }
             3 -> {
                 holder.carBikeExpress.visibility = View.VISIBLE
                 getDetailCarBikExpress(item, holder, Constant.TB_EXPRESS)
                 holder.detail.onClick {
-                    c?.startActivity<MiXpressActivity>("idOrder" to item.idOrder)
+                    c?.startActivity<MiXpressActivity>("idOrder" to item.idOrder, "driver" to item.driver)
                 }
             }
             4 -> {

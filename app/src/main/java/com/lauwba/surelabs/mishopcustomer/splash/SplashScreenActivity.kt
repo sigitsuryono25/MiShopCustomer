@@ -20,7 +20,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        setContentView(R.layout.new_activity_splash_screen)
 
         if (Prefs.contains(Constant.UID)) {
             checkSuspended(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))

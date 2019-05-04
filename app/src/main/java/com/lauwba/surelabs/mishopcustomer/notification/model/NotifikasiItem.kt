@@ -17,4 +17,5 @@ class NotifikasiItem {
     var latAwal: Double? = null
     var lon: Double? = null
     var lonAwal: Double? = null
+    var driver: String? = null
 }

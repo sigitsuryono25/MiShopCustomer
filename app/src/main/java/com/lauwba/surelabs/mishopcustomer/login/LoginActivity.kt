@@ -42,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
                         checkOnTableCustomer(email.text.toString())
                     } else {
                         toast("Terjadi Kesalahan")
+                        pd?.dismiss()
                     }
                 }
                 ?.addOnFailureListener {

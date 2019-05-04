@@ -14,9 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -27,18 +25,25 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBo
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.lauwba.surelabs.mishoplatest.chat.model.FirebaseMessagingMessage
+import com.lauwba.surelabs.mishoplatest.chat.model.NotificationMessage
 import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
@@ -56,6 +61,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     var dis: CompositeDisposable? = null
     var harga: Int? = null
     var idOrder: String? = null
+    var regid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +72,8 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         try {
             idOrder = intent.getStringExtra("idOrder")
+
+            getDetailMitra(intent.getStringExtra("driver"))
             Log.d("idOrder", idOrder)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -76,6 +84,27 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         mp.getMapAsync(this)
 
         GetTarifMiBike().execute()
+    }
+
+    private fun getDetailMitra(uid: String?) {
+        val ref = Constant.database.getReference(Constant.TB_MITRA)
+        ref.orderByChild("uid").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (issue in p0.children) {
+                            val data = issue.getValue(ItemMitra::class.java)
+                            regid = data?.regid
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
     }
 
     inner class GetTarifMiBike : AsyncTask<Void, Void, Void>() {
@@ -99,7 +128,9 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                             for (issues in p0.children) {
                                 val data = issues.getValue(Tarif::class.java)
                                 tarif = data?.tarif
-                                tarif?.let { toast(it) }
+                                runOnUiThread {
+                                    toast(tarif.toString())
+                                }
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -127,6 +158,10 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 insertFirebase()
             }
         }
+
+        myLoc.onClick {
+            checkPermissionGps()
+        }
     }
 
     private fun updateOrderan() {
@@ -139,13 +174,36 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("latTujuan").setValue(latTujuan)
         ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
         ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
-        ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+
+        ref.child(idOrder ?: "").child("status").setValue(1)
+        ref.child(idOrder ?: "").child("namaCustomer").setValue(Prefs.getString(Constant.NAMA_CUSTOMER, ""))
+        ref.child(idOrder ?: "").child("nomorTelepon").setValue(Prefs.getString(Constant.TELEPON, ""))
+        ref.child(idOrder ?: "").child("token").setValue(Prefs.getString(Constant.TOKEN, ""))
+        ref.child(idOrder ?: "").child("uidCustomer")
+            .setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+
+        val notif = NotificationMessage()
+        val base = FirebaseMessagingMessage()
+        val item = ItemChat()
+        item.isMe = "false"
+        item.message = "Penawaranmu ada yang ambil"
+        item.timeStamp = HourToMillis.millis().toString()
+
+        base.data = item
+        notif.token = regid
+        notif.message = base
+
+        NetworkModule.getServiceFcm()
+            .actionSendMessage(notif)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
 
         val i = Intent(this@MiBikeActivity, WaitingActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.putExtra("key", idOrder.toString())
-        i.putExtra("from", Constant.TB_CAR)
+        i.putExtra("from", Constant.TB_BIKE)
         startActivity(i)
     }
 
@@ -230,8 +288,18 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (tujuan.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latTujuan, lonTujuan, place.name.toString())
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(
+                        latTujuan,
+                        lonTujuan,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                    )
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
                     showBound()
                     route()
                 }
@@ -242,7 +310,12 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (asal.text.length > 0) {
                     mMap?.clear()
 
-                    showMarker(latAwal, lonAwal, place.name.toString())
+                    showMarker(
+                        latAwal,
+                        lonAwal,
+                        place.name.toString(),
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                    )
                 }
 
                 latTujuan = place.latLng.latitude
@@ -251,7 +324,12 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 val name = place.address
                 tujuan.text = name
 
-                showMarker(latTujuan, lonTujuan, place.name.toString())
+                showMarker(
+                    latTujuan,
+                    lonTujuan,
+                    place.name.toString(),
+                    BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                )
                 showBound()
                 route()
             }
@@ -297,18 +375,25 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val hargaAwal = tarif?.toInt()?.let { valueBulat.times(it) }
         harga = hargaAwal?.toInt()
-//        } else {
-//            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
-//        }
-
         val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
+        if (valueBulat < Constant.JARAK_MAKSIMAL) {
+            jarakTrip.text = text
+            hargaTrip.text = "Rp. $resultHarga"
 
-        jarakTrip.text = text
-        hargaTrip.text = "Rp. " + resultHarga
-
-        if (hargaTrip.text.length > 0) {
-            booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
-            booking.isEnabled = true
+            if (hargaTrip.text.isNotEmpty()) {
+                booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
+                booking.isEnabled = true
+            }
+        } else {
+            alert {
+                message = "Jaraknya Kejauhan Kak, Maaf"
+                okButton {
+                    jarakTrip.text = ""
+                    hargaTrip.text = ""
+                    booking.background = resources.getDrawable(android.R.color.darker_gray)
+                    booking.isEnabled = false
+                }
+            }.show()
         }
     }
 
@@ -361,14 +446,14 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
             asal.text = name
 
-            showMarker(latAwal, lonAwal, "My Location")
+            showMarker(latAwal, lonAwal, "My Location", BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
 
         }
     }
 
-    private fun showMarker(lat: Double?, lon: Double?, title: String?) {
+    private fun showMarker(lat: Double?, lon: Double?, title: String?, icon: BitmapDescriptor?) {
         val posisi = LatLng(lat ?: 0.0, lon ?: 0.0)
-        mMap?.addMarker(MarkerOptions().position(posisi).title(title))
+        mMap?.addMarker(MarkerOptions().position(posisi).title(title).icon(icon))
         mMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(posisi, 15f))
     }
 

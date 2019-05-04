@@ -58,7 +58,7 @@ class DashboardActivity : AppCompatActivity() {
         switchOnCheck()
         setBadges()
         checkPermissions()
-        checkTransaksiMiCar()
+//        checkTransaksiMiCar()
 
         if (!Prefs.getBoolean(Constant.SERVICE, false)) {
             switchOn.isChecked = false
@@ -192,7 +192,7 @@ class DashboardActivity : AppCompatActivity() {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
                             if (data?.status == 3) {
-                                if (data.rating?.isEmpty() == true) {
+                                if (data.rating?.isEmpty() == true || !issues.hasChild("rating")) {
                                     val uidMitra = data.driver
                                     getMitraItem(uidMitra, data.idOrder, Constant.TB_CAR, "Untuk Transaksi Mi Car")
                                     return
@@ -219,7 +219,7 @@ class DashboardActivity : AppCompatActivity() {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
                             if (data?.status == 3) {
-                                if (data.rating?.isEmpty() == true) {
+                                if (data.rating?.isEmpty() == true || !issues.hasChild("rating")) {
                                     val uidMitra = data.driver
                                     getMitraItem(uidMitra, data.idOrder, Constant.TB_BIKE, "Untuk Transaksi Mi Bike")
                                     return
@@ -246,7 +246,7 @@ class DashboardActivity : AppCompatActivity() {
                         for (issues in p0.children) {
                             val data = issues.getValue(CarBikeBooking::class.java)
                             if (data?.status == 3) {
-                                if (data.rating?.isEmpty() == true) {
+                                if (data.rating?.isEmpty() == true || !issues.hasChild("rating")) {
                                     val uidMitra = data.driver
                                     getMitraItem(
                                         uidMitra,
@@ -395,6 +395,15 @@ class DashboardActivity : AppCompatActivity() {
                     FirebaseMessaging.getInstance().subscribeToTopic("mibikecustomer")
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
+                                Log.d("MIBIKE", "successful subcsribe")
+                            }
+                        }
+                        .addOnFailureListener {
+                            it.printStackTrace()
+                        }
+                    FirebaseMessaging.getInstance().subscribeToTopic("miexpresscustomer")
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
                                 Log.d("MIEXPRESS", "successful subcsribe")
                             }
                         }
@@ -443,6 +452,15 @@ class DashboardActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             Log.d("MIBIKE", "successful unsubscribeFromTopic")
+                        }
+                    }
+                    .addOnFailureListener {
+                        it.printStackTrace()
+                    }
+                FirebaseMessaging.getInstance().subscribeToTopic("miexpresscustomer")
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Log.d("MIEXPRESS", "successful subcsribe")
                         }
                     }
                     .addOnFailureListener {

@@ -19,6 +19,7 @@
               android:singleLine="true"
               android:maxLines="1"
               android:padding="@dimen/margin_padding"
+              android:visibility="gone"
               android:background="@android:color/white"
               android:layout_height="wrap_content"/>
 

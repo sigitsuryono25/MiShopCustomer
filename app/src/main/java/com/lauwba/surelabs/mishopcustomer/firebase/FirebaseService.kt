@@ -3,6 +3,9 @@ package com.lauwba.surelabs.mishopcustomer.firebase
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
@@ -10,8 +13,8 @@ import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import com.lauwba.surelabs.mishopcustomer.notification.NotificationHandler
+import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.lauwba.surelabs.mishopcustomer.sqlite.InsertQuery
-import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -43,11 +46,10 @@ class FirebaseService : FirebaseMessagingService() {
                     val obj = JSONObject(data)
                     val lat = obj.getDouble("lat")
                     val lon = obj.getDouble("lon")
-                    val latAwal = Prefs.getDouble("lat", Constant.LAT_DEFAULT)
-                    val lonAwal = Prefs.getDouble("lon", Constant.LON_DEFAULT)
                     val title = obj.getString("title")
                     val desc = obj.getString("deskripsi")
-                    checkDistance(latAwal, lonAwal, lat, lon, title, desc)
+                    checkRealtLocation(Constant.mAuth.currentUser?.uid, lat, lon, title, desc)
+
 //                    }
                 }
             } catch (e: Exception) {
@@ -60,13 +62,35 @@ class FirebaseService : FirebaseMessagingService() {
         }
     }
 
+    private fun checkRealtLocation(uid: String?, lat: Double, lon: Double, title: String?, desc: String?) {
+        val ref = Constant.database.getReference(Constant.TB_CUSTOMER)
+        ref.orderByChild("uid").equalTo(uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (a in p0.children) {
+                            val data = a.getValue(Customer::class.java)
+                            checkDistance(data?.lat, data?.lon, lat, lon, title, desc)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+            })
+    }
+
     private fun checkDistance(
         latAwal: Double?,
         lonAwal: Double?,
         latTujuan: Double?,
         lonTujuan: Double?,
         title: String?,
-        desc: String
+        desc: String?
     ) {
         dis = CompositeDisposable()
         val origin = "$latAwal, $lonAwal"
@@ -96,7 +120,7 @@ class FirebaseService : FirebaseMessagingService() {
     private fun hitungJarak(
         distance: Distance?,
         title: String?,
-        desc: String
+        desc: String?
     ) {
         val jarak = distance?.value
 
@@ -128,6 +152,9 @@ class FirebaseService : FirebaseMessagingService() {
         val i = Intent()
         i.action = "MESSAGE_CUSTOMER"
         i.putExtra("msg", b)
+
+        val n = NotificationHandler(this)
+        n.sendNotification("Pesan Masuk", message.getString("message"))
 
         sendBroadcast(i)
     }

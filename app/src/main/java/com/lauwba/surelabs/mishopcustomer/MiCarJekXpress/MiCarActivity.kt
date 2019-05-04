@@ -25,18 +25,25 @@ import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.firebase.NotificationBo
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.model.Distance
 import com.lauwba.surelabs.mishopcustomer.MiCarJekXpress.waiting.WaitingActivity
 import com.lauwba.surelabs.mishopcustomer.R
+import com.lauwba.surelabs.mishopcustomer.chat.model.ItemChat
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.config.Tarif
 import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.libs.DirectionMapsV2
 import com.lauwba.surelabs.mishopcustomer.libs.GPSTracker
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
+import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
+import com.lauwba.surelabs.mishoplatest.chat.model.FirebaseMessagingMessage
+import com.lauwba.surelabs.mishoplatest.chat.model.NotificationMessage
 import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_mi_things.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import java.util.*
@@ -54,6 +61,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
     var dis: CompositeDisposable? = null
     var harga: Int? = null
     var idOrder: String? = null
+    var regid: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +72,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         try {
             idOrder = intent.getStringExtra("idOrder")
+            getDetailMitra(intent.getStringExtra("driver"))
             Log.d("idOrder", idOrder)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -75,6 +84,27 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         GetTarifMicar().execute()
+    }
+
+    private fun getDetailMitra(uid: String?) {
+        val ref = Constant.database.getReference(Constant.TB_MITRA)
+        ref.orderByChild("uid").equalTo(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (issue in p0.children) {
+                            val data = issue.getValue(ItemMitra::class.java)
+                            regid = data?.regid
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            })
     }
 
     inner class GetTarifMicar : AsyncTask<Void, Void, Void>() {
@@ -126,6 +156,10 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 insertFirebase()
             }
         }
+
+        myLoc.onClick {
+            checkPermissionGps()
+        }
     }
 
     private fun updateOrderan() {
@@ -139,7 +173,28 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         ref.child(idOrder ?: "").child("lonTujuan").setValue(lonTujuan)
         ref.child(idOrder ?: "").child("lokasiTujuan").setValue(tujuan.text.toString())
         ref.child(idOrder ?: "").child("status").setValue(1)
-        ref.child(idOrder ?: "").child("uid").setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+        ref.child(idOrder ?: "").child("namaCustomer").setValue(Prefs.getString(Constant.NAMA_CUSTOMER, ""))
+        ref.child(idOrder ?: "").child("nomorTelepon").setValue(Prefs.getString(Constant.TELEPON, ""))
+        ref.child(idOrder ?: "").child("token").setValue(Prefs.getString(Constant.TOKEN, ""))
+        ref.child(idOrder ?: "").child("uidCustomer")
+            .setValue(Prefs.getString(Constant.UID, Constant.mAuth.currentUser?.uid))
+
+        val notif = NotificationMessage()
+        val base = FirebaseMessagingMessage()
+        val item = ItemChat()
+        item.isMe = "false"
+        item.message = "Penawaranmu ada yang ambil"
+        item.timeStamp = HourToMillis.millis().toString()
+
+        base.data = item
+        notif.token = regid
+        notif.message = base
+
+        NetworkModule.getServiceFcm()
+            .actionSendMessage(notif)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
 
         val i = Intent(this@MiCarActivity, WaitingActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -225,20 +280,20 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 latAwal = place.latLng.latitude
                 lonAwal = place.latLng.longitude
 
-                if (tujuan.text.length > 0) {
+                if (tujuan.text.isNotEmpty()) {
                     mMap?.clear()
 
                     showMarker(
                         latTujuan,
                         lonTujuan,
                         place.name.toString(),
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
                     )
                     showMarker(
                         latAwal,
                         lonAwal,
                         place.name.toString(),
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
                     )
                     showBound()
                     route()
@@ -247,7 +302,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 val name = place.address
                 asal.text = name
             } else if (requestCode == 2) {
-                if (asal.text.length > 0) {
+                if (asal.text.isNotEmpty()) {
                     mMap?.clear()
 
                     showMarker(
@@ -261,7 +316,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 latTujuan = place.latLng.latitude
                 lonTujuan = place.latLng.longitude
 
-                var name = place.address
+                val name = place.address
                 tujuan.text = name
 
                 showMarker(
@@ -310,6 +365,8 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
         val text = distance?.text
         val value = distance?.value
 
+        Log.d("JARAL", text)
+
         val valueBagi = value?.div(1000)
         val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
 
@@ -321,12 +378,24 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
-        jarakTrip.text = text
-        hargaTrip.text = "Rp. " + resultHarga
+        if (valueBulat < Constant.JARAK_MAKSIMAL) {
+            jarakTrip.text = text
+            hargaTrip.text = "Rp. $resultHarga"
 
-        if (hargaTrip.text.length > 0) {
-            booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
-            booking.isEnabled = true
+            if (hargaTrip.text.isNotEmpty()) {
+                booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
+                booking.isEnabled = true
+            }
+        } else {
+            alert {
+                message = "Jaraknya Kejauhan Kak, Maaf"
+                okButton {
+                    jarakTrip.text = ""
+                    hargaTrip.text = ""
+                    booking.background = resources.getDrawable(android.R.color.darker_gray)
+                    booking.isEnabled = false
+                }
+            }.show()
         }
     }
 

@@ -7,21 +7,7 @@
         android:orientation="vertical"
         android:layout_height="match_parent"
         tools:context=".tested.TestingActivity">
-
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Provinsi"
-    />
-
-    <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
-             android:id="@+id/province"
-             style="?android:dropDownSpinnerStyle"
-    />
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Kabupaten"
-    />
-
-    <Spinner android:layout_width="match_parent" android:layout_height="wrap_content"
-             android:id="@+id/kab"
-             style="?android:dropDownSpinnerStyle"
-    />
+    <com.google.android.gms.common.SignInButton android:layout_width="match_parent"
+                                                android:id="@+id/logGoogle"
+                                                android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -19,7 +19,7 @@ import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.network.NetworkModule
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiAdapter
 import com.lauwba.surelabs.mishopcustomer.notification.model.NotifikasiItem
-import com.pixplicity.easyprefs.library.Prefs
+import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -30,6 +30,9 @@ class MiShopNotification : Fragment() {
     private var list: MutableList<NotifikasiItem>? = null
     private var pd: ProgressDialog? = null
     private var dis: CompositeDisposable? = null
+
+    private var lonNow: Double? = null
+    private var latNow: Double? = null
 
     companion object {
         var kind: String? = null
@@ -52,6 +55,31 @@ class MiShopNotification : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list = mutableListOf()
+        checkRealtLocation(Constant.mAuth.currentUser?.uid)
+    }
+
+    private fun checkRealtLocation(uid: String?) {
+        val ref = Constant.database.getReference(Constant.TB_CUSTOMER)
+        ref.orderByChild("uid").equalTo(uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    try {
+                        for (a in p0.children) {
+                            val data = a.getValue(Customer::class.java)
+                            latNow = data?.lat
+                            lonNow = data?.lon
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+            })
+
         if (from == 0) {
             getData()
         } else if (from == 4) {
@@ -79,8 +107,8 @@ class MiShopNotification : Fragment() {
 //                                data?.let { list?.add(it) }
 //                                setToAdapter(list)
                                 checkDistance(
-                                    Prefs.getDouble("lat", Constant.LAT_DEFAULT),
-                                    Prefs.getDouble("lon", Constant.LON_DEFAULT),
+                                    latNow,
+                                    lonNow,
                                     data?.lat,
                                     data?.lon,
                                     data,
@@ -117,8 +145,8 @@ class MiShopNotification : Fragment() {
                                     ) == false || data?.statusPost.isNullOrEmpty()
                                 ) {
                                     checkDistance(
-                                        Prefs.getDouble("lat", Constant.LAT_DEFAULT),
-                                        Prefs.getDouble("lon", Constant.LON_DEFAULT),
+                                        latNow,
+                                        lonNow,
                                         data?.lat,
                                         data?.lon,
                                         data,
@@ -205,8 +233,8 @@ class MiShopNotification : Fragment() {
 //                                    data.let { list?.add(it) }
 //                                    setToAdapter(list)
                                     checkDistance(
-                                        Prefs.getDouble("lat", Constant.LAT_DEFAULT),
-                                        Prefs.getDouble("lon", Constant.LON_DEFAULT),
+                                        latNow,
+                                        lonNow,
                                         data.latAwal,
                                         data.lonAwal,
                                         data,
