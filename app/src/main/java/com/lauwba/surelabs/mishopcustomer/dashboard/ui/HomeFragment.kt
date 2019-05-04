@@ -36,7 +36,7 @@ import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.lauwba.surelabs.mishopcustomer.service.ServiceActivity
 import com.lauwba.surelabs.mishopcustomer.shop.ShopActivity
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.activity_home_fragment.*
+import kotlinx.android.synthetic.main.new_activity_home_fragment.*
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.startActivity
@@ -112,7 +112,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
     private var layanan: Boolean? = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_home_fragment, container, false)
+        return inflater.inflate(R.layout.new_activity_home_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

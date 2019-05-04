@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include layout="@layout/template_akun"/>
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content">
+        <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:src="@drawable/profile"
+                    android:id="@+id/fotouser"
+                    android:layout_width="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="150dp"/>
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:src="@mipmap/ic_add"
+                       android:layout_alignEnd="@id/fotouser"
+                       android:layout_alignBottom="@id/fotouser"
+            />
+
+            <LinearLayout
+                    android:layout_margin="40dp"
+                    android:layout_below="@id/fotouser"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/name"
+                            android:hint="Nama"
+                            android:drawableEnd="@android:drawable/ic_menu_edit"
+                            android:layout_height="wrap_content"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <android.support.design.widget.TextInputEditText
+                            android:drawableEnd="@android:drawable/ic_menu_edit"
+                            android:layout_width="match_parent"
+                            android:hint="Alamat"
+                            android:id="@+id/alamat"
+                            android:layout_height="wrap_content"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:hint="Nomor Telepon"
+                            android:id="@+id/nomorTelepon"
+                            android:drawableEnd="@android:drawable/ic_menu_edit"
+                            android:layout_height="wrap_content"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                        android:background="@drawable/btn_background"
+                        android:text="Logout"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ms_white"
+                        android:fontFamily="@font/exo2_bold"
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

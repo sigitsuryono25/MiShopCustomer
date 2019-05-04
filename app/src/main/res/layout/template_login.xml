@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView android:layout_width="100dp"
+               android:layout_marginTop="-25dp"
+               android:layout_marginStart="-25dp"
+               android:layout_height="100dp"
+               android:id="@+id/bubble1Blue"
+               android:src="@drawable/bubble1"
+               android:rotation="45"
+    />
+
+    <ImageView android:layout_width="24dp" android:layout_height="24dp"
+               android:src="@drawable/bubble3"
+               android:id="@+id/bubble3Green"
+               android:layout_alignBottom="@id/bubble1Blue"
+               android:layout_marginBottom="-35dp"
+               android:layout_marginStart="55dp"
+    />
+
+    <ImageView android:layout_width="8dp" android:layout_height="8dp"
+               android:src="@drawable/bubble1"
+               android:layout_below="@id/bubble3Green"
+               android:layout_alignBottom="@id/bubble3Green"
+               android:layout_marginStart="75dp"
+               android:layout_marginBottom="-75dp"
+    />
+
+    <ImageView android:layout_width="16dp" android:layout_height="16dp"
+               android:src="@drawable/bubble2"
+               android:layout_alignBottom="@id/bubble1Blue"
+               android:layout_marginStart="100dp"
+    />
+
+    <ImageView android:layout_width="64dp"
+               android:layout_alignParentEnd="true"
+               android:layout_marginEnd="-20dp"
+               android:layout_marginTop="50dp"
+               android:id="@+id/bubble2Blue"
+               android:layout_height="64dp"
+               android:src="@drawable/bubble1"
+    />
+
+    <ImageView android:layout_width="8dp" android:layout_height="8dp"
+               android:src="@drawable/bubble3"
+               android:layout_alignParentEnd="true"
+               android:layout_alignTop="@id/bubble2Blue"
+               android:layout_marginTop="10dp"
+               android:layout_marginEnd="75dp"
+    />
+
+    <ImageView android:layout_width="32dp" android:layout_height="32dp"
+               android:layout_alignBottom="@id/bubble2Blue"
+               android:layout_alignParentEnd="true"
+               android:layout_marginEnd="20dp"
+               android:layout_marginBottom="-5dp"
+               android:src="@drawable/bubble2"/>
+
+</RelativeLayout>

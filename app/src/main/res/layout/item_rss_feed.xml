@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     android:id="@+id/rss"
-                                    android:layout_width="250dp"
-                                    android:layout_height="113dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:layout_margin="5dp"
                                     android:paddingBottom="@dimen/margin_padding"
                                     android:orientation="vertical">
 
     <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
 
@@ -17,30 +17,16 @@
                 android:id="@+id/image"
                 android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="110dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:src="@mipmap/ic_launcher"/>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:alpha=".5"
-                android:background="@android:color/black"
-                android:padding="8dp">
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"/>
-        </FrameLayout>
-
         <LinearLayout
                 android:id="@+id/Content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/image"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
             <TextView
@@ -50,7 +36,21 @@
                     android:padding="8dp"
                     android:text="Title"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="10sp"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:id="@+id/readMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_gravity="center"
+                    android:text="Read More"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorAccent"
                     android:textSize="10sp"
                     android:textStyle="bold"/>
 

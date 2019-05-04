@@ -8,10 +8,12 @@
     <color name="green">#049C00</color>
     <color name="greenDark">#035F01</color>
     <color name="red">#D50000</color>
-    <color name="blue">#008ED5</color>
+    <color name="blue">#77A8C7</color>
     <color name="mishop">#D50000</color>
     <color name="miservice">#049C00</color>
     <color name="micar">#FFC400</color>
     <color name="mibike">#232324</color>
     <color name="miexpress">#008ED5</color>
+    <color name="disabled">#474747</color>
+    <color name="blue_gj">#6C7FFF</color>
 </resources>

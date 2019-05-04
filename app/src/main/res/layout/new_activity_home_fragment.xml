@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".dashboard.ui.HomeFragment">
+    <include layout="@layout/template_background"/>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                    android:padding="@dimen/margin_padding"
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                    <TextView
+                            android:visibility="gone"
+                            android:id="@+id/header"
+                            android:padding="@dimen/margin_padding"
+                            android:text="@string/layanan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                            android:id="@+id/mainService"
+                            android:padding="@dimen/margin_padding"
+                            android:layout_below="@+id/header"
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:id="@+id/miShop"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="@dimen/margin_padding"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    android:id="@+id/miShopIcon"
+                                    android:src="@drawable/new_shop"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"/>
+
+                            <TextView
+                                    android:text="@string/shop"
+                                    android:layout_marginTop="2dp"
+                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/exo2_bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                            />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="@dimen/margin_padding"
+                                android:id="@+id/miService"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    android:src="@drawable/new_services"
+                                    android:id="@+id/miServiceIcon"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"/>
+                            <TextView
+                                    android:text="@string/services"
+                                    android:layout_marginTop="2dp"
+                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/exo2_bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                            />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:id="@+id/miCar"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="@dimen/margin_padding"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    android:id="@+id/miCarIcon"
+                                    android:src="@drawable/new_car"
+                                    android:layout_width="48dp"
+                                    android:layout_height="50dp"/>
+                            <TextView
+                                    android:text="@string/car"
+                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/exo2_bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                            />
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:id="@+id/miBike"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="@dimen/margin_padding"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    android:id="@+id/miBikeIcon"
+                                    android:src="@drawable/new_bike"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"/>
+                            <TextView
+                                    android:text="@string/bike"
+                                    android:layout_marginTop="2dp"
+                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/exo2_bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                            />
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:id="@+id/miXpress"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="@dimen/margin_padding"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    android:id="@+id/miXpressIcon"
+                                    android:src="@drawable/new_express"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"/>
+                            <TextView
+                                    android:text="@string/express"
+                                    android:layout_marginTop="2dp"
+                                    android:textColor="@android:color/black"
+                                    android:fontFamily="@font/exo2_bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                            />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/margin_padding"
+                    app:cardElevation="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <RelativeLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:id="@+id/title"
+                                android:padding="@dimen/margin_padding"
+                                android:text="@string/news"
+                                android:layout_alignParentLeft="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:layout_marginTop="3dp"
+                                android:layout_toRightOf="@+id/title"
+                                android:layout_width="wrap_content"
+                                android:padding="@dimen/margin_padding"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:layout_alignParentTop="true"
+                                android:alpha=".8"
+                                android:background="@android:color/white"
+                                android:text="Berita oleh Detik.com"
+                        />
+
+                        <ImageView
+                                android:id="@+id/reload"
+                                android:padding="@dimen/margin_padding"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/ic_refresh_black_24dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                            android:paddingBottom="@dimen/margin_padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rcNews"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                        </android.support.v7.widget.RecyclerView>
+
+                        <LinearLayout
+                                android:visibility="visible"
+                                android:id="@+id/loading"
+                                android:gravity="center"
+                                android:background="@android:color/background_light"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp">
+                            <ProgressBar
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                        android:padding="@dimen/margin_padding"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="wrap_content">
+                        <TextView
+                                android:layout_centerVertical="true"
+                                android:padding="@dimen/margin_padding"
+                                android:text="@string/c2c"
+                                android:fontFamily="@font/exo2_bold"
+                                android:textColor="@android:color/black"
+                                android:drawablePadding="@dimen/margin_padding"
+                                android:gravity="center_vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        <TextView
+                                android:id="@+id/myShop"
+                                android:fontFamily="@font/exo2_bold"
+                                android:layout_centerVertical="true"
+                                android:padding="@dimen/margin_padding"
+                                android:layout_alignParentEnd="true"
+                                android:text="Jelajahi MyShop"
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorAccent"
+                                android:drawableStart="@drawable/small_shop"
+                                android:gravity="center_vertical"
+                                android:drawablePadding="@dimen/margin_padding"
+                                android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:gravity="center"
+                                android:id="@+id/noData"
+                                android:visibility="gone"
+                                android:text="@string/no_data"
+                                android:padding="@dimen/margin_padding"
+                                android:fontFamily="@font/exo2_bold"
+                                android:textColor="@android:color/black"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"/>
+                        <com.synnapps.carouselview.CarouselView
+                                android:id="@+id/c2cView"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                app:fillColor="#FFFFFFFF"
+                                app:pageColor="#00000000"
+                                app:radius="6dp"
+                                app:slideInterval="3000"
+                                app:strokeColor="#FF777777"
+                                app:strokeWidth="1dp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:paddingBottom="@dimen/margin_padding"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:padding="@dimen/margin_padding"
+                            android:text="@string/games"
+                            android:fontFamily="@font/exo2_bold"
+                            android:textColor="@android:color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <android.support.v7.widget.RecyclerView
+                            android:id="@+id/listGame"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                    android:layout_margin="@dimen/margin_padding"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:paddingBottom="@dimen/margin_padding"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:padding="@dimen/margin_padding"
+                            android:text="Video Petunjuk Penggunaan"
+                            android:fontFamily="@font/exo2_bold"
+                            android:textColor="@android:color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                        <com.google.android.youtube.player.YouTubeThumbnailView
+                                android:layout_width="match_parent"
+                                android:id="@+id/preview"
+                                android:scaleType="centerCrop"
+                                android:layout_height="250dp"/>
+
+                        <LinearLayout
+                                android:visibility="visible"
+                                android:id="@+id/loadingVideo"
+                                android:gravity="center"
+                                android:background="@android:color/background_light"
+                                android:layout_width="match_parent"
+                                android:layout_height="250dp">
+                            <ProgressBar
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

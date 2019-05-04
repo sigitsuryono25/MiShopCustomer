@@ -56,7 +56,7 @@ class BasicInformasi : SlideFragment() {
             activity?.let {
                 Glide.with(it)
                     .load(path)
-                    .apply(RequestOptions().centerCrop().circleCrop().error(R.drawable.ic_profile))
+                    .apply(RequestOptions().centerCrop().circleCrop().error(R.drawable.profile))
                     .into(previewImage)
             }
         }

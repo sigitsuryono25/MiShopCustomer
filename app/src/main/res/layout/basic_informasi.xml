@@ -184,7 +184,7 @@ telah disediakan"
                     android:id="@+id/previewImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/ic_profile"
+                    android:src="@drawable/profile"
                     android:layout_margin="@dimen/margin_padding"
                     android:layout_gravity="center"
             />

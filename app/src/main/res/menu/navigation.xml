@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/beranda"
           android:title="@string/beranda"
-          android:icon="@drawable/ic_home"
+          android:icon="@drawable/home"
     />
     <item android:id="@+id/orderan"
           android:title="@string/proses"
-          android:icon="@drawable/ic_trending_up_black_24dp"
+          android:icon="@drawable/proses"
     />
     <item android:id="@+id/inbox"
           android:title="@string/inbox"
-          android:icon="@drawable/ic_inbox"
+          android:icon="@drawable/inbox"
     />
     <item android:id="@+id/notifikasi"
           android:title="@string/notifikasi"
-          android:icon="@drawable/ic_notifications"
+          android:icon="@drawable/notif"
     />
     <item android:id="@+id/akun"
           android:title="@string/akun"
-          android:icon="@drawable/ic_profile"
+          android:icon="@drawable/akun"
     />
 </menu>
