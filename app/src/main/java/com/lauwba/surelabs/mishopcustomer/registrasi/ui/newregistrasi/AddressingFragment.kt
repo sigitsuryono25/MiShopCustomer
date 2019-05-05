@@ -16,7 +16,7 @@ import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
 import com.lauwba.surelabs.mishopcustomer.libs.RequestHandler
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import kotlinx.android.synthetic.main.fragment_addressing.*
-import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.json.JSONObject
 
 class AddressingFragment : SlideFragment() {
@@ -43,7 +43,7 @@ class AddressingFragment : SlideFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.titleToolbar?.text = "Pengaturan Alamat"
+        title.text = "Pengaturan Alamat"
         GetProvinsi().execute()
         initView()
     }
@@ -61,6 +61,10 @@ class AddressingFragment : SlideFragment() {
                 }
             }
 
+        }
+
+        provTitle.onClick {
+            GetProvinsi().execute()
         }
     }
 
@@ -93,11 +97,11 @@ class AddressingFragment : SlideFragment() {
     }
 
     override fun buttonsColor(): Int {
-        return R.color.micar
+        return R.color.blue_gj
     }
 
     override fun backgroundColor(): Int {
-        return R.color.mishop
+        return android.R.color.white
     }
 
     interface OnAddressingPass {

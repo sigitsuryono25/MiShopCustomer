@@ -1,7 +1,5 @@
 package com.lauwba.surelabs.mishopcustomer.service
 
-import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -29,11 +27,6 @@ class ServiceActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         titleToolbar.text = "Mi Service"
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(arrayOf(Manifest.permission_group.PHONE), 1)
-            return
-        }
 
         mList = mutableListOf()
         mListMitra = mutableListOf()

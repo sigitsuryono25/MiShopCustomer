@@ -2,7 +2,6 @@
 
 package com.lauwba.surelabs.mishopcustomer.registrasi
 
-import agency.tango.materialintroscreen.MessageButtonBehaviour
 import agency.tango.materialintroscreen.listeners.IFinishListener
 import android.app.ProgressDialog
 import android.net.Uri
@@ -77,18 +76,7 @@ class NewRegistrasi : MaterialIntroActivity(), IFinishListener,
         }
         cstmr = Customer()
         addSlide(BasicInformasi())
-        addSlide(
-            AddressingFragment(),
-            MessageButtonBehaviour(
-                View.OnClickListener {
-                    showMessage("Try us!")
-                },
-                "Tools"
-            )
-
-        )
-
-
+        addSlide(AddressingFragment())
     }
 
 

@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
+import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.media.RingtoneManager
 import android.net.Uri
@@ -23,12 +26,11 @@ import com.lauwba.surelabs.mishopcustomer.sqlite.InsertQuery
 import com.lauwba.surelabs.mishopcustomer.sqlite.SelectQuery
 import kotlinx.android.synthetic.main.activity_inbox_fragment.*
 import kotlinx.android.synthetic.main.bottom_nav.*
-import kotlinx.android.synthetic.main.loading.*
 
 class InboxFragment : Fragment() {
 
     private var mList: MutableList<InboxModel>? = null
-
+    private var pd: ProgressDialog? = null
     private var insert: InsertQuery? = null
     private var select: SelectQuery? = null
 
@@ -51,7 +53,7 @@ class InboxFragment : Fragment() {
     private fun getDataInbox() {
         var flag = true
         try {
-            loading.visibility = View.VISIBLE
+            pd = ProgressDialog.show(activity, "Tunggu", "Sedang Memuat halaman", false, true)
             val ref = Constant.database.getReference(Constant.TB_INBOX)
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -59,26 +61,30 @@ class InboxFragment : Fragment() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    loading.visibility = View.GONE
-                    for (issues in p0.children) {
-                        val data = issues.getValue(InboxModel::class.java)
-                        val insertData = InboxModel()
-                        insertData.id = data?.id
-                        insertData.to = data?.to
-                        insertData.foto = data?.foto
-                        insertData.message = data?.message
-                        insertData.broadcaston = data?.broadcaston
-                        if (!data?.to.equals("1", true)) {
-                            data?.let { mList?.add(it) }
-                            setToView(mList)
+                    try {
+                        pd?.dismiss()
+                        for (issues in p0.children) {
+                            val data = issues.getValue(InboxModel::class.java)
+                            val insertData = InboxModel()
+                            insertData.id = data?.id
+                            insertData.to = data?.to
+                            insertData.foto = data?.foto
+                            insertData.message = data?.message
+                            insertData.broadcaston = data?.broadcaston
+                            if (!data?.to.equals("1", true)) {
+                                data?.let { mList?.add(it) }
+                                setToView(mList)
 
-                            if (insert?.InsertInbox(insertData) == true) {
-                                setBadges(View.VISIBLE, flag)
-                                flag = false
-                            } else {
-                                setBadges(View.GONE, false)
+                                if (insert?.InsertInbox(insertData) == true) {
+                                    setBadges(View.VISIBLE, flag)
+                                    flag = false
+                                } else {
+                                    setBadges(View.GONE, false)
+                                }
                             }
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             })

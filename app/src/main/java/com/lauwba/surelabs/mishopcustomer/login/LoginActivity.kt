@@ -15,14 +15,12 @@ import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.appintro.AppIntroActivity
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.registrasi.NewRegistrasi
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.activity_signin.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.okButton
+import kotlinx.android.synthetic.main.new_login_activity.*
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,23 +29,38 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signin)
+        setContentView(R.layout.new_login_activity)
+
+        if (Prefs.contains(Constant.INTRO)) {
+            startActivity(intentFor<AppIntroActivity>().clearTop().newTask())
+        }
+
 
         mAuth = FirebaseAuth.getInstance()
         email_sign_in_button.onClick {
-            pd = ProgressDialog.show(this@LoginActivity, "", getString(R.string.loading), false, false)
-            mAuth?.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-                ?.addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        checkOnTableCustomer(email.text.toString())
-                    } else {
-                        toast("Terjadi Kesalahan")
-                        pd?.dismiss()
+            if (email.text.isEmpty()) {
+                toast("email harus diisi")
+            } else if (password.text.isEmpty()) {
+                toast("password harus diisi")
+            } else {
+                pd = ProgressDialog.show(this@LoginActivity, "", getString(R.string.loading), false, false)
+                mAuth?.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            checkOnTableCustomer(email.text.toString())
+                        } else {
+                            toast("Terjadi Kesalahan")
+                            pd?.dismiss()
+                        }
                     }
-                }
-                ?.addOnFailureListener {
-                    Log.i("OnFailure", it.message.toString())
-                }
+                    ?.addOnFailureListener {
+                        Log.i("OnFailure", it.message.toString())
+                    }
+            }
+        }
+
+        register.onClick {
+            startActivity<NewRegistrasi>()
         }
     }
 

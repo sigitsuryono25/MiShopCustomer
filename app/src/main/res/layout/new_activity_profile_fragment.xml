@@ -16,12 +16,6 @@
                     android:layout_centerHorizontal="true"
                     android:layout_height="150dp"/>
 
-            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                       android:src="@mipmap/ic_add"
-                       android:layout_alignEnd="@id/fotouser"
-                       android:layout_alignBottom="@id/fotouser"
-            />
-
             <LinearLayout
                     android:layout_margin="40dp"
                     android:layout_below="@id/fotouser"
@@ -36,15 +30,17 @@
                     <android.support.design.widget.TextInputEditText
                             android:layout_width="match_parent"
                             android:id="@+id/name"
+                            android:background="@drawable/shadow"
+                            android:enabled="false"
                             android:hint="Nama"
-                            android:drawableEnd="@android:drawable/ic_menu_edit"
                             android:layout_height="wrap_content"/>
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                     <android.support.design.widget.TextInputEditText
-                            android:drawableEnd="@android:drawable/ic_menu_edit"
+                            android:background="@drawable/shadow"
+                            android:enabled="false"
                             android:layout_width="match_parent"
                             android:hint="Alamat"
                             android:id="@+id/alamat"
@@ -57,14 +53,28 @@
                             android:layout_width="match_parent"
                             android:hint="Nomor Telepon"
                             android:id="@+id/nomorTelepon"
-                            android:drawableEnd="@android:drawable/ic_menu_edit"
+                            android:background="@drawable/shadow"
+                            android:enabled="false"
                             android:layout_height="wrap_content"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
                         android:background="@drawable/btn_background"
+                        android:text="Edit Profile"
+                        android:id="@+id/edit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/ms_white"
+                        android:fontFamily="@font/exo2_bold"
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                />
+
+                <Button
+                        android:background="@drawable/btn_background"
                         android:text="Logout"
                         android:textAllCaps="false"
+                        android:id="@+id/logout"
                         android:textColor="@color/ms_white"
                         android:fontFamily="@font/exo2_bold"
                         android:layout_marginTop="@dimen/margin_padding"

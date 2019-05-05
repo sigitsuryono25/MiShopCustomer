@@ -2,78 +2,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:padding="@dimen/margin_padding"
+              android:background="@color/ms_white"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
+                  android:background="@color/ms_white"
+                  android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/fotomitra"
-            android:src="@drawable/profile"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"/>
 
-    <TextView
-            android:textSize="17sp"
-            android:textAppearance="?textAppearanceBody2"
-            android:text="@string/nama"
-            android:id="@+id/namaMitra"
-            android:gravity="center"
-            android:padding="@dimen/margin_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <TextView
-            android:padding="@dimen/margin_padding"
-            android:id="@+id/nomorTelepon"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textAppearance="?textAppearanceBody2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:layout_weight="1"
+        <LinearLayout
                 android:padding="@dimen/margin_padding"
-                android:drawableTop="@drawable/wa"
-                android:drawablePadding="@dimen/margin_padding"
-                android:text="Whatsapp"
-                android:id="@+id/wa"
-                android:textColor="@color/green"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/call"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/phone"
-                android:drawablePadding="@dimen/margin_padding"
-                android:text="Telepon"
-                android:textColor="@color/blue"
-                android:gravity="center"
-                android:padding="@dimen/margin_padding"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/sms"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/sms"
-                android:drawablePadding="@dimen/margin_padding"
-                android:text="Sms"
-                android:textColor="@color/red"
-                android:gravity="center"
-                android:padding="@dimen/margin_padding"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:id="@+id/fotomitra"
+                    android:src="@drawable/profile"
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <TextView
+                        android:textSize="17sp"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:text="@string/nama"
+                        android:fontFamily="@font/exo2_bold"
+                        android:id="@+id/namaMitra"
+                        android:padding="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                <TextView
+                        android:padding="@dimen/margin_padding"
+                        android:fontFamily="@font/exo2_bold"
+                        android:id="@+id/nomorTelepon"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_marginBottom="25dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_weight="1"
+                    android:padding="@dimen/margin_padding"
+                    android:drawableTop="@drawable/wa"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:text="Whatsapp"
+                    android:id="@+id/wa"
+                    android:textColor="@color/green"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/call"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/phone"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:text="Telepon"
+                    android:textColor="@color/blue"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/sms"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/sms"
+                    android:drawablePadding="@dimen/margin_padding"
+                    android:text="Sms"
+                    android:textColor="@color/red"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
-
     <Button
+            android:layout_marginTop="-25dp"
             android:id="@+id/booking"
-            android:background="@drawable/button_style_green"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_background"
             android:text="Booking"
+            android:fontFamily="@font/exo2_bold"
             android:textColor="@android:color/white"
-            android:drawableStart="@drawable/ic_playlist_add_black_24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 </LinearLayout>

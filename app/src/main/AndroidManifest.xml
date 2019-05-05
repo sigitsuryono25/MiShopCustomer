@@ -31,8 +31,7 @@
         <activity android:name=".appintro.AppIntroActivity">
         </activity>
         <activity
-                android:name=".registrasi.NewRegistrasi"
-                android:theme="@style/AppTheme">
+                android:name=".registrasi.NewRegistrasi">
         </activity>
         <activity android:name=".tentang.TentangActivity">
         </activity>
@@ -82,8 +81,7 @@
         <activity
                 android:name=".login.LoginActivity"
                 android:label="@string/title_activity_login"
-                android:noHistory="true"
-                android:theme="@style/MainLoginTheme">
+                android:noHistory="true">
         </activity>
         <activity android:name=".MiCarJekXpress.waiting.WaitingActivity">
         </activity>

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.lauwba.surelabs.mishopcustomer.MiCarJekXpress
 
 import android.app.ProgressDialog
@@ -41,7 +43,7 @@ import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_mi_things.*
+import kotlinx.android.synthetic.main.new_micar_mibike.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -65,7 +67,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mi_things)
+        setContentView(R.layout.new_micar_mibike)
 
         checkPermissionGps()
         initView()
@@ -304,7 +306,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                     route()
                 }
 
-                val name = place.address
+                val name = place.name ?: place.address
                 asal.text = name
             } else if (requestCode == 2) {
                 if (asal.text.length > 0) {
@@ -321,7 +323,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 latTujuan = place.latLng.latitude
                 lonTujuan = place.latLng.longitude
 
-                val name = place.address
+                val name = place.name ?: place.address
                 tujuan.text = name
 
                 showMarker(
@@ -378,10 +380,10 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
         if (valueBulat < Constant.JARAK_MAKSIMAL) {
             jarakTrip.text = text
-            hargaTrip.text = "Rp. $resultHarga"
+            hargaTrip.text = "$resultHarga"
 
             if (hargaTrip.text.isNotEmpty()) {
-                booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
+                booking.background = resources.getDrawable(R.drawable.btn_background)
                 booking.isEnabled = true
             }
         } else {
@@ -390,7 +392,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                 okButton {
                     jarakTrip.text = ""
                     hargaTrip.text = ""
-                    booking.background = resources.getDrawable(android.R.color.darker_gray)
+                    booking.background = resources.getDrawable(R.drawable.btn_background_dis)
                     booking.isEnabled = false
                 }
             }.show()
@@ -458,13 +460,12 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun showNameLocations(lat: Double?, lon: Double?): CharSequence? {
-        var geocoder = Geocoder(this, Locale.getDefault())
-        var location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val location = geocoder.getFromLocation(lat ?: 0.0, lon ?: 0.0, 1)
 
         //get address location
-        val nameLocations = location.get(0).getAddressLine(0)
 
-        return nameLocations
+        return location.get(0).getAddressLine(0)
     }
 
     override fun onMapReady(p0: GoogleMap?) {

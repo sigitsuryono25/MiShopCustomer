@@ -19,6 +19,55 @@
             android:layout_margin="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/email"
+                android:background="@drawable/shadow"
+                android:layout_width="match_parent"
+                android:hint="email"
+                android:fontFamily="@font/exo2_bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:padding="@dimen/margin_padding"
+                android:textSize="17sp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+        />
+
+        <EditText
+                android:layout_marginTop="25dp"
+                android:background="@drawable/shadow"
+                android:layout_width="match_parent"
+                android:hint="password"
+                android:id="@+id/password"
+                android:fontFamily="@font/exo2_bold"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:padding="@dimen/margin_padding"
+                android:textSize="17sp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+        />
+
+        <Button
+                android:layout_marginTop="25dp"
+                android:text="SIGN IN"
+                android:id="@+id/email_sign_in_button"
+                android:fontFamily="@font/exo2_bold"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView android:layout_width="match_parent"
+                  android:text="Belum Punya akun? Daftar Sekarang"
+                  android:fontFamily="@font/exo2_bold"
+                  android:layout_marginTop="5dp"
+                  android:padding="@dimen/margin_padding"
+                  android:gravity="center"
+                  android:id="@+id/register"
+                  android:textColor="@android:color/black"
+                  android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

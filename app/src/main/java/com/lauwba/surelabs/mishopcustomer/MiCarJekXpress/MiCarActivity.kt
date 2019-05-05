@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.lauwba.surelabs.mishopcustomer.MiCarJekXpress
 
 import android.app.ProgressDialog
@@ -41,7 +43,7 @@ import com.pixplicity.easyprefs.library.Prefs
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_mi_things.*
+import kotlinx.android.synthetic.main.new_micar_mibike.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.okButton
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -65,7 +67,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mi_things)
+        setContentView(R.layout.new_micar_mibike)
 
         checkPermissionGps()
         initView()
@@ -299,7 +301,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                     route()
                 }
 
-                val name = place.address
+                val name = place.name ?: place.address
                 asal.text = name
             } else if (requestCode == 2) {
                 if (asal.text.isNotEmpty()) {
@@ -316,7 +318,7 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 latTujuan = place.latLng.latitude
                 lonTujuan = place.latLng.longitude
 
-                val name = place.address
+                val name = place.name ?: place.address
                 tujuan.text = name
 
                 showMarker(
@@ -349,8 +351,9 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
                     val overview = route?.overviewPolyline
                     val point = overview?.points
                     val distance = route?.legs?.get(0)?.distance
+                    val status = it?.status
 
-                    showHarga(distance)
+                    showHarga(distance, status)
 
                     mMap?.let { it1 -> point?.let { it2 -> DirectionMapsV2.gambarRoute(it1, it2) } }
                 }, {
@@ -361,39 +364,52 @@ class MiCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun showHarga(distance: Distance?) {
-        val text = distance?.text
-        val value = distance?.value
+    private fun showHarga(
+        distance: Distance?,
+        status: String?
+    ) {
 
-        Log.d("JARAL", text)
+        if (status?.contains("ZERO_RESULTS") == false) {
+            val text = distance?.text
+            val value = distance?.value
 
-        val valueBagi = value?.div(1000)
-        val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
+            Log.d("JARAL", text)
 
-        val hargaAwal = tarif?.toInt()?.let { valueBulat.times(it) }
-        harga = hargaAwal?.toInt()
+            val valueBagi = value?.div(1000)
+            val valueBulat = Math.ceil(valueBagi?.toDouble() ?: 0.0)
+
+            val hargaAwal = tarif?.toInt()?.let { valueBulat.times(it) }
+            harga = hargaAwal?.toInt()
 //        } else {
 //            hargaAwal = ((valueBulat - 5) * 1000) + (5 * 2000)
 //        }
 
-        val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
+            val resultHarga = ChangeFormat.toRupiahFormat2("$hargaAwal")
 
-        if (valueBulat < Constant.JARAK_MAKSIMAL) {
-            jarakTrip.text = text
-            hargaTrip.text = "Rp. $resultHarga"
+            if (valueBulat < Constant.JARAK_MAKSIMAL) {
+                jarakTrip.text = text
+                hargaTrip.text = "$resultHarga"
 
-            if (hargaTrip.text.isNotEmpty()) {
-                booking.background = resources.getDrawable(R.color.com_facebook_button_background_color_pressed)
-                booking.isEnabled = true
+                if (hargaTrip.text.isNotEmpty()) {
+                    booking.background = resources.getDrawable(R.drawable.btn_background)
+                    booking.isEnabled = true
+                }
+            } else {
+                alert {
+                    message = "Jaraknya Kejauhan Kak, Maaf"
+                    okButton {
+                        jarakTrip.text = ""
+                        hargaTrip.text = ""
+                        booking.background = resources.getDrawable(R.drawable.btn_background_dis)
+                        booking.isEnabled = false
+                    }
+                }.show()
             }
         } else {
             alert {
-                message = "Jaraknya Kejauhan Kak, Maaf"
+                message = "Oops... Belum Ada Rutenya kak"
                 okButton {
-                    jarakTrip.text = ""
-                    hargaTrip.text = ""
-                    booking.background = resources.getDrawable(android.R.color.darker_gray)
-                    booking.isEnabled = false
+
                 }
             }.show()
         }

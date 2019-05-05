@@ -1,20 +1,29 @@
 package com.lauwba.surelabs.mishopcustomer.dashboard.ui
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Config
 import com.lauwba.surelabs.mishopcustomer.config.Constant
+import com.lauwba.surelabs.mishopcustomer.login.LoginActivity
+import com.lauwba.surelabs.mishopcustomer.profile.ProfileEditActivity
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
+import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.new_activity_profile_fragment.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.intentFor
+import org.jetbrains.anko.support.v4.startActivity
 
 class ProfileFragment : Fragment() {
 
@@ -54,15 +63,16 @@ class ProfileFragment : Fragment() {
 
 
     private fun initView() {
-//        logout.onClick {
-//            Prefs.clear()
-//            Constant.mAuth.signOut()
-//            activity?.finish()
-//            startActivity(intentFor<MainActivity>().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-//        }
-//        edit.onClick {
+        logout.onClick {
+            Prefs.clear()
+            Constant.mAuth.signOut()
+            activity?.finish()
+            startActivity(intentFor<LoginActivity>().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+        edit.onClick {
 //            startActivity<ProfileEditActivity>("data" to profileData)
-//        }
+            startActivity<ProfileEditActivity>("data" to profileData)
+        }
     }
 
 
@@ -72,12 +82,12 @@ class ProfileFragment : Fragment() {
         nomorTelepon.setText(profileData?.telepon)
 //        email.text = profileData?.email
 //        loading.visibility = View.GONE
-//        activity?.let {
-//            Glide.with(it)
-//                .load(profileData?.fotoCustomer)
-//                .apply(RequestOptions().centerCrop().circleCrop())
-//                .into(fotouser)
-//        }
+        activity?.let {
+            Glide.with(it)
+                .load(profileData?.fotoCustomer)
+                .apply(RequestOptions().centerCrop().circleCrop())
+                .into(fotouser)
+        }
         pd?.dismiss()
 //        content.visibility = View.VISIBLE
     }

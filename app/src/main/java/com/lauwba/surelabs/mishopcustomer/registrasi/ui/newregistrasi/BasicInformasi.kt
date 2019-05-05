@@ -16,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import kotlinx.android.synthetic.main.basic_informasi.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
@@ -37,7 +36,7 @@ class BasicInformasi : SlideFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.titleToolbar?.text = getString(R.string.info_dasar)
+        title.text = getString(R.string.info_dasar)
         pick.onClick {
             pickerImage()
         }
@@ -111,6 +110,10 @@ class BasicInformasi : SlideFragment() {
                 message = "Password tidak cocok"
                 return false
             }
+            path.isNullOrEmpty() -> {
+                message = "Silahkan Pilih 1 Foto"
+                return false
+            }
             else -> {
                 val c = Customer()
                 c.nama = nama.text.toString()
@@ -130,11 +133,11 @@ class BasicInformasi : SlideFragment() {
     }
 
     override fun buttonsColor(): Int {
-        return R.color.red
+        return R.color.blue_gj
     }
 
     override fun backgroundColor(): Int {
-        return R.color.aqua
+        return android.R.color.white
     }
 
     interface OnDataPass {

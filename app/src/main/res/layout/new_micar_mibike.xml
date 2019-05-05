@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MiCarJekXpress.MiCarActivity">
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/home"
+            android:elevation="5dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="@android:color/white">
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/margin_padding"
+                          android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/asal"
+                        android:fontFamily="@font/lato_black"
+                        android:drawableStart="@drawable/ic_pin1"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/margin_padding"
+                        android:layout_width="match_parent"
+                        android:hint="Dari mana ?"
+                        android:lines="2"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.5dp"
+                  android:background="@android:color/darker_gray"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/margin_padding"
+                          android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/tujuan"
+                        android:lines="2"
+                        android:fontFamily="@font/lato_black"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="@dimen/margin_padding"
+                        android:drawableStart="@drawable/ic_pin2"
+                        android:layout_width="match_parent"
+                        android:hint="Mau Kemana ?"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+            <!--<View android:layout_width="match_parent"-->
+            <!--android:layout_height="0.5dp"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--android:background="@android:color/darker_gray"/>-->
+            <!--<LinearLayout android:layout_width="match_parent"-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/barangContainer"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/margin_padding"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!--<EditText-->
+            <!--android:id="@+id/barang"-->
+            <!--android:lines="2"-->
+            <!--android:padding="@dimen/margin_padding"-->
+            <!--android:drawableStart="@drawable/ic_shop_two_black_24dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:hint="Deskripsi Singkat"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:drawablePadding="@dimen/margin_padding"-->
+            <!--android:textSize="15sp"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<View android:layout_width="match_parent"-->
+            <!--android:layout_height="0.5dp"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--android:background="@android:color/darker_gray"/>-->
+
+            <!--<LinearLayout android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/margin_padding"-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/teleponContainer"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/nomorTelepon"-->
+            <!--android:lines="2"-->
+            <!--android:padding="@dimen/margin_padding"-->
+            <!--android:drawableStart="@drawable/ic_phone_in_talk_black_24dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:hint="NomorTelepon"-->
+            <!--android:inputType="phone"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:drawablePadding="@dimen/margin_padding"-->
+            <!--android:textSize="15sp"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <fragment
+            android:id="@+id/mapView"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    <ImageView
+            android:id="@+id/myLoc"
+            android:src="@mipmap/ic_gps"
+            android:layout_below="@id/home"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+    />
+
+    <android.support.v7.widget.CardView
+            android:id="@+id/bottom"
+            android:elevation="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/contentHarga"
+                android:padding="@dimen/margin_padding"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_padding">
+
+                <ImageView android:id="@+id/harga"
+                           android:layout_width="@dimen/icon"
+                           android:layout_centerVertical="true"
+                           android:src="@drawable/price"
+                           android:layout_height="@dimen/icon"/>
+
+                <TextView android:id="@+id/jarakTrip"
+                          android:layout_marginLeft="@dimen/margin_padding"
+                          android:textSize="12sp"
+                          android:layout_toRightOf="@+id/harga"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <View android:layout_toRightOf="@id/icon"
+                  android:layout_centerVertical="true"
+                  android:layout_width="wrap_content"
+                  android:background="#c0c0c0"
+                  android:visibility="gone"
+                  android:layout_height="1dp"/>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:gravity="center|center_vertical"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:text="Rp "
+                        android:fontFamily="@font/exo2_bold"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                />
+
+
+                <TextView android:id="@+id/hargaTrip"
+                          android:textSize="24sp"
+                          android:layout_marginStart="10dp"
+                          android:textColor="@color/blue_gj"
+                          android:fontFamily="@font/lato_black"
+                          android:textAlignment="center"
+                          android:padding="@dimen/margin_padding"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <Button
+                    android:background="@drawable/btn_background_dis"
+                    android:text="Booking"
+                    android:id="@+id/booking"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/contentHarga"
+                    android:enabled="false"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

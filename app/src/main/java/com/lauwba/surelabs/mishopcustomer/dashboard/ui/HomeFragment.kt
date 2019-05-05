@@ -51,7 +51,6 @@ import java.net.URL
 
 class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
     private var youTubeThumbnailLoader: YouTubeThumbnailLoader? = null
-    private var thumbnailView: YouTubeThumbnailView? = null
     private val gambar = arrayOf(
         R.drawable._1000_blocks_teaser,
         R.drawable.drag_racing_club_teaser,
@@ -109,7 +108,6 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
     private var rssAdapter: RssFeedAdapter? = null
     private var imageC2c: MutableList<String>? = null
     private var idC2c: MutableList<String>? = null
-    private var layanan: Boolean? = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.new_activity_home_fragment, container, false)
@@ -156,7 +154,10 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
 
     private fun initOnlick() {
         miShop.onClick {
-            if (checkLayanan() != 2)
+            val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+            if (layanan == false) {
+                setBackgroundTintMode()
+            } else if (checkLayanan() != 2)
                 activity?.startActivity<ShopActivity>()
             else
                 alert {
@@ -168,7 +169,12 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         }
 
         miService.onClick {
-            if (checkLayanan() != 2)
+            val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+
+
+            if (layanan == false) {
+                setBackgroundTintMode()
+            } else if (checkLayanan() != 2)
                 activity?.startActivity<ServiceActivity>()
             else
                 alert {
@@ -180,7 +186,11 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         }
 
         miCar.onClick {
-            if (checkLayanan() != 2)
+            val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+
+            if (layanan == false) {
+                setBackgroundTintMode()
+            } else if (checkLayanan() != 2)
                 activity?.startActivity<MiCarActivity>()
             else
                 alert {
@@ -192,7 +202,11 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         }
 
         miBike.onClick {
-            if (checkLayanan() != 2)
+            val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+
+            if (layanan == false) {
+                setBackgroundTintMode()
+            } else if (checkLayanan() != 2)
                 activity?.startActivity<MiBikeActivity>()
             else
                 alert {
@@ -204,7 +218,11 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
         }
 
         miXpress.onClick {
-            if (checkLayanan() != 2)
+            val layanan = Prefs.getBoolean(Constant.SERVICE, false)
+
+            if (layanan == false) {
+                setBackgroundTintMode()
+            } else if (checkLayanan() != 2)
                 activity?.startActivity<MiXpressActivity>()
             else
                 alert {
@@ -399,7 +417,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
                         try {
                             val document = Jsoup.parse(desc)
                             src = document.select("img").first().attr("src")
-//                            Log.d("link", link)
+                            Log.d("desc", src.toString())
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -410,7 +428,7 @@ class HomeFragment : Fragment(), YouTubeThumbnailView.OnInitializedListener {
                 if (title != null && link != null && date != null) {
                     if (isItem) {
                         val item =
-                            RssFeedModel(title, link, src ?: "")
+                            RssFeedModel(title, link, src)
                         items.add(item)
                     } else {
 //                        mFeedTitle = title

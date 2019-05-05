@@ -1,106 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:orientation="vertical"
-              android:padding="@dimen/margin_padding"
-              android:layout_height="wrap_content">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:layout_width="match_parent"
+                                    app:cardCornerRadius="10dp"
+                                    app:cardElevation="20dp"
+                                    android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="match_parent"
+                  android:padding="10dp"
+                  android:orientation="vertical"
+                  android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
-        <EditText
-                android:id="@+id/qty"
-                android:hint="Seberapa Banyak ?"
-                android:inputType="number"
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/qty"
+                    android:hint="Seberapa Banyak ?"
+                    android:fontFamily="@font/exo2_bold"
+                    android:inputType="number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/alamat"
+                    android:hint="Alamatnya udah bener kak ?"
+                    android:inputType="text"
+                    android:fontFamily="@font/exo2_bold"
+                    android:singleLine="false"
+                    android:maxLines="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                <TextView
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:text="Harga Produk"
+                        android:fontFamily="@font/exo2_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/harga"
+                        android:text=""
+                        android:fontFamily="@font/exo2_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:gravity="center"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                <TextView
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:text="Kenaikan"
+                        android:fontFamily="@font/exo2_bold"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/kenaikan"
+                        android:gravity="center"
+                        android:fontFamily="@font/exo2_bold"
+                        android:text=""
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                <TextView
+                        android:layout_marginTop="@dimen/margin_padding"
+                        android:text="Biaya Antar"
+                        android:gravity="end"
+                        android:fontFamily="@font/exo2_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <TextView
+                        android:id="@+id/ongkir"
+                        android:text=""
+                        android:fontFamily="@font/exo2_bold"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView android:layout_marginTop="@dimen/margin_padding"
+                  android:text="Total"
+                  android:fontFamily="@font/exo2_bold"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+        />
+
+        <TextView
+                android:id="@+id/total"
+                android:layout_marginTop="@dimen/margin_padding"
+                android:fontFamily="@font/exo2_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
         />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
-        <EditText
-                android:id="@+id/alamat"
-                android:hint="Alamatnya udah bener kak ?"
-                android:inputType="text"
-                android:singleLine="false"
-                android:maxLines="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-        />
-    </android.support.design.widget.TextInputLayout>
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
-            <TextView
-                    android:layout_marginTop="@dimen/margin_padding"
-                    android:text="Harga Produk"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            <TextView
-                    android:id="@+id/harga"
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
-            <TextView
-                    android:layout_marginTop="@dimen/margin_padding"
-                    android:text="Kenaikan"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            <TextView
-                    android:id="@+id/kenaikan"
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <LinearLayout android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
-            <TextView
-                    android:layout_marginTop="@dimen/margin_padding"
-                    android:text="Biaya Antar"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            <TextView
-                    android:id="@+id/ongkir"
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
     </LinearLayout>
-
-
-    <TextView android:layout_marginTop="@dimen/margin_padding"
-              android:text="Total"
-              android:textStyle="bold"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-    />
-
-    <TextView
-            android:id="@+id/total"
-            android:layout_marginTop="@dimen/margin_padding"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-    />
-</LinearLayout>
+</android.support.v7.widget.CardView>

@@ -7,10 +7,10 @@ import android.view.WindowManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.lauwba.surelabs.mishopcustomer.MainActivity
 import com.lauwba.surelabs.mishopcustomer.R
 import com.lauwba.surelabs.mishopcustomer.config.Constant
 import com.lauwba.surelabs.mishopcustomer.config.HourToMillis
+import com.lauwba.surelabs.mishopcustomer.login.LoginActivity
 import com.lauwba.surelabs.mishopcustomer.registrasi.model.Customer
 import com.pixplicity.easyprefs.library.Prefs
 import org.jetbrains.anko.alert
@@ -29,7 +29,7 @@ class SplashScreenActivity : AppCompatActivity() {
         } else {
             Handler().postDelayed({
                 finish()
-                startActivity<MainActivity>()
+                startActivity<LoginActivity>()
             }, 3000)
         }
     }
@@ -58,7 +58,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
                                     Handler().postDelayed({
                                         finish()
-                                        startActivity<MainActivity>()
+                                        startActivity<LoginActivity>()
                                     }, 3000)
                                 } else {
                                     alert {
@@ -72,7 +72,7 @@ class SplashScreenActivity : AppCompatActivity() {
                             } else {
                                 Handler().postDelayed({
                                     finish()
-                                    startActivity<MainActivity>()
+                                    startActivity<LoginActivity>()
                                 }, 3000)
                             }
 
