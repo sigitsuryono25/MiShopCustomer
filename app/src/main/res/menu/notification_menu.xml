@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:title="Shop" android:id="@+id/miShop"/>
-<item android:title="Service" android:id="@+id/miService" />
-<item android:title="Bike" android:id="@+id/miBike" />
-<item android:title="Car" android:id="@+id/miCar" />
-<item android:title="Express" android:id="@+id/miXpress" />
+    <item android:title="Shop" android:id="@+id/miShop"/>
+    <item android:title="Service" android:id="@+id/miService"/>
+    <item android:title="Bike" android:id="@+id/miBike"/>
+    <item android:title="Car" android:id="@+id/miCar"/>
+    <item android:title="Express" android:id="@+id/miXpress"/>
 </menu>

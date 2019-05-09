@@ -29,9 +29,9 @@ class AppIntroActivity : MaterialIntroActivity() {
                     "Sebuah layanan yang berisi penawaran yang terdiri dari makanan dan non makanan. " +
                             "Anda dapat langsung menghubungi mitra yang sedang menawarkan jasanya"
                 )
-                .backgroundColor(R.color.mishop)
-                .buttonsColor(R.color.micar)
-                .image(R.mipmap.ic_shop)
+                .backgroundColor(android.R.color.white)
+                .buttonsColor(R.color.blue_gj)
+                .image(R.drawable.new_shop)
                 .neededPermissions(
                     arrayOf(
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -50,9 +50,9 @@ class AppIntroActivity : MaterialIntroActivity() {
                             "baik via Whatsapp, SMS, ataupun Telepon. Anda dapat langsung melakukan booking " +
                             "bila telah mencapai kesepakatan"
                 )
-                .backgroundColor(R.color.miservice)
-                .image(R.mipmap.ic_service)
-                .buttonsColor(android.R.color.holo_red_dark)
+                .backgroundColor(android.R.color.white)
+                .image(R.drawable.new_services)
+                .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
                     arrayOf(
                         android.Manifest.permission.CALL_PHONE,
@@ -66,9 +66,9 @@ class AppIntroActivity : MaterialIntroActivity() {
             SlideFragmentBuilder()
                 .title("Mi Car")
                 .description("Sebuah layanan Antar Jemput dengan menggunakan Mobil.")
-                .backgroundColor(R.color.micar)
-                .image(R.mipmap.ic_car)
-                .buttonsColor(R.color.miservice)
+                .image(R.drawable.ic_group_331)
+                .backgroundColor(android.R.color.white)
+                .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
                     arrayOf(
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -82,9 +82,9 @@ class AppIntroActivity : MaterialIntroActivity() {
             SlideFragmentBuilder()
                 .title("Mi Express")
                 .description("Sebuah layanan Antar Jemput Barang dengan Harga Bersaing. ")
-                .backgroundColor(R.color.miexpress)
-                .buttonsColor(R.color.mishop)
-                .image(R.mipmap.ic_express)
+                .buttonsColor(R.color.blue_gj)
+                .backgroundColor(android.R.color.white)
+                .image(R.drawable.new_express)
                 .neededPermissions(
                     arrayOf(
                         android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -98,9 +98,9 @@ class AppIntroActivity : MaterialIntroActivity() {
             SlideFragmentBuilder()
                 .title("Mi Bike")
                 .description("Sebuah layanan Antar Jemput dengan menggunakan Motor.")
-                .backgroundColor(R.color.mibike)
-                .image(R.mipmap.ic_bike)
-                .buttonsColor(R.color.miexpress)
+                .image(R.drawable.new_bike)
+                .backgroundColor(android.R.color.white)
+                .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
                     arrayOf(
                         android.Manifest.permission.ACCESS_FINE_LOCATION,

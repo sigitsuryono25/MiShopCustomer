@@ -36,7 +36,7 @@ import com.lauwba.surelabs.mishopcustomer.libs.ChangeFormat
 import com.lauwba.surelabs.mishopcustomer.shop.model.ItemMitra
 import com.lauwba.surelabs.mishopcustomer.sqlite.DeleteQuery
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.activity_tracking_driver.*
+import kotlinx.android.synthetic.main.new_tracking_activity.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -52,11 +52,17 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
     private var bm: BitmapDescriptor? = null
     private var delete: DeleteQuery? = null
     private var ref: DatabaseReference? = null
+    private lateinit var coordinate: LatLng
+    private lateinit var awal: LatLng
+    private lateinit var destinasi: LatLng
+    private var width: Int? = null
+    private var height: Int? = null
+    private var padding: Int? = null
     //tatus: 0  posting, 1 diambil customer/mitra, 2 tiba, 3 sampai/selesai, 4  batal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tracking_driver)
+        setContentView(R.layout.new_tracking_activity)
         book = intent.getSerializableExtra("booking") as CarBikeBooking
         from = intent.getStringExtra("from")
         delete = DeleteQuery(this@TrackingDriver)
@@ -72,17 +78,12 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         homeprice.text = "Rp. " + ChangeFormat.toRupiahFormat2(book?.harga.toString())
-        homeAwal.text = book?.lokasiAwal
-        homeTujuan.text = book?.lokasiTujuan
-        homeWaktudistance.text = book?.jarak
+//        homeAwal.text = book?.lokasiAwal
+//        homeTujuan.text = book?.lokasiTujuan
 
 
         val fragment = supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         fragment.getMapAsync(this)
-
-        homebuttonnext.onClick {
-            finish()
-        }
 
         call.onClick {
             phone?.let { it1 -> makeCall(it1) }
@@ -96,6 +97,10 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             if (itemMitra == null)
             else
                 startActivity<ChatActivity>("token" to itemMitra)
+        }
+
+        myLoc.onClick {
+            showbound(coordinate, destinasi, awal, width, height, padding)
         }
 
     }
@@ -360,12 +365,21 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
 
     private fun showData(driver: ItemMitra?) {
         mMap?.clear()
-        val coordinate = LatLng(driver?.lat ?: 0.0, driver?.lon ?: 0.0)
-        val destinasi = LatLng(book?.latTujuan ?: 0.0, book?.lonTujuan ?: 0.0)
+        coordinate = LatLng(driver?.lat ?: 0.0, driver?.lon ?: 0.0)
+        destinasi = LatLng(book?.latTujuan ?: 0.0, book?.lonTujuan ?: 0.0)
+        awal = LatLng(book?.latAwal ?: 0.0, book?.lonAwal ?: 0.0)
         mMap?.addMarker(
             MarkerOptions().position(destinasi).title(book?.lokasiTujuan).icon(
                 BitmapDescriptorFactory.fromResource(
-                    R.drawable.ic_pin1
+                    R.drawable.pos_2
+                )
+            )
+        )?.showInfoWindow()
+
+        mMap?.addMarker(
+            MarkerOptions().position(awal).title(book?.lokasiAwal).icon(
+                BitmapDescriptorFactory.fromResource(
+                    R.drawable.pos_1
                 )
             )
         )?.showInfoWindow()
@@ -379,18 +393,11 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
             //            startActivity()
         }
 
-        val width = resources.displayMetrics.widthPixels
-        val height = resources.displayMetrics.heightPixels
-        val padding = (width * 0.40).toInt()
+        width = resources.displayMetrics.widthPixels
+        height = resources.displayMetrics.heightPixels
+        padding = (width?.times(0.40))?.toInt()
 
-        val bound = LatLngBounds.builder()
-        bound.include(destinasi)
-        bound.include(coordinate)
-
-        mMap?.setOnMapLoadedCallback {
-            mMap?.moveCamera(CameraUpdateFactory.newLatLngBounds(bound.build(), width, height, padding))
-        }
-
+        showbound(coordinate, destinasi, awal, width, height, padding)
         try {
             Glide.with(this@TrackingDriver)
                 .load(driver?.foto)
@@ -423,6 +430,35 @@ class TrackingDriver : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun showbound(
+        coordinate: LatLng,
+        destinasi: LatLng,
+        awal: LatLng,
+        width: Int?,
+        height: Int?,
+        padding: Int?
+    ) {
+        val bound = LatLngBounds.builder()
+        bound.include(destinasi)
+        bound.include(coordinate)
+        bound.include(awal)
+
+        mMap?.setOnMapLoadedCallback {
+            mMap?.moveCamera(width?.let {
+                height?.let { it1 ->
+                    padding?.let { it2 ->
+                        CameraUpdateFactory.newLatLngBounds(
+                            bound.build(), it,
+                            it1, it2
+                        )
+                    }
+                }
+            })
+        }
+
+
     }
 
     class Kendaraan {

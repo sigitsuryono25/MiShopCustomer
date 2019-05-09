@@ -45,6 +45,9 @@ class DetailMiShopActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_mi_shop)
         setSupportActionBar(toolbar)
+        Glide.with(this@DetailMiShopActivity).load(R.drawable.new_shop)
+            .into(iconLayanan)
+
 
         ShipShop()
 

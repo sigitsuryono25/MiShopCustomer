@@ -16,4 +16,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BottomNav"
+           parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/lato_black</item>
+    </style>
+
 </resources>

@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="15dp"
+        android:viewportHeight="14.583" android:viewportWidth="18.035" android:width="18dp">
+    <path android:fillColor="#f1f5fb" android:fillType="evenOdd"
+          android:pathData="M16.899,14.583L1.116,14.583a0.554,0.554 0,0 1,-0.558 -0.558L0.558,4.59a0.554,0.554 0,0 1,0.558 -0.558L16.921,4.032a0.554,0.554 0,0 1,0.558 0.558v9.457A0.583,0.583 0,0 1,16.899 14.583Z"/>
+    <path android:fillColor="#dbe0ea" android:fillType="evenOdd"
+          android:pathData="M16.899,4.032L9.007,4.032L9.007,14.583h7.892a0.554,0.554 0,0 0,0.558 -0.558L17.457,4.59A0.568,0.568 0,0 0,16.899 4.032Z"/>
+    <path android:fillColor="#5b6270" android:fillType="evenOdd"
+          android:pathData="M7.056,14.583L2.488,14.583v-4.7a0.554,0.554 0,0 1,0.558 -0.558h3.474a0.554,0.554 0,0 1,0.558 0.558v4.7Z"/>
+    <path android:fillColor="#f1f5fb" android:fillType="evenOdd"
+          android:pathData="M15.651,12.739L10.809,12.739a0.554,0.554 0,0 1,-0.558 -0.558L10.251,9.887a0.554,0.554 0,0 1,0.558 -0.558L15.651,9.329a0.554,0.554 0,0 1,0.558 0.558v2.295A0.554,0.554 0,0 1,15.651 12.739Z"/>
+    <path android:fillColor="#45ff3e" android:fillType="evenOdd"
+          android:pathData="M16.255,0.622A0.9,0.9 0,0 0,15.376 0L2.616,0a0.921,0.921 0,0 0,-0.879 0.622L0.021,5.426a3,3 0,1 0,6 0,3 3,0 1,0 6,0 3,3 0,1 0,6 0Z"/>
+    <path android:fillColor="#3fd04f" android:fillType="evenOdd"
+          android:pathData="M15.376,0L9.007,0L9.007,8.428a3,3 0,0 0,3 -3,3 3,0 1,0 6,0L16.255,0.622A0.9,0.9 0,0 0,15.376 0Z"/>
+    <path android:fillColor="#37ef30" android:fillType="evenOdd" android:pathData="M6,5.426a3,3 0,1 1,-6 0Z"/>
+    <path android:fillColor="#167e12" android:fillType="evenOdd" android:pathData="M17.988,5.426a3,3 0,1 1,-6 0Z"/>
+    <path android:fillColor="#1caf44" android:fillType="evenOdd" android:pathData="M6.005,5.426a3,3 0,1 0,6 0Z"/>
+    <path android:fillColor="#167e12" android:fillType="evenOdd" android:pathData="M9.007,5.426v3a3,3 0,0 0,3 -3Z"/>
+</vector>

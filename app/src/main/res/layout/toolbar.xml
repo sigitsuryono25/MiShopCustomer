@@ -10,7 +10,7 @@
         <ImageView
                 android:id="@+id/icon"
                 android:padding="@dimen/margin_padding"
-                android:src="@drawable/logo"
+                android:src="@drawable/ic_group_338"
                 android:layout_width="100dp"
                 android:layout_alignParentStart="true"
                 android:layout_height="40dp"/>
@@ -18,6 +18,7 @@
         <TextView
                 android:id="@+id/titleToolbar"
                 android:layout_centerVertical="true"
+                android:fontFamily="@font/exo2_bold"
                 android:textColor="@android:color/black"
                 android:layout_toEndOf="@+id/icon"
                 android:layout_marginStart="@dimen/margin_padding"
@@ -34,5 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
         />
+
+        <ImageView
+                android:id="@+id/iconLayanan"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_padding"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

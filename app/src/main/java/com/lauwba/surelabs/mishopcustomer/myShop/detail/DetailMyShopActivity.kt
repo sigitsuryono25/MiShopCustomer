@@ -32,6 +32,7 @@ class DetailMyShopActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         titleToolbar.text = "Detail Post My Shop"
 
+
         try {
             idMyShop = intent.getStringExtra("idMyShop")
             getDetailMyShop(idMyShop)

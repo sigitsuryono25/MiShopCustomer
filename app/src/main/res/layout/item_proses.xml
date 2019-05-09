@@ -52,6 +52,7 @@
                         android:text="Detail Order"
                         android:textAppearance="?textAppearanceBody2"
                         android:textSize="17sp"
+                        android:fontFamily="@font/lato_black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -64,12 +65,14 @@
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text="Lokasi Awal"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:text=":"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
@@ -77,6 +80,7 @@
                     <TextView
                             android:id="@+id/lokasi"
                             android:gravity="end"
+                            android:fontFamily="@font/lato_black"
                             android:layout_weight="3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -93,10 +97,12 @@
                             android:layout_width="0dp"
                             android:text="Tujuan"
                             android:textSize="12sp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:text=":"
                             android:textSize="12sp"
@@ -105,6 +111,7 @@
                     <TextView
                             android:id="@+id/tujuan"
                             android:gravity="end"
+                            android:fontFamily="@font/lato_black"
                             android:layout_weight="3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -123,6 +130,7 @@
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text="Barang"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -131,6 +139,7 @@
                             android:layout_width="0dp"
                             android:text=":"
                             android:textSize="12sp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
@@ -168,6 +177,7 @@
                             android:gravity="end"
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
 
@@ -184,7 +194,7 @@
 
                 <TextView
                         android:text="Detail Order"
-                        android:textAppearance="?textAppearanceBody2"
+                        android:fontFamily="@font/lato_black"
                         android:textSize="17sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -200,6 +210,7 @@
                             android:text="Pesanan"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_black"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
@@ -213,6 +224,7 @@
                             android:gravity="end"
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                 </LinearLayout>
@@ -228,6 +240,7 @@
                             android:text="Jumlah"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_black"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
@@ -235,12 +248,14 @@
                             android:text=":"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_black"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:id="@+id/jumlahPesanan"
                             android:gravity="end"
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
 
@@ -257,12 +272,14 @@
                             android:layout_width="0dp"
                             android:text="@string/harga"
                             android:textSize="12sp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text=":"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -271,6 +288,7 @@
                             android:gravity="end"
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
 
@@ -287,11 +305,13 @@
                             android:text="Biaya Antar"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_black"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text=":"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -318,6 +338,7 @@
                         android:text="Detail Order"
                         android:textAppearance="?textAppearanceBody2"
                         android:textSize="17sp"
+                        android:fontFamily="@font/lato_black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -330,6 +351,7 @@
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text="Layanan"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -337,6 +359,7 @@
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text=":"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -344,6 +367,7 @@
                             android:id="@+id/isiLayanan"
                             android:gravity="end"
                             android:layout_weight="3"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -359,10 +383,12 @@
                             android:layout_width="0dp"
                             android:text="Deskripsi"
                             android:textSize="12sp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:text=":"
                             android:textSize="12sp"
@@ -372,6 +398,7 @@
                             android:id="@+id/deskripsiService"
                             android:gravity="end"
                             android:layout_weight="3"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -388,12 +415,14 @@
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text="@string/harga"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
+                            android:fontFamily="@font/lato_black"
                             android:text=":"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
@@ -402,6 +431,7 @@
                             android:id="@+id/nominalService"
                             android:gravity="end"
                             android:layout_weight="3"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -418,12 +448,14 @@
                             android:layout_width="0dp"
                             android:text="Biaya Jasa"
                             android:textSize="12sp"
+                            android:fontFamily="@font/lato_black"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
                     <TextView
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:text=":"
+                            android:fontFamily="@font/lato_black"
                             android:textSize="12sp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -431,6 +463,7 @@
                             android:id="@+id/biayaJasa"
                             android:gravity="end"
                             android:layout_weight="3"
+                            android:fontFamily="@font/lato_black"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceListItem"/>
@@ -451,6 +484,7 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:text="Total"
+                        android:fontFamily="@font/lato_black"
                         android:textSize="12sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceListItem"/>
@@ -459,6 +493,7 @@
                         android:gravity="end"
                         android:layout_weight="1"
                         android:layout_width="0dp"
+                        android:fontFamily="@font/lato_black"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceListItem"/>
 
@@ -467,15 +502,17 @@
             <TextView
                     android:padding="@dimen/margin_padding"
                     android:visibility="gone"
+                    android:fontFamily="@font/lato_black"
                     android:id="@+id/keterangan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             <TextView
-                    android:textColor="@android:color/holo_blue_dark"
+                    android:textColor="@color/blue_gj"
                     android:textStyle="bold"
                     android:gravity="end"
                     android:padding="@dimen/margin_padding"
+                    android:fontFamily="@font/lato_black"
                     android:id="@+id/status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

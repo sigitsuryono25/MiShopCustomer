@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -35,7 +36,8 @@ class ShopActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shop)
         setSupportActionBar(toolbar)
         titleToolbar.text = "Mi Shop"
-
+        Glide.with(this@ShopActivity).load(R.drawable.new_shop)
+            .into(iconLayanan)
         mList = mutableListOf()
 
         startService<MyLocationService>()

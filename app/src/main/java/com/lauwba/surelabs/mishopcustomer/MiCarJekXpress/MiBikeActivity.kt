@@ -69,6 +69,9 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_micar_mibike)
 
+//        Glide.with(this@MiBikeActivity).load(R.drawable.new_bike)
+//            .into(iconLayanan)
+
         checkPermissionGps()
         initView()
 
@@ -294,13 +297,13 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                         latTujuan,
                         lonTujuan,
                         place.name.toString(),
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                        BitmapDescriptorFactory.fromResource(R.drawable.pos_2)
                     )
                     showMarker(
                         latAwal,
                         lonAwal,
                         place.name.toString(),
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                        BitmapDescriptorFactory.fromResource(R.drawable.pos_1)
                     )
                     showBound()
                     route()
@@ -316,7 +319,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                         latAwal,
                         lonAwal,
                         place.name.toString(),
-                        BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1)
+                        BitmapDescriptorFactory.fromResource(R.drawable.pos_1)
                     )
                 }
 
@@ -330,7 +333,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
                     latTujuan,
                     lonTujuan,
                     place.name.toString(),
-                    BitmapDescriptorFactory.fromResource(R.drawable.ic_pin2)
+                    BitmapDescriptorFactory.fromResource(R.drawable.pos_2)
                 )
                 showBound()
                 route()
@@ -448,7 +451,7 @@ class MiBikeActivity : AppCompatActivity(), OnMapReadyCallback {
 
             asal.text = name
 
-            showMarker(latAwal, lonAwal, "My Location", BitmapDescriptorFactory.fromResource(R.drawable.ic_pin1))
+            showMarker(latAwal, lonAwal, "My Location", BitmapDescriptorFactory.fromResource(R.drawable.pos_1))
 
         }
     }

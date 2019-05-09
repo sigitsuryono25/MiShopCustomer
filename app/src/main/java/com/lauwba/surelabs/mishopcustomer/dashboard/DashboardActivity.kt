@@ -55,6 +55,7 @@ class DashboardActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         switchOn.visibility = View.VISIBLE
+        iconLayanan.visibility = View.GONE
         switchOnCheck()
         setBadges()
         checkPermissions()

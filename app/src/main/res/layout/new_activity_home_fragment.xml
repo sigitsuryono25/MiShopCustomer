@@ -80,7 +80,7 @@
                                 android:layout_height="wrap_content">
 
                             <ImageView
-                                    android:src="@drawable/new_services"
+                                    android:src="@drawable/ic_group_327"
                                     android:id="@+id/miServiceIcon"
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"/>
@@ -106,7 +106,7 @@
 
                             <ImageView
                                     android:id="@+id/miCarIcon"
-                                    android:src="@drawable/new_car"
+                                    android:src="@drawable/ic_group_331"
                                     android:layout_width="48dp"
                                     android:layout_height="50dp"/>
                             <TextView
@@ -280,8 +280,8 @@
                                 android:layout_alignParentEnd="true"
                                 android:text="Jelajahi MyShop"
                                 android:layout_width="wrap_content"
-                                android:textColor="@color/colorAccent"
-                                android:drawableStart="@drawable/small_shop"
+                                android:textColor="@color/green"
+                                android:drawableStart="@drawable/ic_group_143"
                                 android:gravity="center_vertical"
                                 android:drawablePadding="@dimen/margin_padding"
                                 android:layout_height="wrap_content"/>
