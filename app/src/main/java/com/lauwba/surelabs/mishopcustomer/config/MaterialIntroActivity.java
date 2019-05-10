@@ -79,6 +79,7 @@ public abstract class MaterialIntroActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.button_next);
         skipButton = findViewById(R.id.button_skip);
         messageButton = findViewById(R.id.button_message);
+        messageButton.setTextColor(getResources().getColor(R.color.blue_gj));
         coordinatorLayout = findViewById(R.id.coordinator_layout_slide);
         navigationView = findViewById(R.id.navigation_view);
 

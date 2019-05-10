@@ -29,7 +29,7 @@ class AppIntroActivity : MaterialIntroActivity() {
                     "Sebuah layanan yang berisi penawaran yang terdiri dari makanan dan non makanan. " +
                             "Anda dapat langsung menghubungi mitra yang sedang menawarkan jasanya"
                 )
-                .backgroundColor(android.R.color.white)
+                .backgroundColor(R.color.white_smoke)
                 .buttonsColor(R.color.blue_gj)
                 .image(R.drawable.new_shop)
                 .neededPermissions(
@@ -50,7 +50,7 @@ class AppIntroActivity : MaterialIntroActivity() {
                             "baik via Whatsapp, SMS, ataupun Telepon. Anda dapat langsung melakukan booking " +
                             "bila telah mencapai kesepakatan"
                 )
-                .backgroundColor(android.R.color.white)
+                .backgroundColor(R.color.white_smoke)
                 .image(R.drawable.new_services)
                 .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
@@ -67,7 +67,7 @@ class AppIntroActivity : MaterialIntroActivity() {
                 .title("Mi Car")
                 .description("Sebuah layanan Antar Jemput dengan menggunakan Mobil.")
                 .image(R.drawable.ic_group_331)
-                .backgroundColor(android.R.color.white)
+                .backgroundColor(R.color.white_smoke)
                 .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
                     arrayOf(
@@ -83,7 +83,7 @@ class AppIntroActivity : MaterialIntroActivity() {
                 .title("Mi Express")
                 .description("Sebuah layanan Antar Jemput Barang dengan Harga Bersaing. ")
                 .buttonsColor(R.color.blue_gj)
-                .backgroundColor(android.R.color.white)
+                .backgroundColor(R.color.white_smoke)
                 .image(R.drawable.new_express)
                 .neededPermissions(
                     arrayOf(
@@ -99,7 +99,7 @@ class AppIntroActivity : MaterialIntroActivity() {
                 .title("Mi Bike")
                 .description("Sebuah layanan Antar Jemput dengan menggunakan Motor.")
                 .image(R.drawable.new_bike)
-                .backgroundColor(android.R.color.white)
+                .backgroundColor(R.color.white_smoke)
                 .buttonsColor(R.color.blue_gj)
                 .neededPermissions(
                     arrayOf(

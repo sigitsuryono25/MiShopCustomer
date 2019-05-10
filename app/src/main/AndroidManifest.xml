@@ -28,7 +28,7 @@
             android:usesCleartextTraffic="true">
         <activity android:name=".tested.TestingActivity">
         </activity>
-        <activity android:name=".appintro.AppIntroActivity">
+        <activity android:name=".appintro.AppIntroActivity" android:theme="@style/AppTheme">
         </activity>
         <activity
                 android:name=".registrasi.NewRegistrasi">
