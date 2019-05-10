@@ -54,9 +54,11 @@
     <string name="proses">Proses</string>
     <string name="harga">Harga</string>
 
-    <string name="slogan">Look first and get it\nsimple, quick &amp; easy</string>
+    <string name="slogan">look&#160;&#160;&#160;first&#160;&#160;&#160;and&#160;&#160;&#160;get&#160;&#160;&#160;it
+        \nsimple,&#160;&#160;&#160;quick&#160;&#160;&amp;&#160;&#160;easy
+    </string>
     <string name="kritik_dan_saran">Kritik dan Saran</string>
-    <string name="loading">memproses data...</string>
+    <string name="loading">memproses data…</string>
     <string name="welcome">Selamat datang</string>
     <string name="no_data">Belum ada data kak 😔\n Yuk Posting 😋</string>
     <string name="title_activity_marker_shop">Map</string>

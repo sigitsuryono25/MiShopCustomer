@@ -15,14 +15,11 @@ import com.lauwba.surelabs.mishopcustomer.dashboard.model.RssFeedModel
 import com.lauwba.surelabs.mishopcustomer.webview.WebViewActivity
 import org.jetbrains.anko.startActivity
 
-class RssFeedAdapter(rssFeedModel: ArrayList<RssFeedModel>, context: Context) :
+class RssFeedAdapter(var rssFeedModel: ArrayList<RssFeedModel>, var context: Context) :
     RecyclerView.Adapter<RssFeedAdapter.ViewHolder>() {
 
-    var rssFeedModel = rssFeedModel
-    var context = context
-
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        var v = LayoutInflater.from(p0.context).inflate(R.layout.item_rss_feed, p0, false)
+        val v = LayoutInflater.from(p0.context).inflate(R.layout.item_rss_feed, p0, false)
         return ViewHolder(v)
     }
 
@@ -31,11 +28,11 @@ class RssFeedAdapter(rssFeedModel: ArrayList<RssFeedModel>, context: Context) :
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        var itemModel = rssFeedModel.get(p1)
+        val itemModel = rssFeedModel.get(p1)
         p0.title.text = itemModel.title
         p0.link.text = itemModel.link
         Glide.with(context)
-            .load(itemModel.image)
+            .load(itemModel.image?.replace("https://", "http://"))
             .into(p0.featurePhotos)
 
         p0.rss.setOnClickListener {
@@ -45,7 +42,7 @@ class RssFeedAdapter(rssFeedModel: ArrayList<RssFeedModel>, context: Context) :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var title: TextView = itemView.findViewById(R.id.titleText)
-        var pubDate: TextView = itemView.findViewById(R.id.descriptionText)
+        //        var pubDate: TextView = itemView.findViewById(R.id.descriptionText)
         var link: TextView = itemView.findViewById(R.id.linkText)
         var featurePhotos: ImageView = itemView.findViewById(R.id.image)
         var rss: CardView = itemView.findViewById(R.id.rss)
